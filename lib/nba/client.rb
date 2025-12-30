@@ -3,7 +3,10 @@ require_relative "connection"
 module NBA
   # API client for making requests to the NBA Stats API
   class Client
+    # Returns the connection used for HTTP requests
+    #
     # @api private
+    # @return [Connection] the connection instance
     attr_reader :connection
 
     # Initializes a new Client object

@@ -128,12 +128,6 @@ module NBA
     #   @return [Team] the player's current team
     attribute :team, Team
 
-    # Returns whether the player is active
-    #
-    # @api public
-    # @example
-    #   player.active?
-    # @return [Boolean, nil] true if the player is active
     alias_method :active?, :is_active
 
     json do
