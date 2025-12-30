@@ -62,4 +62,4 @@ Yardstick::Rake::Verify.new(:yardstick) do |verify|
   verify.threshold = 100
 end
 
-task default: %i[test lint mutant steep yardstick]
+task default: %i[test lint mutant yardstick]

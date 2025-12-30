@@ -7,7 +7,10 @@ module NBA
   class Connection
     BASE_URL = "https://stats.nba.com/stats".freeze
 
+    # Returns the base URL for API requests
+    #
     # @api private
+    # @return [String] the base URL
     attr_reader :base_url
 
     # Initializes a new Connection object

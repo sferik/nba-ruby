@@ -6,7 +6,10 @@ module NBA
     include Equalizer.new(:elements)
     include Enumerable
 
+    # Returns the elements in the collection
+    #
     # @api private
+    # @return [Array] the elements
     attr_reader :elements
 
     # Initializes a new Collection
