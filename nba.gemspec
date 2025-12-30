@@ -3,7 +3,7 @@ require_relative "lib/nba/version"
 Gem::Specification.new do |spec|
   spec.name = "nba"
   spec.version = NBA::VERSION
-  spec.authors = "Erik Berlin"
+  spec.authors = ["Erik Berlin"]
   spec.email = "sferik@gmail.com"
 
   spec.summary = "A Ruby interface to the NBA Stats API."
