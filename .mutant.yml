@@ -1,0 +1,16 @@
+---
+coverage_criteria:
+  process_abort: true
+includes:
+- lib
+integration:
+  name: minitest
+matcher:
+  subjects:
+  - NBA*
+mutation:
+  operators: full
+  timeout: 10.0
+requires:
+- nba
+usage: opensource
