@@ -1,0 +1,158 @@
+module NBA
+  VERSION: Gem::Version
+
+  module Utils
+    def self.current_season: () -> Integer
+    def self.build_query: (**untyped params) -> String
+  end
+
+  class Connection
+    BASE_URL: String
+    attr_reader base_url: String
+
+    def initialize: (?base_url: String) -> void
+    def get: (String path) -> String
+  end
+
+  class Client
+    attr_reader connection: Connection
+
+    def initialize: (?connection: Connection) -> void
+    def get: (String path) -> String
+  end
+
+  CLIENT: Client
+
+  class Collection
+    include Enumerable[untyped]
+    attr_reader elements: Array[untyped]
+
+    def initialize: (?Array[untyped] elements) -> void
+    def each: () { (untyped) -> void } -> void
+            | () -> Enumerator[untyped, void]
+    def size: () -> Integer
+    alias length size
+    alias count size
+  end
+
+  class Conference
+    attr_accessor id: Integer?
+    attr_accessor name: String?
+    attr_accessor link: String?
+
+    def initialize: (?id: Integer?, ?name: String?, ?link: String?) -> void
+  end
+
+  class Division
+    attr_accessor id: Integer?
+    attr_accessor name: String?
+    attr_accessor link: String?
+    attr_accessor conference: Conference?
+
+    def initialize: (?id: Integer?, ?name: String?, ?link: String?, ?conference: Conference?) -> void
+  end
+
+  class Position
+    attr_accessor code: String?
+    attr_accessor name: String?
+    attr_accessor type: String?
+    attr_accessor abbreviation: String?
+
+    def initialize: (?code: String?, ?name: String?, ?type: String?, ?abbreviation: String?) -> void
+  end
+
+  class Team
+    ATL: Integer
+    BOS: Integer
+    BKN: Integer
+    CHA: Integer
+    CHI: Integer
+    CLE: Integer
+    DAL: Integer
+    DEN: Integer
+    DET: Integer
+    GSW: Integer
+    HOU: Integer
+    IND: Integer
+    LAC: Integer
+    LAL: Integer
+    MEM: Integer
+    MIA: Integer
+    MIL: Integer
+    MIN: Integer
+    NOP: Integer
+    NYK: Integer
+    OKC: Integer
+    ORL: Integer
+    PHI: Integer
+    PHX: Integer
+    POR: Integer
+    SAC: Integer
+    SAS: Integer
+    TOR: Integer
+    UTA: Integer
+    WAS: Integer
+
+    attr_accessor id: Integer?
+    attr_accessor name: String?
+    attr_accessor full_name: String?
+    attr_accessor abbreviation: String?
+    attr_accessor nickname: String?
+    attr_accessor city: String?
+    attr_accessor state: String?
+    attr_accessor year_founded: Integer?
+    attr_accessor conference: Conference?
+    attr_accessor division: Division?
+
+    def initialize: (
+      ?id: Integer?,
+      ?name: String?,
+      ?full_name: String?,
+      ?abbreviation: String?,
+      ?nickname: String?,
+      ?city: String?,
+      ?state: String?,
+      ?year_founded: Integer?,
+      ?conference: Conference?,
+      ?division: Division?
+    ) -> void
+  end
+
+  class Player
+    attr_accessor id: Integer?
+    attr_accessor full_name: String?
+    attr_accessor first_name: String?
+    attr_accessor last_name: String?
+    attr_accessor is_active: bool?
+    attr_accessor jersey_number: Integer?
+    attr_accessor position: Position?
+    attr_accessor height: String?
+    attr_accessor weight: Integer?
+    attr_accessor college: String?
+    attr_accessor country: String?
+    attr_accessor draft_year: Integer?
+    attr_accessor draft_round: Integer?
+    attr_accessor draft_number: Integer?
+    attr_accessor team: Team?
+
+    def initialize: (
+      ?id: Integer?,
+      ?full_name: String?,
+      ?first_name: String?,
+      ?last_name: String?,
+      ?is_active: bool?,
+      ?jersey_number: Integer?,
+      ?position: Position?,
+      ?height: String?,
+      ?weight: Integer?,
+      ?college: String?,
+      ?country: String?,
+      ?draft_year: Integer?,
+      ?draft_round: Integer?,
+      ?draft_number: Integer?,
+      ?team: Team?
+    ) -> void
+
+    def active?: () -> bool?
+  end
+end
