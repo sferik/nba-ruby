@@ -15,6 +15,9 @@ Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation
   IndentationWidth: 2
 
+Layout/ArrayAlignment:
+  EnforcedStyle: with_fixed_indentation
+
 Layout/CaseIndentation:
   EnforcedStyle: end
 

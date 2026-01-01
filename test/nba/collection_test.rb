@@ -47,5 +47,73 @@ module NBA
 
       assert_instance_of Enumerator, collection.each
     end
+
+    def test_each_enumerator_iterates_correctly
+      collection = Collection.new([1, 2, 3])
+
+      assert_equal [1, 2, 3], collection.each.to_a
+    end
+
+    def test_each_returns_self_when_block_given
+      collection = Collection.new([1, 2, 3])
+      sum = 0
+      result = collection.each { |element| sum += element }
+
+      assert_same collection, result
+    end
+
+    def test_empty_returns_true_for_empty_collection
+      collection = Collection.new
+
+      assert_empty collection
+    end
+
+    def test_empty_returns_false_for_non_empty_collection
+      collection = Collection.new([1, 2, 3])
+
+      refute_empty collection
+    end
+
+    def test_first_returns_first_element
+      collection = Collection.new([1, 2, 3])
+
+      assert_equal 1, collection.first
+    end
+
+    def test_first_returns_nil_for_empty_collection
+      collection = Collection.new
+
+      assert_nil collection.first
+    end
+
+    def test_last_returns_last_element
+      collection = Collection.new([1, 2, 3])
+
+      assert_equal 3, collection.last
+    end
+
+    def test_last_returns_nil_for_empty_collection
+      collection = Collection.new
+
+      assert_nil collection.last
+    end
+
+    def test_any_returns_true_when_block_matches
+      collection = Collection.new([1, 2, 3])
+
+      assert(collection.any? { |e| e == 2 })
+    end
+
+    def test_any_returns_false_when_block_does_not_match
+      collection = Collection.new([1, 2, 3])
+
+      refute(collection.any? { |e| e == 5 })
+    end
+
+    def test_any_returns_false_for_empty_collection
+      collection = Collection.new
+
+      refute(collection.any? { |e| e == 1 })
+    end
   end
 end

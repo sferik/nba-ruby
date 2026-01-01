@@ -11,14 +11,26 @@ module NBA
     end
 
     def test_get_delegates_to_connection
-      connection = Minitest::Mock.new
-      connection.expect(:get, "response", ["path"])
+      connection = stub_connection
       client = Client.new(connection: connection)
 
       result = client.get("path")
 
       assert_equal "response", result
-      connection.verify
+      assert_equal "path", connection.called_with
     end
+
+    StubConnection = Class.new do
+      attr_reader :called_with
+
+      def get(path)
+        @called_with = path
+        "response"
+      end
+    end
+
+    private
+
+    def stub_connection = StubConnection.new
   end
 end

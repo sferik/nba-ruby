@@ -11,19 +11,24 @@ module NBA
     attr_reader base_url: String
 
     def initialize: (?base_url: String) -> void
-    def get: (String path) -> String
+    def get: (String path) -> String?
+
+    private
+    def apply_headers: (Net::HTTPRequest request) -> void
+    def decode_body: (Net::HTTPResponse response) -> String?
   end
 
   class Client
     attr_reader connection: Connection
 
     def initialize: (?connection: Connection) -> void
-    def get: (String path) -> String
+    def get: (String path) -> String?
   end
 
   CLIENT: Client
 
   class Collection
+    extend Forwardable
     include Enumerable[untyped]
     attr_reader elements: Array[untyped]
 
@@ -33,6 +38,9 @@ module NBA
     def size: () -> Integer
     alias length size
     alias count size
+    def empty?: () -> bool
+    def first: () -> untyped
+    def last: () -> untyped
   end
 
   class Conference < Shale::Mapper
@@ -154,5 +162,179 @@ module NBA
     ) -> void
 
     def active?: () -> bool?
+  end
+
+  class Game < Shale::Mapper
+    attr_accessor id: String?
+    attr_accessor date: String?
+    attr_accessor status: String?
+    attr_accessor home_team: Team?
+    attr_accessor away_team: Team?
+    attr_accessor home_score: Integer?
+    attr_accessor away_score: Integer?
+    attr_accessor arena: String?
+
+    def initialize: (
+      ?id: String?,
+      ?date: String?,
+      ?status: String?,
+      ?home_team: Team?,
+      ?away_team: Team?,
+      ?home_score: Integer?,
+      ?away_score: Integer?,
+      ?arena: String?
+    ) -> void
+  end
+
+  class Leader < Shale::Mapper
+    attr_accessor player_id: Integer?
+    attr_accessor player_name: String?
+    attr_accessor team_id: Integer?
+    attr_accessor team_abbreviation: String?
+    attr_accessor category: String?
+    attr_accessor rank: Integer?
+    attr_accessor value: Float?
+
+    def initialize: (
+      ?player_id: Integer?,
+      ?player_name: String?,
+      ?team_id: Integer?,
+      ?team_abbreviation: String?,
+      ?category: String?,
+      ?rank: Integer?,
+      ?value: Float?
+    ) -> void
+
+    def player: () -> Player?
+    def team: () -> Team?
+  end
+
+  class Standing < Shale::Mapper
+    attr_accessor team_id: Integer?
+    attr_accessor team_name: String?
+    attr_accessor conference: String?
+    attr_accessor division: String?
+    attr_accessor wins: Integer?
+    attr_accessor losses: Integer?
+    attr_accessor win_pct: Float?
+    attr_accessor conference_rank: Integer?
+    attr_accessor home_record: String?
+    attr_accessor road_record: String?
+    attr_accessor streak: String?
+
+    def initialize: (
+      ?team_id: Integer?,
+      ?team_name: String?,
+      ?conference: String?,
+      ?division: String?,
+      ?wins: Integer?,
+      ?losses: Integer?,
+      ?win_pct: Float?,
+      ?conference_rank: Integer?,
+      ?home_record: String?,
+      ?road_record: String?,
+      ?streak: String?
+    ) -> void
+
+    def team: () -> Team?
+  end
+
+  module Data
+    TEAMS: Array[Hash[Symbol, untyped]]
+  end
+
+  module Teams
+    def self.all: () -> Collection
+    def self.find: (Integer | Team | nil team_id) -> Team?
+
+    private
+
+    def self.extract_id: (Team | Integer | nil team) -> Integer?
+  end
+
+  module Players
+    def self.all: (?season: Integer, ?only_current: bool, ?client: Client) -> Collection
+    def self.find: (Integer | Player player_id, ?client: Client) -> Player?
+
+    private
+
+    def self.parse_players_response: (String? response) -> Collection
+    def self.build_player_from_row: (Array[String] headers, Array[untyped] row) -> Player
+    def self.extract_first_name: (String? full_name) -> String?
+    def self.extract_last_name: (String? full_name) -> String?
+    def self.roster_status_active?: (String? status) -> bool
+    def self.parse_player_response: (String? response) -> Player?
+    def self.build_player_from_info: (Hash[String, untyped] data) -> Player
+    def self.player_info_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.player_core_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.player_extra_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.parse_integer: (String | Integer | nil value) -> Integer?
+    def self.extract_id: (Player | Integer player) -> Integer?
+  end
+
+  module Roster
+    def self.find: (team: Integer | Team, ?season: Integer, ?client: Client) -> Collection
+
+    private
+
+    def self.parse_roster_response: (String? response) -> Collection
+    def self.build_player_from_row: (Array[String] headers, Array[untyped] row) -> Player
+    def self.roster_player_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.split_name: (String? name) -> Array[String]
+    def self.extract_country: (String? birth_date) -> String?
+    def self.parse_integer: (String | Integer | nil value) -> Integer?
+    def self.extract_team_id: (Team | Integer team) -> Integer?
+  end
+
+  module Scoreboard
+    def self.games: (?date: Date, ?client: Client) -> Collection
+
+    private
+
+    def self.parse_scoreboard_response: (String? response) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data, String name) -> Hash[String, untyped]?
+    def self.build_games: (Hash[String, untyped] game_header, Hash[String, untyped] line_score) -> Array[Game]
+    def self.parse_result_set: (Hash[String, untyped] result_set) -> Array[Hash[String, untyped]]
+    def self.build_game: (Hash[String, untyped] game_info, Array[Hash[String, untyped]] team_scores) -> Game
+    def self.game_attributes: (Hash[String, untyped] info, Array[Hash[String, untyped]] scores) -> Hash[Symbol, untyped]
+    def self.find_score: (Array[Hash[String, untyped]] scores, Integer team_id) -> Integer?
+    def self.extract_score: (Hash[String, untyped]? score_data) -> Integer?
+    def self.game_status: (Integer status_id) -> String
+    def self.find_team: (Integer team_id) -> Team?
+  end
+
+  module Leaders
+    PTS: String
+    REB: String
+    AST: String
+    STL: String
+    BLK: String
+    FG_PCT: String
+    FG3_PCT: String
+    FT_PCT: String
+    EFF: String
+    PERCENTAGE_CATEGORIES: Array[String]
+
+    def self.find: (category: String, ?season: Integer, ?season_type: String, ?limit: Integer, ?client: Client) -> Collection
+
+    private
+
+    def self.build_path: (String category, String season_str, String season_type) -> String
+    def self.parse_leaders_response: (String? response, String category, Integer limit) -> Collection
+    def self.build_leader_from_row: (Array[String] headers, Array[untyped] row, String category) -> Leader
+    def self.parse_float: (untyped value) -> Float?
+  end
+
+  module Standings
+    def self.all: (?season: Integer, ?client: Client) -> Collection
+    def self.conference: (String conference_name, ?season: Integer, ?client: Client) -> Collection
+
+    private
+
+    def self.parse_standings_response: (String? response) -> Collection
+    def self.build_standing_from_row: (Array[String] headers, Array[untyped] row) -> Standing
+    def self.standing_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.parse_conference_rank: (String? conference_record, Integer? playoff_rank) -> Integer?
+    def self.format_streak: (untyped streak) -> String?
   end
 end
