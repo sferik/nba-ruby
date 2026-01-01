@@ -1,3 +1,9 @@
+# NBA Stats API client library
+#
+# @api public
+module NBA
+end
+
 require_relative "nba/version"
 require_relative "nba/utils"
 require_relative "nba/connection"

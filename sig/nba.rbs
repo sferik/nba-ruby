@@ -35,7 +35,7 @@ module NBA
     alias count size
   end
 
-  class Conference
+  class Conference < Shale::Mapper
     attr_accessor id: Integer?
     attr_accessor name: String?
     attr_accessor link: String?
@@ -43,7 +43,7 @@ module NBA
     def initialize: (?id: Integer?, ?name: String?, ?link: String?) -> void
   end
 
-  class Division
+  class Division < Shale::Mapper
     attr_accessor id: Integer?
     attr_accessor name: String?
     attr_accessor link: String?
@@ -52,7 +52,7 @@ module NBA
     def initialize: (?id: Integer?, ?name: String?, ?link: String?, ?conference: Conference?) -> void
   end
 
-  class Position
+  class Position < Shale::Mapper
     attr_accessor code: String?
     attr_accessor name: String?
     attr_accessor type: String?
@@ -61,7 +61,7 @@ module NBA
     def initialize: (?code: String?, ?name: String?, ?type: String?, ?abbreviation: String?) -> void
   end
 
-  class Team
+  class Team < Shale::Mapper
     ATL: Integer
     BOS: Integer
     BKN: Integer
@@ -118,7 +118,7 @@ module NBA
     ) -> void
   end
 
-  class Player
+  class Player < Shale::Mapper
     attr_accessor id: Integer?
     attr_accessor full_name: String?
     attr_accessor first_name: String?

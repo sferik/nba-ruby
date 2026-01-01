@@ -35,25 +35,11 @@ Steep::RakeTask.new(:steep)
 
 require "yard"
 
-desc "Generate YARD documentation"
-task :yard do
-  require "open3"
-  stdout, stderr, status = Open3.capture3("bundle", "exec", "yard", "doc")
-
-  # Filter out multi-line "Undocumentable mixin" warnings for Equalizer.new
-  equalizer_warning = /
-    \[warn\]:\sin\sYARD::Handlers::Ruby::MixinHandler:\s
-    Undocumentable\smixin[^\n]*\n
-    \tin\sfile[^\n]*\n
-    \n
-    \t\d+:\sinclude\sEqualizer\.new[^\n]*\n
-    \n
-  /x
-  filtered = stdout.gsub(equalizer_warning, "")
-
-  print filtered
-  print stderr unless stderr.strip.empty?
-  exit status.exitstatus unless status.success?
+YARD::Rake::YardocTask.new(:yard) do |t|
+  t.after = proc do
+    undocumented = YARD::Registry.all.count { |o| o.docstring.blank? && !o.has_tag?(:private) }
+    abort "YARD: #{undocumented} undocumented objects" unless undocumented.zero?
+  end
 end
 
 require "yardstick/rake/verify"
@@ -62,4 +48,4 @@ Yardstick::Rake::Verify.new(:yardstick) do |verify|
   verify.threshold = 100
 end
 
-task default: %i[test lint mutant yardstick]
+task default: %i[test lint mutant steep yardstick]

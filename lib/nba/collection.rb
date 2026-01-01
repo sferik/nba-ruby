@@ -30,8 +30,10 @@ module NBA
     #   collection.each { |element| puts element }
     # @yield [element] yields each element to the block
     # @return [Enumerator, Array] an enumerator or the result of the block
-    def each(&)
-      elements.each(&)
+    def each
+      return elements.each unless block_given?
+
+      elements.each { |element| yield element }
     end
 
     # Returns the number of elements in the collection

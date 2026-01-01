@@ -1,0 +1,24 @@
+module Shale
+  class Mapper
+    def self.attribute: (Symbol name, untyped type, ?default: untyped) -> void
+    def self.json: () { () -> void } -> void
+    def self.map: (String key, to: Symbol) -> void
+    def self.from_json: (String json) -> instance
+    def to_json: () -> String
+    def initialize: (**untyped) -> void
+  end
+
+  module Type
+    class String
+    end
+
+    class Integer
+    end
+
+    class Boolean
+    end
+
+    class Float
+    end
+  end
+end

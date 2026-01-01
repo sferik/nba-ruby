@@ -63,3 +63,12 @@ Style/StringLiteralsInInterpolation:
 
 Style/TernaryParentheses:
   EnforcedStyle: require_parentheses_when_complex
+
+# Using yield instead of &block forwarding works better with both Steep (type narrowing)
+# and Mutant (yield without block raises LocalJumpError, making mutations killable)
+Style/ExplicitBlockArgument:
+  Enabled: false
+
+# Steep uses #: for inline type annotations
+Layout/LeadingCommentSpace:
+  AllowSteepAnnotation: true
