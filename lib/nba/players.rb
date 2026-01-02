@@ -1,6 +1,5 @@
-require "json"
 require_relative "client"
-require_relative "collection"
+require_relative "response_parser"
 require_relative "player"
 require_relative "utils"
 
@@ -18,11 +17,9 @@ module NBA
     # @param client [Client] the API client to use
     # @return [Collection] a collection of all players
     def self.all(season: Utils.current_season, only_current: true, client: CLIENT)
-      season_str = "#{season}-#{(season + 1).to_s[-2..]}"
       current_flag = only_current ? 1 : 0
-      path = "commonallplayers?LeagueID=00&Season=#{season_str}&IsOnlyCurrentSeason=#{current_flag}"
-      response = client.get(path)
-      parse_players_response(response)
+      path = "commonallplayers?LeagueID=00&Season=#{Utils.format_season(season)}&IsOnlyCurrentSeason=#{current_flag}"
+      ResponseParser.parse(client.get(path)) { |data| build_player_summary(data) }
     end
 
     # Finds a player by ID
@@ -36,172 +33,64 @@ module NBA
     # @param client [Client] the API client to use
     # @return [Player, nil] the player with the given ID, or nil if not found
     def self.find(player_id, client: CLIENT)
-      id = extract_id(player_id)
+      id = Utils.extract_id(player_id)
+      return unless id
+
       path = "commonplayerinfo?PlayerID=#{id}"
-      response = client.get(path)
-      parse_player_response(response)
+      ResponseParser.parse_single(client.get(path)) { |data| build_player_detail(data) }
     end
 
-    # Parses the players list API response
+    # Builds a player summary from list data
     #
     # @api private
-    # @param response [String] the JSON response body
-    # @return [Collection] a collection of players
-    def self.parse_players_response(response)
-      return Collection.new unless response
-
-      data = JSON.parse(response)
-      result_set = data.dig("resultSets", 0)
-      return Collection.new unless result_set
-
-      headers = result_set.fetch("headers")
-      rows = result_set.fetch("rowSet")
-      return Collection.new unless headers && rows
-
-      players = rows.map { |row| build_player_from_row(headers, row) }
-      Collection.new(players)
-    end
-    private_class_method :parse_players_response
-
-    # Builds a player from a row of data
-    #
-    # @api private
-    # @param headers [Array<String>] the column headers
-    # @param row [Array] the row data
+    # @param data [Hash] the player row data
     # @return [Player] the player object
-    def self.build_player_from_row(headers, row)
-      data = headers.zip(row).to_h
+    def self.build_player_summary(data)
       full_name = data.fetch("DISPLAY_FIRST_LAST")
       Player.new(
         id: data.fetch("PERSON_ID"),
         full_name: full_name,
-        first_name: extract_first_name(full_name),
-        last_name: extract_last_name(full_name),
-        is_active: roster_status_active?(data.fetch("ROSTERSTATUS"))
+        first_name: full_name&.split&.first,
+        last_name: full_name&.split&.last,
+        is_active: [1, "Active"].include?(data["ROSTERSTATUS"])
       )
     end
-    private_class_method :build_player_from_row
+    private_class_method :build_player_summary
 
-    # Extracts the first name from a full name
-    #
+    # Builds a player detail from API data
     # @api private
-    # @param full_name [String, nil] the full name
-    # @return [String, nil] the first name
-    def self.extract_first_name(full_name)
-      return unless full_name
-
-      full_name.split.first
+    # @return [Player]
+    def self.build_player_detail(data)
+      Player.new(**identity_info(data), **physical_info(data), **draft_info(data))
     end
-    private_class_method :extract_first_name
+    private_class_method :build_player_detail
 
-    # Extracts the last name from a full name
-    #
+    # Extracts identity information from data
     # @api private
-    # @param full_name [String, nil] the full name
-    # @return [String, nil] the last name
-    def self.extract_last_name(full_name)
-      return unless full_name
-
-      full_name.split.last
-    end
-    private_class_method :extract_last_name
-
-    # Checks if the roster status indicates an active player
-    #
-    # @api private
-    # @param status [Integer, String] the roster status
-    # @return [Boolean] true if active
-    def self.roster_status_active?(status)
-      status == 1 || status.eql?("Active")
-    end
-    private_class_method :roster_status_active?
-
-    # Parses a single player API response
-    #
-    # @api private
-    # @param response [String] the JSON response body
-    # @return [Player, nil] the player or nil if not found
-    def self.parse_player_response(response)
-      return unless response
-
-      data = JSON.parse(response)
-      result_set = data.dig("resultSets", 0)
-      return unless result_set
-
-      headers = result_set.fetch("headers")
-      row = result_set.dig("rowSet", 0)
-      return unless headers && row
-
-      player_data = headers.zip(row).to_h
-      build_player_from_info(player_data)
-    end
-    private_class_method :parse_player_response
-
-    # Builds a player from player info data
-    #
-    # @api private
-    # @param data [Hash] the player info data
-    # @return [Player] the player object
-    def self.build_player_from_info(data)
-      Player.new(**player_info_attributes(data))
-    end
-    private_class_method :build_player_from_info
-
-    # Combines core and extra player attributes
-    #
-    # @api private
-    # @param data [Hash] the player info data
-    # @return [Hash] the combined attributes
-    def self.player_info_attributes(data) = player_core_attributes(data).merge(player_extra_attributes(data))
-    private_class_method :player_info_attributes
-
-    # Extracts core player attributes from data
-    #
-    # @api private
-    # @param data [Hash] the player info data
-    # @return [Hash] the core attributes
-    def self.player_core_attributes(data)
+    # @return [Hash]
+    def self.identity_info(data)
       {id: data.fetch("PERSON_ID"), full_name: data.fetch("DISPLAY_FIRST_LAST"),
-       first_name: data.fetch("FIRST_NAME"), last_name: data.fetch("LAST_NAME"),
-       is_active: roster_status_active?(data.fetch("ROSTERSTATUS")),
-       jersey_number: parse_integer(data.fetch("JERSEY")), height: data.fetch("HEIGHT")}
+       first_name: data["FIRST_NAME"], last_name: data["LAST_NAME"],
+       is_active: [1, "Active"].include?(data["ROSTERSTATUS"])}
     end
-    private_class_method :player_core_attributes
+    private_class_method :identity_info
 
-    # Extracts extra player attributes from data
-    #
+    # Extracts physical information from data
     # @api private
-    # @param data [Hash] the player info data
-    # @return [Hash] the extra attributes
-    def self.player_extra_attributes(data)
-      {weight: parse_integer(data.fetch("WEIGHT")), college: data.fetch("SCHOOL"),
-       country: data.fetch("COUNTRY"), draft_year: parse_integer(data.fetch("DRAFT_YEAR")),
-       draft_round: parse_integer(data.fetch("DRAFT_ROUND")), draft_number: parse_integer(data.fetch("DRAFT_NUMBER"))}
+    # @return [Hash]
+    def self.physical_info(data)
+      {jersey_number: Utils.parse_integer(data["JERSEY"]), height: data["HEIGHT"],
+       weight: Utils.parse_integer(data["WEIGHT"]), college: data["SCHOOL"], country: data["COUNTRY"]}
     end
-    private_class_method :player_extra_attributes
+    private_class_method :physical_info
 
-    # Parses a value as an integer
-    #
+    # Extracts draft information from data
     # @api private
-    # @param value [String, Integer, nil] the value to parse
-    # @return [Integer, nil] the parsed integer or nil
-    def self.parse_integer(value)
-      return if value.to_s.empty?
-
-      Integer(value)
-    rescue ArgumentError
-      nil
+    # @return [Hash]
+    def self.draft_info(data)
+      {draft_year: Utils.parse_integer(data["DRAFT_YEAR"]), draft_round: Utils.parse_integer(data["DRAFT_ROUND"]),
+       draft_number: Utils.parse_integer(data["DRAFT_NUMBER"])}
     end
-    private_class_method :parse_integer
-
-    # Extracts the ID from a player or integer
-    #
-    # @api private
-    # @param player [Player, Integer] the player or ID
-    # @return [Integer] the player ID
-    def self.extract_id(player)
-      player.instance_of?(Player) ? player.id : player
-    end
-    private_class_method :extract_id
+    private_class_method :draft_info
   end
 end

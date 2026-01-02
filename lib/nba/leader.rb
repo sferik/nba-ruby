@@ -72,7 +72,7 @@ module NBA
     #   leader.player.college #=> "Davidson"
     # @return [Player, nil] the hydrated player object
     def player
-      Players.find(player_id) if player_id
+      Players.find(player_id)
     end
 
     # Returns the team object for this leader

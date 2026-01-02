@@ -2,6 +2,7 @@ require "json"
 require_relative "client"
 require_relative "collection"
 require_relative "leader"
+require_relative "response_parser"
 require_relative "utils"
 
 module NBA
@@ -35,6 +36,10 @@ module NBA
     # @return [String] the category code
     EFF = "EFF".freeze
 
+    # Categories that require Totals mode
+    PERCENTAGE_CATEGORIES = [FG_PCT, FG3_PCT, FT_PCT].freeze
+    private_constant :PERCENTAGE_CATEGORIES
+
     # Retrieves league leaders for a statistical category
     #
     # @api public
@@ -48,32 +53,13 @@ module NBA
     # @param client [Client] the API client to use
     # @return [Collection] a collection of leaders
     def self.find(category:, season: Utils.current_season, season_type: "Regular Season", limit: 10, client: CLIENT)
-      season_str = "#{season}-#{(season + 1).to_s[-2..]}"
-      path = build_path(category, season_str, season_type)
-      response = client.get(path)
-      parse_leaders_response(response, category, limit)
-    end
-
-    # Categories that require Totals mode
-    PERCENTAGE_CATEGORIES = [FG_PCT, FG3_PCT, FT_PCT].freeze
-    private_constant :PERCENTAGE_CATEGORIES
-
-    # Builds the API path for leaders
-    #
-    # @api private
-    # @param category [String] the category
-    # @param season_str [String] the season string
-    # @param season_type [String] the season type
-    # @return [String] the API path
-    def self.build_path(category, season_str, season_type)
-      encoded_season_type = URI.encode_www_form_component(season_type)
       per_mode = PERCENTAGE_CATEGORIES.include?(category) ? "Totals" : "PerGame"
-      "leagueleaders?LeagueID=00&PerMode=#{per_mode}&Scope=S&Season=#{season_str}" \
-        "&SeasonType=#{encoded_season_type}&StatCategory=#{category}"
+      path = "leagueleaders?LeagueID=00&PerMode=#{per_mode}&Scope=S&Season=#{Utils.format_season(season)}" \
+             "&SeasonType=#{season_type}&StatCategory=#{category}"
+      parse_leaders_response(client.get(path), category, limit)
     end
-    private_class_method :build_path
 
-    # Parses the leaders API response
+    # Parses the leaders API response (uses resultSet instead of resultSets)
     #
     # @api private
     # @param response [String] the JSON response body
@@ -81,40 +67,44 @@ module NBA
     # @param limit [Integer] the limit of results
     # @return [Collection] a collection of leaders
     def self.parse_leaders_response(response, category, limit)
-      return Collection.new unless response
-
-      data = JSON.parse(response)
-      result_set = data.fetch("resultSet", nil)
-      return Collection.new unless result_set
-
-      headers = result_set.fetch("headers")
-      rows = result_set.fetch("rowSet")
+      headers, rows = extract_result_set(response)
       return Collection.new unless headers && rows
 
-      leaders = rows.take(limit).map { |row| build_leader_from_row(headers, row, category) }
+      leaders = rows.take(limit).map do |row|
+        build_leader(ResponseParser.zip_to_hash(headers, row), category)
+      end
       Collection.new(leaders)
     end
     private_class_method :parse_leaders_response
 
-    # Builds a leader from a row of data
-    #
+    # Extracts result set from API response
     # @api private
-    # @param headers [Array<String>] the column headers
-    # @param row [Array] the row data
-    # @param category [String] the category
-    # @return [Leader] the leader object
-    def self.build_leader_from_row(headers, row, category)
-      data = headers.zip(row).to_h
-      Leader.new(
-        player_id: data.fetch("PLAYER_ID"),
-        player_name: data.fetch("PLAYER"),
-        team_id: data.fetch("TEAM_ID"),
-        team_abbreviation: data.fetch("TEAM"),
-        category: category,
-        rank: data.fetch("RANK"),
-        value: data.fetch(category)
-      )
+    # @return [Array, nil]
+    def self.extract_result_set(response)
+      return unless response
+
+      result_set = JSON.parse(response)["resultSet"]
+      return unless result_set
+
+      [result_set.fetch("headers"), result_set.fetch("rowSet")]
     end
-    private_class_method :build_leader_from_row
+    private_class_method :extract_result_set
+
+    # Builds a leader from API data
+    # @api private
+    # @return [Leader]
+    def self.build_leader(data, category)
+      Leader.new(**leader_identity(data), category: category, rank: data.fetch("RANK"), value: data.fetch(category))
+    end
+    private_class_method :build_leader
+
+    # Extracts leader identity attributes from data
+    # @api private
+    # @return [Hash]
+    def self.leader_identity(data)
+      {player_id: data.fetch("PLAYER_ID"), player_name: data.fetch("PLAYER"),
+       team_id: data["TEAM_ID"], team_abbreviation: data["TEAM"]}
+    end
+    private_class_method :leader_identity
   end
 end

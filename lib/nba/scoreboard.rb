@@ -138,7 +138,7 @@ module NBA
     def self.extract_score(score_data)
       return unless score_data
 
-      score_data.fetch("PTS", nil)
+      score_data["PTS"]
     end
     private_class_method :extract_score
 

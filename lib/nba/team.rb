@@ -197,5 +197,15 @@ module NBA
       map "conference", to: :conference
       map "division", to: :division
     end
+
+    # Returns the team's home arena
+    #
+    # @api public
+    # @example
+    #   team.arena #=> "Chase Center"
+    # @return [String, nil] the arena name
+    def arena
+      TeamDetails.find(team: id)&.arena
+    end
   end
 end

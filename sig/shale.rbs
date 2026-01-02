@@ -1,6 +1,6 @@
 module Shale
   class Mapper
-    def self.attribute: (Symbol name, untyped type, ?default: untyped) -> void
+    def self.attribute: (Symbol name, untyped type, ?default: untyped, ?collection: bool) -> void
     def self.json: () { () -> void } -> void
     def self.map: (String key, to: Symbol) -> void
     def self.from_json: (String json) -> instance

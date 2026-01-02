@@ -1,6 +1,7 @@
 require_relative "collection"
 require_relative "data"
 require_relative "team"
+require_relative "utils"
 
 module NBA
   # Provides methods to retrieve NBA teams
@@ -13,8 +14,7 @@ module NBA
     #   teams.each { |team| puts team.name }
     # @return [Collection] a collection of all NBA teams
     def self.all
-      teams = Data::TEAMS.map { |data| Team.new(**data) }
-      Collection.new(teams)
+      Collection.new(Data::TEAMS.map { |data| Team.new(**data) })
     end
 
     # Finds a team by ID
@@ -25,19 +25,9 @@ module NBA
     # @param team_id [Integer] the team ID to find
     # @return [Team, nil] the team with the given ID, or nil if not found
     def self.find(team_id)
-      id = extract_id(team_id)
-      data = Data::TEAMS.find { |t| t.fetch(:id).equal?(id) }
+      id = Utils.extract_id(team_id)
+      data = Data::TEAMS.find { |t| t.fetch(:id).eql?(id) }
       Team.new(**data) if data
     end
-
-    # Extracts the ID from a team or returns the integer directly
-    #
-    # @api private
-    # @param team [Team, Integer] the team or team ID
-    # @return [Integer] the team ID
-    def self.extract_id(team)
-      team.instance_of?(Team) ? team.id : team
-    end
-    private_class_method :extract_id
   end
 end

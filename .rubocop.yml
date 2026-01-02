@@ -37,6 +37,9 @@ Layout/SpaceInsideHashLiteralBraces:
 Metrics/ParameterLists:
   CountKeywordArgs: false
 
+Metrics/ModuleLength:
+  Max: 110
+
 Metrics/BlockLength:
   Max: 28
 
