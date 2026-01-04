@@ -48,9 +48,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.season_info(data, player_id)
-      {player_id: player_id, season_id: data["SEASON_ID"], team_id: data["TEAM_ID"],
-       team_abbreviation: data["TEAM_ABBREVIATION"], player_age: data["PLAYER_AGE"],
-       gp: data["GP"], gs: data["GS"], min: data["MIN"]}
+      {player_id: player_id, season_id: data.fetch("SEASON_ID", nil), team_id: data.fetch("TEAM_ID", nil),
+       team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil), player_age: data.fetch("PLAYER_AGE", nil),
+       gp: data.fetch("GP", nil), gs: data.fetch("GS", nil), min: data.fetch("MIN", nil)}
     end
     private_class_method :season_info
 
@@ -58,8 +58,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.shooting_stats(data)
-      {fgm: data["FGM"], fga: data["FGA"], fg_pct: data["FG_PCT"], fg3m: data["FG3M"], fg3a: data["FG3A"],
-       fg3_pct: data["FG3_PCT"], ftm: data["FTM"], fta: data["FTA"], ft_pct: data["FT_PCT"]}
+      {fgm: data.fetch("FGM", nil), fga: data.fetch("FGA", nil), fg_pct: data.fetch("FG_PCT", nil),
+       fg3m: data.fetch("FG3M", nil), fg3a: data.fetch("FG3A", nil), fg3_pct: data.fetch("FG3_PCT", nil),
+       ftm: data.fetch("FTM", nil), fta: data.fetch("FTA", nil), ft_pct: data.fetch("FT_PCT", nil)}
     end
     private_class_method :shooting_stats
 
@@ -67,8 +68,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.counting_stats(data)
-      {oreb: data["OREB"], dreb: data["DREB"], reb: data["REB"], ast: data["AST"], stl: data["STL"],
-       blk: data["BLK"], tov: data["TOV"], pf: data["PF"], pts: data["PTS"]}
+      {oreb: data.fetch("OREB", nil), dreb: data.fetch("DREB", nil), reb: data.fetch("REB", nil),
+       ast: data.fetch("AST", nil), stl: data.fetch("STL", nil), blk: data.fetch("BLK", nil),
+       tov: data.fetch("TOV", nil), pf: data.fetch("PF", nil), pts: data.fetch("PTS", nil)}
     end
     private_class_method :counting_stats
   end

@@ -367,7 +367,7 @@ module NBA
     # @api private
     # @return [Hash] home team attributes
     def self.home_team_attributes(data)
-      home = data["homeTeam"] || {}
+      home = data.fetch("homeTeam", nil) || {}
       {home_team_id: home.fetch("teamId", nil), home_team_name: home.fetch("teamName", nil),
        home_team_city: home.fetch("teamCity", nil), home_team_tricode: home.fetch("teamTricode", nil),
        home_team_wins: home.fetch("wins", nil), home_team_losses: home.fetch("losses", nil),
@@ -379,7 +379,7 @@ module NBA
     # @api private
     # @return [Hash] away team attributes
     def self.away_team_attributes(data)
-      away = data["awayTeam"] || {}
+      away = data.fetch("awayTeam", nil) || {}
       {away_team_id: away.fetch("teamId", nil), away_team_name: away.fetch("teamName", nil),
        away_team_city: away.fetch("teamCity", nil), away_team_tricode: away.fetch("teamTricode", nil),
        away_team_wins: away.fetch("wins", nil), away_team_losses: away.fetch("losses", nil),

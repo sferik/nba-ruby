@@ -47,6 +47,26 @@ module NBA
       assert_equal 0, TeamYearByYearStats.find(team: Team::GSW).size
     end
 
+    def test_returns_empty_when_result_set_name_key_missing
+      response = {resultSets: [{headers: stat_headers, rowSet: [stat_row]}]}
+      stub_request(:get, /teamyearbyyearstats/).to_return(body: response.to_json)
+
+      assert_equal 0, TeamYearByYearStats.find(team: Team::GSW).size
+    end
+
+    def test_skips_result_sets_with_missing_name_key
+      response = {resultSets: [
+        {headers: [], rowSet: []},
+        {name: "TeamStats", headers: stat_headers, rowSet: [stat_row]}
+      ]}
+      stub_request(:get, /teamyearbyyearstats/).to_return(body: response.to_json)
+
+      stats = TeamYearByYearStats.find(team: Team::GSW)
+
+      assert_equal 1, stats.size
+      assert_equal Team::GSW, stats.first.team_id
+    end
+
     def test_returns_empty_when_no_headers
       response = {resultSets: [{name: "TeamStats", headers: nil, rowSet: [[1]]}]}
       stub_request(:get, /teamyearbyyearstats/).to_return(body: response.to_json)

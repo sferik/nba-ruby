@@ -57,7 +57,7 @@ module NBA
       result_set = find_result_set(data, TEAM_BACKGROUND)
       return unless result_set
 
-      headers = result_set["headers"]
+      headers = result_set.fetch("headers", nil)
       row = result_set.dig("rowSet", 0)
       return unless headers && row
 
@@ -88,10 +88,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash
     def self.find_result_set(data, name)
-      result_sets = data["resultSets"]
+      result_sets = data.fetch("resultSets", nil)
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name").eql?(name) }
+      result_sets.find { |rs| rs.fetch("name", nil).eql?(name) }
     end
     private_class_method :find_result_set
 

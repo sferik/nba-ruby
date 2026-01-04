@@ -354,8 +354,8 @@ module NBA
       result_set = find_result_set(data)
       return Collection.new unless result_set
 
-      headers = result_set["headers"]
-      rows = result_set["rowSet"]
+      headers = result_set.fetch("headers", nil)
+      rows = result_set.fetch("rowSet", nil)
       return Collection.new unless headers && rows
 
       standings = rows.map { |row| build_standing(headers, row) }
@@ -367,10 +367,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash
     def self.find_result_set(data)
-      result_sets = data["resultSets"]
+      result_sets = data.fetch("resultSets", nil)
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name").eql?(STANDINGS) }
+      result_sets.find { |rs| rs.fetch("name", nil).eql?(STANDINGS) }
     end
     private_class_method :find_result_set
 

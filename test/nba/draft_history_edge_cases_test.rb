@@ -31,6 +31,26 @@ module NBA
       assert_equal 0, DraftHistory.all.size
     end
 
+    def test_returns_empty_when_result_set_name_key_missing
+      response = {resultSets: [{headers: draft_headers, rowSet: [draft_row]}]}
+      stub_request(:get, /drafthistory/).to_return(body: response.to_json)
+
+      assert_equal 0, DraftHistory.all.size
+    end
+
+    def test_skips_result_sets_with_missing_name_key
+      response = {resultSets: [
+        {headers: [], rowSet: []},
+        {name: "DraftHistory", headers: draft_headers, rowSet: [draft_row]}
+      ]}
+      stub_request(:get, /drafthistory/).to_return(body: response.to_json)
+
+      picks = DraftHistory.all
+
+      assert_equal 1, picks.size
+      assert_equal 1_641_705, picks.first.player_id
+    end
+
     def test_returns_empty_when_no_headers
       response = {resultSets: [{name: "DraftHistory", headers: nil, rowSet: [["data"]]}]}
       stub_request(:get, /drafthistory/).to_return(body: response.to_json)

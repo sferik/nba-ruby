@@ -35,9 +35,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.player_attributes(data)
-      {id: data.fetch("PLAYER_ID"), height: data["HEIGHT"], college: data["SCHOOL"], is_active: true,
-       jersey_number: Utils.parse_integer(data["NUM"]), weight: Utils.parse_integer(data["WEIGHT"]),
-       country: extract_country(data["BIRTH_DATE"]), **name_attributes(data.fetch("PLAYER"))}
+      {id: data.fetch("PLAYER_ID", nil), height: data.fetch("HEIGHT", nil), college: data.fetch("SCHOOL", nil), is_active: true,
+       jersey_number: Utils.parse_integer(data.fetch("NUM", nil)), weight: Utils.parse_integer(data.fetch("WEIGHT", nil)),
+       country: extract_country(data.fetch("BIRTH_DATE", nil)), **name_attributes(data.fetch("PLAYER", nil))}
     end
     private_class_method :player_attributes
 

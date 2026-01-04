@@ -121,8 +121,8 @@ module NBA
       result_set = find_result_set(data)
       return Collection.new unless result_set
 
-      headers = result_set["headers"]
-      rows = result_set["rowSet"]
+      headers = result_set.fetch("headers", nil)
+      rows = result_set.fetch("rowSet", nil)
       return Collection.new unless headers && rows
 
       series = rows.map { |row| build_series(headers, row) }
@@ -134,10 +134,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash
     def self.find_result_set(data)
-      result_sets = data["resultSets"]
+      result_sets = data.fetch("resultSets", nil)
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name").eql?(PLAYOFF_SERIES) }
+      result_sets.find { |rs| rs.fetch("name", nil).eql?(PLAYOFF_SERIES) }
     end
     private_class_method :find_result_set
 
@@ -154,9 +154,9 @@ module NBA
     # @api private
     # @return [Hash] series attributes
     def self.series_attributes(data)
-      {game_id: data["GAME_ID"], home_team_id: data["HOME_TEAM_ID"],
-       visitor_team_id: data["VISITOR_TEAM_ID"], series_id: data["SERIES_ID"],
-       game_num: data["GAME_NUM"]}
+      {game_id: data.fetch("GAME_ID", nil), home_team_id: data.fetch("HOME_TEAM_ID", nil),
+       visitor_team_id: data.fetch("VISITOR_TEAM_ID", nil), series_id: data.fetch("SERIES_ID", nil),
+       game_num: data.fetch("GAME_NUM", nil)}
     end
     private_class_method :series_attributes
 

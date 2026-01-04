@@ -80,20 +80,26 @@ module NBA
       refute player.is_active
     end
 
-    def test_find_raises_when_person_id_missing
+    def test_find_handles_missing_person_id
       response = {resultSets: [{headers: %w[DISPLAY_FIRST_LAST],
                                 rowSet: [["Stephen Curry"]]}]}
       stub_request(:get, /commonplayerinfo/).to_return(body: response.to_json)
 
-      assert_raises(KeyError) { Players.find(201_939) }
+      player = Players.find(201_939)
+
+      assert_nil player.id
+      assert_equal "Stephen Curry", player.full_name
     end
 
-    def test_find_raises_when_display_name_missing
+    def test_find_handles_missing_display_name
       response = {resultSets: [{headers: %w[PERSON_ID],
                                 rowSet: [[201_939]]}]}
       stub_request(:get, /commonplayerinfo/).to_return(body: response.to_json)
 
-      assert_raises(KeyError) { Players.find(201_939) }
+      player = Players.find(201_939)
+
+      assert_equal 201_939, player.id
+      assert_nil player.full_name
     end
 
     def test_find_handles_numeric_active_roster_status

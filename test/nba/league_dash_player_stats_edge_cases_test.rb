@@ -47,6 +47,26 @@ module NBA
       assert_equal 0, LeagueDashPlayerStats.all(season: 2024).size
     end
 
+    def test_returns_empty_when_result_set_name_key_missing
+      response = {resultSets: [{headers: stat_headers, rowSet: [stat_row]}]}
+      stub_request(:get, /leaguedashplayerstats/).to_return(body: response.to_json)
+
+      assert_equal 0, LeagueDashPlayerStats.all(season: 2024).size
+    end
+
+    def test_skips_result_sets_with_missing_name_key
+      response = {resultSets: [
+        {headers: [], rowSet: []},
+        {name: "LeagueDashPlayerStats", headers: stat_headers, rowSet: [stat_row]}
+      ]}
+      stub_request(:get, /leaguedashplayerstats/).to_return(body: response.to_json)
+
+      stats = LeagueDashPlayerStats.all(season: 2024)
+
+      assert_equal 1, stats.size
+      assert_equal 201_939, stats.first.player_id
+    end
+
     def test_returns_empty_when_no_headers
       response = {resultSets: [{name: "LeagueDashPlayerStats", headers: nil, rowSet: [[1]]}]}
       stub_request(:get, /leaguedashplayerstats/).to_return(body: response.to_json)

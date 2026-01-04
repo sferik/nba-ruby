@@ -88,18 +88,24 @@ module NBA
       assert_nil standing.home_record
     end
 
-    def test_all_raises_when_team_id_missing
+    def test_all_handles_missing_team_id
       response = {resultSets: [{headers: %w[TeamName WINS LOSSES], rowSet: [["Warriors", 50, 32]]}]}
       stub_request(:get, /leaguestandings/).to_return(body: response.to_json)
 
-      assert_raises(KeyError) { Standings.all.first }
+      standing = Standings.all.first
+
+      assert_nil standing.team_id
+      assert_equal "Warriors", standing.team_name
     end
 
-    def test_all_raises_when_wins_missing
+    def test_all_handles_missing_wins
       response = {resultSets: [{headers: %w[TeamID TeamName LOSSES], rowSet: [[Team::GSW, "Warriors", 32]]}]}
       stub_request(:get, /leaguestandings/).to_return(body: response.to_json)
 
-      assert_raises(KeyError) { Standings.all.first }
+      standing = Standings.all.first
+
+      assert_equal Team::GSW, standing.team_id
+      assert_nil standing.wins
     end
 
     private

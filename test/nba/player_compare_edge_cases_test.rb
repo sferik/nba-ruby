@@ -47,6 +47,26 @@ module NBA
       assert_equal 0, PlayerCompare.compare(player: 1, vs_player: 2, season: 2024).size
     end
 
+    def test_returns_empty_when_result_set_name_key_missing
+      response = {resultSets: [{headers: player_headers, rowSet: [player_row]}]}
+      stub_request(:get, /playercompare/).to_return(body: response.to_json)
+
+      assert_equal 0, PlayerCompare.compare(player: 1, vs_player: 2, season: 2024).size
+    end
+
+    def test_skips_result_sets_with_missing_name_key
+      response = {resultSets: [
+        {headers: [], rowSet: []},
+        {name: "OverallCompare", headers: player_headers, rowSet: [player_row]}
+      ]}
+      stub_request(:get, /playercompare/).to_return(body: response.to_json)
+
+      stats = PlayerCompare.compare(player: 201_939, vs_player: 2544, season: 2024)
+
+      assert_equal 1, stats.size
+      assert_equal 201_939, stats.first.player_id
+    end
+
     def test_returns_empty_when_no_headers
       response = {resultSets: [{name: "OverallCompare", headers: nil, rowSet: [[1]]}]}
       stub_request(:get, /playercompare/).to_return(body: response.to_json)

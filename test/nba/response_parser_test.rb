@@ -41,6 +41,14 @@ module NBA
       assert_empty result
     end
 
+    def test_parse_skips_result_sets_with_missing_name_key
+      json = '{"resultSets": [{"headers": ["X"], "rowSet": [[0]]}, {"name": "Test", "headers": ["A"], "rowSet": [[1]]}]}'
+      result = ResponseParser.parse(json, result_set: "Test") { |data| data }
+
+      assert_equal 1, result.size
+      assert_equal({"A" => 1}, result.first)
+    end
+
     def test_parse_returns_empty_when_result_set_name_does_not_match
       json = '{"resultSets": [{"name": "Other", "headers": ["A"], "rowSet": [[1]]}]}'
       result = ResponseParser.parse(json, result_set: "Expected", &:itself)

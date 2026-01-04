@@ -59,8 +59,8 @@ module NBA
       result_set = find_result_set(data, result_set_name)
       return Collection.new unless result_set
 
-      headers = result_set["headers"]
-      rows = result_set["rowSet"]
+      headers = result_set.fetch("headers", nil)
+      rows = result_set.fetch("rowSet", nil)
       return Collection.new unless headers && rows
 
       franchises = rows.map { |row| build_franchise(headers, row) }
@@ -75,7 +75,7 @@ module NBA
     # @param name [String] the result set name
     # @return [Hash, nil] the result set
     def self.find_result_set(data, name)
-      result_sets = data["resultSets"]
+      result_sets = data.fetch("resultSets", nil)
       return unless result_sets
 
       result_sets.find { |rs| rs.fetch("name", nil).eql?(name) }
@@ -110,8 +110,8 @@ module NBA
     # @param data [Hash] the franchise data
     # @return [Hash] the identity attributes
     def self.identity_attributes(data)
-      {league_id: data["LEAGUE_ID"], team_id: data["TEAM_ID"], team_city: data["TEAM_CITY"],
-       team_name: data["TEAM_NAME"]}
+      {league_id: data.fetch("LEAGUE_ID", nil), team_id: data.fetch("TEAM_ID", nil), team_city: data.fetch("TEAM_CITY", nil),
+       team_name: data.fetch("TEAM_NAME", nil)}
     end
     private_class_method :identity_attributes
 
@@ -121,8 +121,10 @@ module NBA
     # @param data [Hash] the franchise data
     # @return [Hash] the history attributes
     def self.history_attributes(data)
-      {start_year: data["START_YEAR"], end_year: data["END_YEAR"], years: data["YEARS"],
-       games: data["GAMES"], wins: data["WINS"], losses: data["LOSSES"], win_pct: data["WIN_PCT"]}
+      {start_year: data.fetch("START_YEAR", nil), end_year: data.fetch("END_YEAR", nil),
+       years: data.fetch("YEARS", nil), games: data.fetch("GAMES", nil),
+       wins: data.fetch("WINS", nil), losses: data.fetch("LOSSES", nil),
+       win_pct: data.fetch("WIN_PCT", nil)}
     end
     private_class_method :history_attributes
 
@@ -132,8 +134,8 @@ module NBA
     # @param data [Hash] the franchise data
     # @return [Hash] the title attributes
     def self.title_attributes(data)
-      {po_appearances: data["PO_APPEARANCES"], div_titles: data["DIV_TITLES"],
-       conf_titles: data["CONF_TITLES"], league_titles: data["LEAGUE_TITLES"]}
+      {po_appearances: data.fetch("PO_APPEARANCES", nil), div_titles: data.fetch("DIV_TITLES", nil),
+       conf_titles: data.fetch("CONF_TITLES", nil), league_titles: data.fetch("LEAGUE_TITLES", nil)}
     end
     private_class_method :title_attributes
 

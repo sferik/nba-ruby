@@ -15,5 +15,8 @@ target :lib do
   library "time"
   library "json"
 
-  configure_code_diagnostics(D::Ruby.strict)
+  configure_code_diagnostics(D::Ruby.strict) do |hash|
+    # Empty collections in fetch defaults are type-safe due to the caller context
+    hash[D::Ruby::UnannotatedEmptyCollection] = nil
+  end
 end

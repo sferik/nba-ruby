@@ -244,10 +244,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash
     def self.find_result_set(data, name)
-      result_sets = data["resultSets"]
+      result_sets = data.fetch("resultSets", nil)
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name").eql?(name) }
+      result_sets.find { |rs| rs.fetch("name", nil).eql?(name) }
     end
     private_class_method :find_result_set
 

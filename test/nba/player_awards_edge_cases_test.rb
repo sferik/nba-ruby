@@ -45,11 +45,11 @@ module NBA
       assert_equal 0, PlayerAwards.find(player: 201_939).size
     end
 
-    def test_raises_key_error_when_result_set_name_key_missing
+    def test_returns_empty_when_result_set_name_key_missing
       response = {resultSets: [{headers: [], rowSet: []}]}
       stub_request(:get, /playerawards/).to_return(body: response.to_json)
 
-      assert_raises(KeyError) { PlayerAwards.find(player: 201_939) }
+      assert_equal 0, PlayerAwards.find(player: 201_939).size
     end
 
     def test_finds_correct_result_set_by_name_when_multiple_exist

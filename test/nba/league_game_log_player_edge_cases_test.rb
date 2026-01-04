@@ -47,6 +47,26 @@ module NBA
       assert_equal 0, LeagueGameLog.player_logs(season: 2024).size
     end
 
+    def test_returns_empty_when_result_set_name_key_missing
+      response = {resultSets: [{headers: player_log_headers, rowSet: [player_log_row]}]}
+      stub_request(:get, /leaguegamelog/).to_return(body: response.to_json)
+
+      assert_equal 0, LeagueGameLog.player_logs(season: 2024).size
+    end
+
+    def test_skips_result_sets_with_missing_name_key
+      response = {resultSets: [
+        {headers: [], rowSet: []},
+        {name: "LeagueGameLog", headers: player_log_headers, rowSet: [player_log_row]}
+      ]}
+      stub_request(:get, /leaguegamelog/).to_return(body: response.to_json)
+
+      logs = LeagueGameLog.player_logs(season: 2024)
+
+      assert_equal 1, logs.size
+      assert_equal 201_939, logs.first.player_id
+    end
+
     def test_returns_empty_when_no_headers
       response = {resultSets: [{name: "LeagueGameLog", headers: nil, rowSet: [[1]]}]}
       stub_request(:get, /leaguegamelog/).to_return(body: response.to_json)

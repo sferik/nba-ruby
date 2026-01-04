@@ -37,7 +37,7 @@ module NBA
     # @return [String] the response body
     def get(path)
       uri = URI.join(base_url, path)
-      hostname = uri.hostname #: String
+      hostname = uri.hostname or raise ArgumentError, "Invalid URI: #{uri}"
       request = Net::HTTP::Get.new(uri)
       apply_headers(request)
 

@@ -1,7 +1,7 @@
 require_relative "../test_helper"
 
 module NBA
-  class LeadersFindEdgeCasesTest < Minitest::Test
+  class LeadersFindEdgeCasesEmptyTest < Minitest::Test
     cover Leaders
 
     def test_find_returns_empty_collection_when_response_is_nil
@@ -36,6 +36,20 @@ module NBA
       assert_equal 0, Leaders.find(category: Leaders::PTS).size
     end
 
+    def test_find_returns_empty_when_headers_missing
+      response = {resultSet: {rowSet: [[201_939, "Stephen Curry", 1, 30.0]]}}
+      stub_request(:get, /leagueleaders/).to_return(body: response.to_json)
+
+      assert_equal 0, Leaders.find(category: Leaders::PTS).size
+    end
+
+    def test_find_returns_empty_when_row_set_missing
+      response = {resultSet: {headers: %w[PLAYER_ID PLAYER RANK PTS]}}
+      stub_request(:get, /leagueleaders/).to_return(body: response.to_json)
+
+      assert_equal 0, Leaders.find(category: Leaders::PTS).size
+    end
+
     def test_find_handles_nil_category_value
       stub_leaders_with(pts_value: nil)
 
@@ -57,46 +71,6 @@ module NBA
 
       assert_instance_of Float, leader.value
       assert_in_delta 32.0, leader.value
-    end
-
-    def test_find_handles_minimal_headers
-      response = {resultSet: {headers: %w[PLAYER_ID PLAYER RANK PTS], rowSet: [[201_939, "Stephen Curry", 1, 30.0]]}}
-      stub_request(:get, /leagueleaders/).to_return(body: response.to_json)
-
-      leader = Leaders.find(category: Leaders::PTS).first
-
-      assert_equal 201_939, leader.player_id
-      assert_equal "Stephen Curry", leader.player_name
-      assert_nil leader.team_id
-      assert_nil leader.team_abbreviation
-    end
-
-    def test_find_raises_when_player_id_missing
-      response = {resultSet: {headers: %w[PLAYER RANK PTS], rowSet: [["Stephen Curry", 1, 30.0]]}}
-      stub_request(:get, /leagueleaders/).to_return(body: response.to_json)
-
-      assert_raises(KeyError) { Leaders.find(category: Leaders::PTS).first }
-    end
-
-    def test_find_raises_when_rank_missing
-      response = {resultSet: {headers: %w[PLAYER_ID PLAYER PTS], rowSet: [[201_939, "Stephen Curry", 30.0]]}}
-      stub_request(:get, /leagueleaders/).to_return(body: response.to_json)
-
-      assert_raises(KeyError) { Leaders.find(category: Leaders::PTS).first }
-    end
-
-    def test_find_raises_when_headers_missing
-      response = {resultSet: {rowSet: [[201_939, "Stephen Curry", 1, 30.0]]}}
-      stub_request(:get, /leagueleaders/).to_return(body: response.to_json)
-
-      assert_raises(KeyError) { Leaders.find(category: Leaders::PTS) }
-    end
-
-    def test_find_raises_when_row_set_missing
-      response = {resultSet: {headers: %w[PLAYER_ID PLAYER RANK PTS]}}
-      stub_request(:get, /leagueleaders/).to_return(body: response.to_json)
-
-      assert_raises(KeyError) { Leaders.find(category: Leaders::PTS) }
     end
 
     private

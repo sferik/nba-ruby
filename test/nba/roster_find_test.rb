@@ -98,18 +98,24 @@ module NBA
       assert_nil player.weight
     end
 
-    def test_find_raises_when_player_id_missing
+    def test_find_handles_missing_player_id
       response = {resultSets: [{headers: %w[PLAYER], rowSet: [["Stephen Curry"]]}]}
       stub_request(:get, /commonteamroster/).to_return(body: response.to_json)
 
-      assert_raises(KeyError) { Roster.find(team: Team::GSW).first }
+      player = Roster.find(team: Team::GSW).first
+
+      assert_nil player.id
+      assert_equal "Stephen Curry", player.full_name
     end
 
-    def test_find_raises_when_player_name_missing
+    def test_find_handles_missing_player_name
       response = {resultSets: [{headers: %w[PLAYER_ID], rowSet: [[201_939]]}]}
       stub_request(:get, /commonteamroster/).to_return(body: response.to_json)
 
-      assert_raises(KeyError) { Roster.find(team: Team::GSW).first }
+      player = Roster.find(team: Team::GSW).first
+
+      assert_equal 201_939, player.id
+      assert_nil player.full_name
     end
 
     private

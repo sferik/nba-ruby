@@ -4,18 +4,18 @@ module NBA
   class TeamDetailsFindResultSetFetchTest < Minitest::Test
     cover TeamDetails
 
-    def test_find_raises_key_error_when_result_set_missing_name_key
+    def test_find_returns_nil_when_result_set_missing_name_key
       response = {resultSets: [{headers: detail_headers, rowSet: [detail_row]}]}
       stub_request(:get, /teamdetails/).to_return(body: response.to_json)
 
-      assert_raises(KeyError) { TeamDetails.find(team: Team::GSW) }
+      assert_nil TeamDetails.find(team: Team::GSW)
     end
 
-    def test_history_raises_key_error_when_result_set_missing_name_key
+    def test_history_returns_empty_when_result_set_missing_name_key
       response = {resultSets: [{headers: history_headers, rowSet: [history_row]}]}
       stub_request(:get, /teamdetails/).to_return(body: response.to_json)
 
-      assert_raises(KeyError) { TeamDetails.history(team: Team::GSW) }
+      assert_equal 0, TeamDetails.history(team: Team::GSW).size
     end
 
     private

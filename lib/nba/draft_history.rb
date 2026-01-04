@@ -229,10 +229,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash
     def self.find_result_set(data)
-      result_sets = data["resultSets"]
+      result_sets = data.fetch("resultSets", nil)
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name").eql?(DRAFT_HISTORY) }
+      result_sets.find { |rs| rs.fetch("name", nil).eql?(DRAFT_HISTORY) }
     end
     private_class_method :find_result_set
 
@@ -257,9 +257,9 @@ module NBA
     # @api private
     # @return [Hash] pick info attributes
     def self.pick_info_attributes(data)
-      {player_id: data.fetch("PERSON_ID"), season: data.fetch("SEASON"),
-       round_number: data.fetch("ROUND_NUMBER"), round_pick: data.fetch("ROUND_PICK"),
-       overall_pick: data.fetch("OVERALL_PICK"), draft_type: data.fetch("DRAFT_TYPE")}
+      {player_id: data.fetch("PERSON_ID", nil), season: data.fetch("SEASON", nil),
+       round_number: data.fetch("ROUND_NUMBER", nil), round_pick: data.fetch("ROUND_PICK", nil),
+       overall_pick: data.fetch("OVERALL_PICK", nil), draft_type: data.fetch("DRAFT_TYPE", nil)}
     end
     private_class_method :pick_info_attributes
 
@@ -267,8 +267,8 @@ module NBA
     # @api private
     # @return [Hash] team attributes
     def self.team_attributes(data)
-      {team_id: data.fetch("TEAM_ID"), team_city: data.fetch("TEAM_CITY"),
-       team_name: data.fetch("TEAM_NAME"), team_abbreviation: data.fetch("TEAM_ABBREVIATION")}
+      {team_id: data.fetch("TEAM_ID", nil), team_city: data.fetch("TEAM_CITY", nil),
+       team_name: data.fetch("TEAM_NAME", nil), team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil)}
     end
     private_class_method :team_attributes
 
@@ -276,9 +276,9 @@ module NBA
     # @api private
     # @return [Hash] player attributes
     def self.player_attributes(data)
-      {player_name: data.fetch("PLAYER_NAME"), position: data["POSITION"],
-       height: data["HEIGHT"], weight: data["WEIGHT"],
-       college: data.fetch("ORGANIZATION"), country: data["PLAYER_PROFILE_FLAG"]}
+      {player_name: data.fetch("PLAYER_NAME", nil), position: data.fetch("POSITION", nil),
+       height: data.fetch("HEIGHT", nil), weight: data.fetch("WEIGHT", nil),
+       college: data.fetch("ORGANIZATION", nil), country: data.fetch("PLAYER_PROFILE_FLAG", nil)}
     end
     private_class_method :player_attributes
 

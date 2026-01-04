@@ -406,6 +406,117 @@ defunct = NBA::FranchiseHistory.defunct
 defunct.size # => 15
 ```
 
+## TODO
+
+The following endpoints are not yet implemented:
+
+### Player Endpoints
+- [ ] PlayerCareerByCollege
+- [ ] PlayerCareerByCollegeRollup
+- [ ] PlayerDashboardByClutch
+- [ ] PlayerDashboardByGameSplits
+- [ ] PlayerDashboardByGeneralSplits
+- [ ] PlayerDashboardByLastNGames
+- [ ] PlayerDashboardByShootingSplits
+- [ ] PlayerDashboardByTeamPerformance
+- [ ] PlayerDashboardByYearOverYear
+- [ ] PlayerDashPtPass
+- [ ] PlayerDashPtReb
+- [ ] PlayerDashPtShotDefend
+- [ ] PlayerDashPtShots
+- [ ] PlayerEstimatedMetrics
+- [ ] PlayerFantasyProfileBarGraph
+- [ ] PlayerGameLogs (batch query)
+- [ ] PlayerGameStreakFinder
+- [ ] PlayerIndex
+- [ ] PlayerNextNGames
+- [ ] PlayerProfileV2
+- [ ] PlayerVsPlayer
+
+### Team Endpoints
+- [ ] TeamAndPlayersVsPlayers
+- [ ] TeamDashboardByGeneralSplits
+- [ ] TeamDashboardByShootingSplits
+- [ ] TeamDashLineups
+- [ ] TeamDashPtPass
+- [ ] TeamDashPtReb
+- [ ] TeamDashPtShots
+- [ ] TeamEstimatedMetrics
+- [ ] TeamGameLogs (batch query)
+- [ ] TeamGameStreakFinder
+- [ ] TeamHistoricalLeaders
+- [ ] TeamInfoCommon
+- [ ] TeamPlayerDashboard
+- [ ] TeamPlayerOnOffDetails
+- [ ] TeamPlayerOnOffSummary
+- [ ] TeamVsPlayer
+
+### League-Wide Endpoints
+- [ ] LeagueDashLineups
+- [ ] LeagueDashOppPtShot
+- [ ] LeagueDashPlayerBioStats
+- [ ] LeagueDashPlayerClutch
+- [ ] LeagueDashPlayerPtShot
+- [ ] LeagueDashPlayerShotLocations
+- [ ] LeagueDashPtDefend
+- [ ] LeagueDashPtStats
+- [ ] LeagueDashPtTeamDefend
+- [ ] LeagueDashTeamClutch
+- [ ] LeagueDashTeamPtShot
+- [ ] LeagueDashTeamShotLocations
+- [ ] LeagueLineupViz
+- [ ] LeaguePlayerOnDetails
+- [ ] LeagueSeasonMatchups
+- [ ] LeagueStandingsV3
+
+### Box Score Endpoints
+- [ ] BoxScoreDefensiveV2
+- [ ] BoxScoreMatchupsV3
+- [ ] BoxScoreSummaryV3
+
+### Draft Endpoints
+- [ ] DraftBoard
+- [ ] DraftCombineDrillResults
+- [ ] DraftCombineNonStationaryShooting
+- [ ] DraftCombinePlayerAnthro
+- [ ] DraftCombineSpotShooting
+- [ ] DraftCombineStats
+
+### Cumulative Stats Endpoints
+- [ ] CumeStatsPlayer
+- [ ] CumeStatsPlayerGames
+- [ ] CumeStatsTeam
+- [ ] CumeStatsTeamGames
+
+### Franchise Endpoints
+- [ ] FranchiseLeaders
+- [ ] FranchisePlayers
+
+### Video Endpoints
+- [ ] VideoDetails
+- [ ] VideoDetailsAsset
+- [ ] VideoEvents
+- [ ] VideoStatus
+
+### Other Endpoints
+- [ ] AssistLeaders
+- [ ] AssistTracker
+- [ ] DefenseHub
+- [ ] FantasyWidget
+- [ ] HomePageLeaders
+- [ ] HomePageV2
+- [ ] HustleStatsBoxScore
+- [ ] IstStandings (In-Season Tournament)
+- [ ] LeadersTiles
+- [ ] MatchupsRollup
+- [ ] PlayByPlayV3
+- [ ] PlayoffPicture
+- [ ] ScoreboardV3
+- [ ] ShotChartLineupDetail
+
+### Live Data Endpoints
+- [ ] Live Odds
+
 ## Development
 
 After checking out the repo, run `bundle install` to install dependencies.

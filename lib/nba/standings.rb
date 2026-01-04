@@ -45,8 +45,8 @@ module NBA
     # @api private
     # @return [Hash]
     def self.team_info(data)
-      {team_id: data.fetch("TeamID"), team_name: data.fetch("TeamName"),
-       conference: data["Conference"], division: data["Division"]}
+      {team_id: data.fetch("TeamID", nil), team_name: data.fetch("TeamName", nil),
+       conference: data.fetch("Conference", nil), division: data.fetch("Division", nil)}
     end
     private_class_method :team_info
 
@@ -54,9 +54,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.record_info(data)
-      {wins: data.fetch("WINS"), losses: data.fetch("LOSSES"), win_pct: data["WinPCT"],
-       conference_rank: parse_conference_rank(data["ConferenceRecord"], data["PlayoffRank"]),
-       home_record: data["HOME"], road_record: data["ROAD"], streak: data["strCurrentStreak"]}
+      {wins: data.fetch("WINS", nil), losses: data.fetch("LOSSES", nil), win_pct: data.fetch("WinPCT", nil),
+       conference_rank: parse_conference_rank(data.fetch("ConferenceRecord", nil), data.fetch("PlayoffRank", nil)),
+       home_record: data.fetch("HOME", nil), road_record: data.fetch("ROAD", nil), streak: data.fetch("strCurrentStreak", nil)}
     end
     private_class_method :record_info
 

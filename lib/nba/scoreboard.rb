@@ -49,10 +49,10 @@ module NBA
     # @param name [String] the result set name to find
     # @return [Hash, nil] the result set or nil
     def self.find_result_set(data, name)
-      result_sets = data.fetch("resultSets")
+      result_sets = data.fetch("resultSets", nil)
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name").eql?(name) }
+      result_sets.find { |rs| rs.fetch("name", nil).eql?(name) }
     end
     private_class_method :find_result_set
 
@@ -67,8 +67,8 @@ module NBA
       score_data = parse_result_set(line_score)
 
       header_data.map do |game_info|
-        game_id = game_info.fetch("GAME_ID")
-        team_scores = score_data.select { |s| s.fetch("GAME_ID").eql?(game_id) }
+        game_id = game_info.fetch("GAME_ID", nil)
+        team_scores = score_data.select { |s| s.fetch("GAME_ID", nil).eql?(game_id) }
         build_game(game_info, team_scores)
       end
     end
@@ -80,8 +80,8 @@ module NBA
     # @param result_set [Hash] the result set
     # @return [Array<Hash>] array of data hashes
     def self.parse_result_set(result_set)
-      headers = result_set.fetch("headers")
-      rows = result_set.fetch("rowSet")
+      headers = result_set.fetch("headers", nil)
+      rows = result_set.fetch("rowSet", nil)
       return [] unless headers && rows
 
       rows.map { |row| headers.zip(row).to_h }
@@ -107,13 +107,13 @@ module NBA
     # @return [Hash] the game attributes
     def self.game_attributes(info, scores)
       {
-        id: info.fetch("GAME_ID"), date: info.fetch("GAME_DATE_EST"),
-        status: game_status(info.fetch("GAME_STATUS_ID")),
-        home_team: find_team(info.fetch("HOME_TEAM_ID")),
-        away_team: find_team(info.fetch("VISITOR_TEAM_ID")),
-        home_score: find_score(scores, info.fetch("HOME_TEAM_ID")),
-        away_score: find_score(scores, info.fetch("VISITOR_TEAM_ID")),
-        arena: info.fetch("ARENA_NAME")
+        id: info.fetch("GAME_ID", nil), date: info.fetch("GAME_DATE_EST", nil),
+        status: game_status(info.fetch("GAME_STATUS_ID", nil)),
+        home_team: find_team(info.fetch("HOME_TEAM_ID", nil)),
+        away_team: find_team(info.fetch("VISITOR_TEAM_ID", nil)),
+        home_score: find_score(scores, info.fetch("HOME_TEAM_ID", nil)),
+        away_score: find_score(scores, info.fetch("VISITOR_TEAM_ID", nil)),
+        arena: info.fetch("ARENA_NAME", nil)
       }
     end
     private_class_method :game_attributes
@@ -125,7 +125,7 @@ module NBA
     # @param team_id [Integer] the team ID
     # @return [Integer, nil] the score
     def self.find_score(scores, team_id)
-      score_data = scores.find { |s| s.fetch("TEAM_ID").eql?(team_id) }
+      score_data = scores.find { |s| s.fetch("TEAM_ID", nil).eql?(team_id) }
       extract_score(score_data)
     end
     private_class_method :find_score
@@ -138,7 +138,7 @@ module NBA
     def self.extract_score(score_data)
       return unless score_data
 
-      score_data["PTS"]
+      score_data.fetch("PTS", nil)
     end
     private_class_method :extract_score
 

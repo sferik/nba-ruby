@@ -39,11 +39,11 @@ module NBA
       assert_raises(KeyError) { GameRotation.home_team(game: "001").first }
     end
 
-    def test_raises_key_error_when_result_set_name_missing
+    def test_returns_empty_when_result_set_name_missing
       response = {resultSets: [{headers: full_headers, rowSet: [full_row]}]}
       stub_request(:get, /gamerotation/).to_return(body: response.to_json)
 
-      assert_raises(KeyError) { GameRotation.home_team(game: "001") }
+      assert_equal 0, GameRotation.home_team(game: "001").size
     end
 
     def test_finds_correct_result_set_by_name

@@ -33,12 +33,12 @@ module NBA
     # @return [Game] the game object
     def self.build_game(data)
       Game.new(
-        id: data["GAME_ID"],
-        date: data["GAME_DATE_EST"],
-        status: GAME_STATUSES.fetch(data["GAME_STATUS_ID"], "Unknown"),
-        home_team: Teams.find(data["HOME_TEAM_ID"]),
-        away_team: Teams.find(data["VISITOR_TEAM_ID"]),
-        arena: data["ARENA"]
+        id: data.fetch("GAME_ID", nil),
+        date: data.fetch("GAME_DATE_EST", nil),
+        status: GAME_STATUSES.fetch(data.fetch("GAME_STATUS_ID", nil), "Unknown"),
+        home_team: Teams.find(data.fetch("HOME_TEAM_ID", nil)),
+        away_team: Teams.find(data.fetch("VISITOR_TEAM_ID", nil)),
+        arena: data.fetch("ARENA", nil)
       )
     end
     private_class_method :build_game

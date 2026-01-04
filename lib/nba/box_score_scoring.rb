@@ -63,9 +63,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.player_identity(data)
-      {game_id: data["GAME_ID"], team_id: data["TEAM_ID"], team_abbreviation: data["TEAM_ABBREVIATION"],
-       team_city: data["TEAM_CITY"], player_id: data["PLAYER_ID"], player_name: data["PLAYER_NAME"],
-       start_position: data["START_POSITION"], comment: data["COMMENT"], min: data["MIN"]}
+      {game_id: data.fetch("GAME_ID", nil), team_id: data.fetch("TEAM_ID", nil), team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil),
+       team_city: data.fetch("TEAM_CITY", nil), player_id: data.fetch("PLAYER_ID", nil), player_name: data.fetch("PLAYER_NAME", nil),
+       start_position: data.fetch("START_POSITION", nil), comment: data.fetch("COMMENT", nil), min: data.fetch("MIN", nil)}
     end
     private_class_method :player_identity
 
@@ -73,8 +73,8 @@ module NBA
     # @api private
     # @return [Hash]
     def self.team_identity(data)
-      {game_id: data["GAME_ID"], team_id: data["TEAM_ID"], team_name: data["TEAM_NAME"],
-       team_abbreviation: data["TEAM_ABBREVIATION"], team_city: data["TEAM_CITY"], min: data["MIN"]}
+      {game_id: data.fetch("GAME_ID", nil), team_id: data.fetch("TEAM_ID", nil), team_name: data.fetch("TEAM_NAME", nil),
+       team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil), team_city: data.fetch("TEAM_CITY", nil), min: data.fetch("MIN", nil)}
     end
     private_class_method :team_identity
 
@@ -82,11 +82,11 @@ module NBA
     # @api private
     # @return [Hash]
     def self.shot_distribution(data)
-      {pct_fga_2pt: data["PCT_FGA_2PT"], pct_fga_3pt: data["PCT_FGA_3PT"],
-       pct_pts_2pt: data["PCT_PTS_2PT"], pct_pts_2pt_mr: data["PCT_PTS_2PT_MR"],
-       pct_pts_3pt: data["PCT_PTS_3PT"], pct_pts_fb: data["PCT_PTS_FB"],
-       pct_pts_ft: data["PCT_PTS_FT"], pct_pts_off_tov: data["PCT_PTS_OFF_TOV"],
-       pct_pts_paint: data["PCT_PTS_PAINT"]}
+      {pct_fga_2pt: data.fetch("PCT_FGA_2PT", nil), pct_fga_3pt: data.fetch("PCT_FGA_3PT", nil),
+       pct_pts_2pt: data.fetch("PCT_PTS_2PT", nil), pct_pts_2pt_mr: data.fetch("PCT_PTS_2PT_MR", nil),
+       pct_pts_3pt: data.fetch("PCT_PTS_3PT", nil), pct_pts_fb: data.fetch("PCT_PTS_FB", nil),
+       pct_pts_ft: data.fetch("PCT_PTS_FT", nil), pct_pts_off_tov: data.fetch("PCT_PTS_OFF_TOV", nil),
+       pct_pts_paint: data.fetch("PCT_PTS_PAINT", nil)}
     end
     private_class_method :shot_distribution
 
@@ -94,9 +94,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.assist_stats(data)
-      {pct_ast_2pm: data["PCT_AST_2PM"], pct_uast_2pm: data["PCT_UAST_2PM"],
-       pct_ast_3pm: data["PCT_AST_3PM"], pct_uast_3pm: data["PCT_UAST_3PM"],
-       pct_ast_fgm: data["PCT_AST_FGM"], pct_uast_fgm: data["PCT_UAST_FGM"]}
+      {pct_ast_2pm: data.fetch("PCT_AST_2PM", nil), pct_uast_2pm: data.fetch("PCT_UAST_2PM", nil),
+       pct_ast_3pm: data.fetch("PCT_AST_3PM", nil), pct_uast_3pm: data.fetch("PCT_UAST_3PM", nil),
+       pct_ast_fgm: data.fetch("PCT_AST_FGM", nil), pct_uast_fgm: data.fetch("PCT_UAST_FGM", nil)}
     end
     private_class_method :assist_stats
   end

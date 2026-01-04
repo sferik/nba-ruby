@@ -47,6 +47,26 @@ module NBA
       assert_equal 0, CommonPlayoffSeries.all(season: 2024).size
     end
 
+    def test_returns_empty_when_result_set_name_key_missing
+      response = {resultSets: [{headers: series_headers, rowSet: [series_row]}]}
+      stub_request(:get, /commonplayoffseries/).to_return(body: response.to_json)
+
+      assert_equal 0, CommonPlayoffSeries.all(season: 2024).size
+    end
+
+    def test_skips_result_sets_with_missing_name_key
+      response = {resultSets: [
+        {headers: [], rowSet: []},
+        {name: "PlayoffSeries", headers: series_headers, rowSet: [series_row]}
+      ]}
+      stub_request(:get, /commonplayoffseries/).to_return(body: response.to_json)
+
+      series = CommonPlayoffSeries.all(season: 2024)
+
+      assert_equal 1, series.size
+      assert_equal "0042400101", series.first.game_id
+    end
+
     def test_returns_empty_when_no_headers
       response = {resultSets: [{name: "PlayoffSeries", headers: nil, rowSet: [[1]]}]}
       stub_request(:get, /commonplayoffseries/).to_return(body: response.to_json)

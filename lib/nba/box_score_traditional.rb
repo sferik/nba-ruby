@@ -62,9 +62,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.player_identity(data)
-      {game_id: data["GAME_ID"], team_id: data["TEAM_ID"], team_abbreviation: data["TEAM_ABBREVIATION"],
-       team_city: data["TEAM_CITY"], player_id: data["PLAYER_ID"], player_name: data["PLAYER_NAME"],
-       start_position: data["START_POSITION"], comment: data["COMMENT"], min: data["MIN"]}
+      {game_id: data.fetch("GAME_ID", nil), team_id: data.fetch("TEAM_ID", nil), team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil),
+       team_city: data.fetch("TEAM_CITY", nil), player_id: data.fetch("PLAYER_ID", nil), player_name: data.fetch("PLAYER_NAME", nil),
+       start_position: data.fetch("START_POSITION", nil), comment: data.fetch("COMMENT", nil), min: data.fetch("MIN", nil)}
     end
     private_class_method :player_identity
 
@@ -72,8 +72,8 @@ module NBA
     # @api private
     # @return [Hash]
     def self.team_identity(data)
-      {game_id: data["GAME_ID"], team_id: data["TEAM_ID"], team_name: data["TEAM_NAME"],
-       team_abbreviation: data["TEAM_ABBREVIATION"], team_city: data["TEAM_CITY"], min: data["MIN"]}
+      {game_id: data.fetch("GAME_ID", nil), team_id: data.fetch("TEAM_ID", nil), team_name: data.fetch("TEAM_NAME", nil),
+       team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil), team_city: data.fetch("TEAM_CITY", nil), min: data.fetch("MIN", nil)}
     end
     private_class_method :team_identity
 
@@ -81,8 +81,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.shooting_stats(data)
-      {fgm: data["FGM"], fga: data["FGA"], fg_pct: data["FG_PCT"], fg3m: data["FG3M"], fg3a: data["FG3A"],
-       fg3_pct: data["FG3_PCT"], ftm: data["FTM"], fta: data["FTA"], ft_pct: data["FT_PCT"]}
+      {fgm: data.fetch("FGM", nil), fga: data.fetch("FGA", nil), fg_pct: data.fetch("FG_PCT", nil),
+       fg3m: data.fetch("FG3M", nil), fg3a: data.fetch("FG3A", nil), fg3_pct: data.fetch("FG3_PCT", nil),
+       ftm: data.fetch("FTM", nil), fta: data.fetch("FTA", nil), ft_pct: data.fetch("FT_PCT", nil)}
     end
     private_class_method :shooting_stats
 
@@ -90,8 +91,10 @@ module NBA
     # @api private
     # @return [Hash]
     def self.counting_stats(data)
-      {oreb: data["OREB"], dreb: data["DREB"], reb: data["REB"], ast: data["AST"], stl: data["STL"],
-       blk: data["BLK"], tov: data["TO"], pf: data["PF"], pts: data["PTS"], plus_minus: data["PLUS_MINUS"]}
+      {oreb: data.fetch("OREB", nil), dreb: data.fetch("DREB", nil), reb: data.fetch("REB", nil),
+       ast: data.fetch("AST", nil), stl: data.fetch("STL", nil), blk: data.fetch("BLK", nil),
+       tov: data.fetch("TO", nil), pf: data.fetch("PF", nil), pts: data.fetch("PTS", nil),
+       plus_minus: data.fetch("PLUS_MINUS", nil)}
     end
     private_class_method :counting_stats
   end

@@ -4,6 +4,20 @@ module NBA
   class ConnectionErrorHandlingTest < Minitest::Test
     cover Connection
 
+    def test_get_raises_argument_error_for_uri_without_hostname
+      mock_uri = Minitest::Mock.new
+      mock_uri.expect(:hostname, nil)
+      mock_uri.expect(:to_s, "invalid://uri")
+
+      URI.stub(:join, mock_uri) do
+        connection = Connection.new
+        error = assert_raises(ArgumentError) { connection.get("test") }
+        assert_equal "Invalid URI: invalid://uri", error.message
+      end
+
+      mock_uri.verify
+    end
+
     def test_get_returns_nil_for_500_error
       stub_request(:get, "https://stats.nba.com/teams")
         .to_return(status: 500, body: "System.Net.WebException: Error", headers: {})

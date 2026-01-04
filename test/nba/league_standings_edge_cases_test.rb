@@ -47,6 +47,26 @@ module NBA
       assert_equal 0, LeagueStandings.all(season: 2024).size
     end
 
+    def test_returns_empty_when_result_set_name_key_missing
+      response = {resultSets: [{headers: standing_headers, rowSet: [standing_row]}]}
+      stub_request(:get, /leaguestandingsv3/).to_return(body: response.to_json)
+
+      assert_equal 0, LeagueStandings.all(season: 2024).size
+    end
+
+    def test_skips_result_sets_with_missing_name_key
+      response = {resultSets: [
+        {headers: [], rowSet: []},
+        {name: "Standings", headers: standing_headers, rowSet: [standing_row]}
+      ]}
+      stub_request(:get, /leaguestandingsv3/).to_return(body: response.to_json)
+
+      standings = LeagueStandings.all(season: 2024)
+
+      assert_equal 1, standings.size
+      assert_equal Team::GSW, standings.first.team_id
+    end
+
     def test_finds_standings_result_set_when_not_first
       response = {resultSets: [
         {name: "Other", headers: [], rowSet: []},

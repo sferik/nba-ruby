@@ -86,8 +86,8 @@ module NBA
       result_set = find_result_set(data)
       return Collection.new unless result_set
 
-      headers = result_set["headers"]
-      rows = result_set["rowSet"]
+      headers = result_set.fetch("headers", nil)
+      rows = result_set.fetch("rowSet", nil)
       return Collection.new unless headers && rows
 
       logs = rows.map { |row| build_game_log(headers, row) }
@@ -122,10 +122,10 @@ module NBA
     # @param data [Hash] the parsed JSON data
     # @return [Hash, nil] the result set
     def self.find_result_set(data)
-      result_sets = data["resultSets"]
+      result_sets = data.fetch("resultSets", nil)
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name").eql?(LEAGUE_GAME_LOG) }
+      result_sets.find { |rs| rs.fetch("name", nil).eql?(LEAGUE_GAME_LOG) }
     end
     private_class_method :find_result_set
 

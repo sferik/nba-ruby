@@ -47,7 +47,7 @@ module NBA
       result = find_result_set(data, result_set)
       return unless result
 
-      headers = result["headers"]
+      headers = result.fetch("headers", nil)
       row = result.dig("rowSet", 0)
       return unless headers && row
 
@@ -86,11 +86,11 @@ module NBA
     # @param name [String, nil] the result set name (nil for first)
     # @return [Hash, nil] the result set or nil
     def self.find_result_set(data, name)
-      result_sets = data["resultSets"]
+      result_sets = data.fetch("resultSets", nil)
       return unless result_sets
 
       if name
-        result_sets.find { |rs| rs["name"].eql?(name) }
+        result_sets.find { |rs| rs.fetch("name", nil).eql?(name) }
       else
         result_sets.first
       end
@@ -104,8 +104,8 @@ module NBA
     # @yield [Hash] yields each row as a hash
     # @return [Collection] a collection of objects
     def self.build_collection(result)
-      headers = result["headers"]
-      rows = result["rowSet"]
+      headers = result.fetch("headers", nil)
+      rows = result.fetch("rowSet", nil)
       return Collection.new unless headers && rows
 
       objects = rows.map { |row| yield zip_to_hash(headers, row) }

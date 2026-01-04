@@ -4,11 +4,11 @@ module NBA
   class LeagueGameLogPlayerMissingKeyTest < Minitest::Test
     cover LeagueGameLog
 
-    def test_player_logs_raises_key_error_when_name_key_missing
+    def test_player_logs_returns_empty_when_name_key_missing
       response = {resultSets: [{headers: player_log_headers, rowSet: [player_log_row]}]}
       stub_request(:get, /leaguegamelog/).to_return(body: response.to_json)
 
-      assert_raises(KeyError) { LeagueGameLog.player_logs(season: 2024) }
+      assert_equal 0, LeagueGameLog.player_logs(season: 2024).size
     end
 
     def test_player_logs_raises_key_error_when_season_id_missing

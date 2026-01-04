@@ -39,8 +39,8 @@ module NBA
     # @api private
     # @return [Hash]
     def self.identity_info(data)
-      {game_id: data["GAME_ID"], game_event_id: data["GAME_EVENT_ID"], player_id: data["PLAYER_ID"],
-       player_name: data["PLAYER_NAME"], team_id: data["TEAM_ID"], team_name: data["TEAM_NAME"]}
+      {game_id: data.fetch("GAME_ID", nil), game_event_id: data.fetch("GAME_EVENT_ID", nil), player_id: data.fetch("PLAYER_ID", nil),
+       player_name: data.fetch("PLAYER_NAME", nil), team_id: data.fetch("TEAM_ID", nil), team_name: data.fetch("TEAM_NAME", nil)}
     end
     private_class_method :identity_info
 
@@ -48,8 +48,8 @@ module NBA
     # @api private
     # @return [Hash]
     def self.timing_info(data)
-      {period: data["PERIOD"], minutes_remaining: data["MINUTES_REMAINING"],
-       seconds_remaining: data["SECONDS_REMAINING"]}
+      {period: data.fetch("PERIOD", nil), minutes_remaining: data.fetch("MINUTES_REMAINING", nil),
+       seconds_remaining: data.fetch("SECONDS_REMAINING", nil)}
     end
     private_class_method :timing_info
 
@@ -57,10 +57,10 @@ module NBA
     # @api private
     # @return [Hash]
     def self.shot_info(data)
-      {action_type: data["ACTION_TYPE"], shot_type: data["SHOT_TYPE"], shot_zone_basic: data["SHOT_ZONE_BASIC"],
-       shot_zone_area: data["SHOT_ZONE_AREA"], shot_zone_range: data["SHOT_ZONE_RANGE"],
-       shot_distance: data["SHOT_DISTANCE"], shot_attempted_flag: data["SHOT_ATTEMPTED_FLAG"],
-       shot_made_flag: data["SHOT_MADE_FLAG"]}
+      {action_type: data.fetch("ACTION_TYPE", nil), shot_type: data.fetch("SHOT_TYPE", nil),
+       shot_zone_basic: data.fetch("SHOT_ZONE_BASIC", nil), shot_zone_area: data.fetch("SHOT_ZONE_AREA", nil),
+       shot_zone_range: data.fetch("SHOT_ZONE_RANGE", nil), shot_distance: data.fetch("SHOT_DISTANCE", nil),
+       shot_attempted_flag: data.fetch("SHOT_ATTEMPTED_FLAG", nil), shot_made_flag: data.fetch("SHOT_MADE_FLAG", nil)}
     end
     private_class_method :shot_info
 
@@ -68,7 +68,7 @@ module NBA
     # @api private
     # @return [Hash]
     def self.location_info(data)
-      {loc_x: data["LOC_X"], loc_y: data["LOC_Y"]}
+      {loc_x: data.fetch("LOC_X", nil), loc_y: data.fetch("LOC_Y", nil)}
     end
     private_class_method :location_info
   end
