@@ -1,4 +1,8 @@
-# NBA Ruby
+# NBA Gem
+
+<p align="center">
+  <img src="logo.png" alt="NBA Gem Logo">
+</p>
 
 [![Tests](https://github.com/sferik/nba-ruby/actions/workflows/test.yml/badge.svg)](https://github.com/sferik/nba-ruby/actions/workflows/test.yml)
 [![Linter](https://github.com/sferik/nba-ruby/actions/workflows/lint.yml/badge.svg)](https://github.com/sferik/nba-ruby/actions/workflows/lint.yml)
