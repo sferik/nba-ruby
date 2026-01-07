@@ -3,6 +3,8 @@ require "shale"
 
 module NBA
   # Represents a single game log entry for a player or team
+  #
+  # @api public
   class GameLog < Shale::Mapper
     include Equalizer.new(:game_id, :player_id)
 
@@ -10,7 +12,7 @@ module NBA
     #   Returns the season ID
     #   @api public
     #   @example
-    #     game_log.season_id #=> "22024"
+    #     log.season_id #=> "22024"
     #   @return [String] the season ID
     attribute :season_id, Shale::Type::String
 
@@ -18,15 +20,47 @@ module NBA
     #   Returns the player ID
     #   @api public
     #   @example
-    #     game_log.player_id #=> 201939
+    #     log.player_id #=> 201939
     #   @return [Integer] the player ID
     attribute :player_id, Shale::Type::Integer
+
+    # @!attribute [rw] player_name
+    #   Returns the player name
+    #   @api public
+    #   @example
+    #     log.player_name #=> "Stephen Curry"
+    #   @return [String] the player name
+    attribute :player_name, Shale::Type::String
+
+    # @!attribute [rw] team_id
+    #   Returns the team ID
+    #   @api public
+    #   @example
+    #     log.team_id #=> 1610612744
+    #   @return [Integer] the team ID
+    attribute :team_id, Shale::Type::Integer
+
+    # @!attribute [rw] team_abbreviation
+    #   Returns the team abbreviation
+    #   @api public
+    #   @example
+    #     log.team_abbreviation #=> "GSW"
+    #   @return [String] the team abbreviation
+    attribute :team_abbreviation, Shale::Type::String
+
+    # @!attribute [rw] team_name
+    #   Returns the team name
+    #   @api public
+    #   @example
+    #     log.team_name #=> "Warriors"
+    #   @return [String] the team name
+    attribute :team_name, Shale::Type::String
 
     # @!attribute [rw] game_id
     #   Returns the game ID
     #   @api public
     #   @example
-    #     game_log.game_id #=> "0022400001"
+    #     log.game_id #=> "0022400001"
     #   @return [String] the game ID
     attribute :game_id, Shale::Type::String
 
@@ -34,7 +68,7 @@ module NBA
     #   Returns the game date
     #   @api public
     #   @example
-    #     game_log.game_date #=> "OCT 22, 2024"
+    #     log.game_date #=> "OCT 22, 2024"
     #   @return [String] the game date
     attribute :game_date, Shale::Type::String
 
@@ -42,175 +76,175 @@ module NBA
     #   Returns the matchup description
     #   @api public
     #   @example
-    #     game_log.matchup #=> "GSW vs. LAL"
+    #     log.matchup #=> "GSW vs. LAL"
     #   @return [String] the matchup
     attribute :matchup, Shale::Type::String
 
     # @!attribute [rw] wl
-    #   Returns the win/loss result
+    #   Returns the win/loss indicator
     #   @api public
     #   @example
-    #     game_log.wl #=> "W"
-    #   @return [String] the win/loss indicator
+    #     log.wl #=> "W"
+    #   @return [String] W for win, L for loss
     attribute :wl, Shale::Type::String
 
     # @!attribute [rw] min
     #   Returns the minutes played
     #   @api public
     #   @example
-    #     game_log.min #=> 36
+    #     log.min #=> 34
     #   @return [Integer] the minutes played
     attribute :min, Shale::Type::Integer
 
     # @!attribute [rw] fgm
-    #   Returns field goals made
+    #   Returns the field goals made
     #   @api public
     #   @example
-    #     game_log.fgm #=> 10
+    #     log.fgm #=> 10
     #   @return [Integer] field goals made
     attribute :fgm, Shale::Type::Integer
 
     # @!attribute [rw] fga
-    #   Returns field goals attempted
+    #   Returns the field goals attempted
     #   @api public
     #   @example
-    #     game_log.fga #=> 20
+    #     log.fga #=> 20
     #   @return [Integer] field goals attempted
     attribute :fga, Shale::Type::Integer
 
     # @!attribute [rw] fg_pct
-    #   Returns field goal percentage
+    #   Returns the field goal percentage
     #   @api public
     #   @example
-    #     game_log.fg_pct #=> 0.5
+    #     log.fg_pct #=> 0.500
     #   @return [Float] field goal percentage
     attribute :fg_pct, Shale::Type::Float
 
     # @!attribute [rw] fg3m
-    #   Returns three-pointers made
+    #   Returns the three-pointers made
     #   @api public
     #   @example
-    #     game_log.fg3m #=> 4
+    #     log.fg3m #=> 5
     #   @return [Integer] three-pointers made
     attribute :fg3m, Shale::Type::Integer
 
     # @!attribute [rw] fg3a
-    #   Returns three-pointers attempted
+    #   Returns the three-pointers attempted
     #   @api public
     #   @example
-    #     game_log.fg3a #=> 10
+    #     log.fg3a #=> 10
     #   @return [Integer] three-pointers attempted
     attribute :fg3a, Shale::Type::Integer
 
     # @!attribute [rw] fg3_pct
-    #   Returns three-point percentage
+    #   Returns the three-point percentage
     #   @api public
     #   @example
-    #     game_log.fg3_pct #=> 0.4
+    #     log.fg3_pct #=> 0.500
     #   @return [Float] three-point percentage
     attribute :fg3_pct, Shale::Type::Float
 
     # @!attribute [rw] ftm
-    #   Returns free throws made
+    #   Returns the free throws made
     #   @api public
     #   @example
-    #     game_log.ftm #=> 5
+    #     log.ftm #=> 5
     #   @return [Integer] free throws made
     attribute :ftm, Shale::Type::Integer
 
     # @!attribute [rw] fta
-    #   Returns free throws attempted
+    #   Returns the free throws attempted
     #   @api public
     #   @example
-    #     game_log.fta #=> 6
+    #     log.fta #=> 6
     #   @return [Integer] free throws attempted
     attribute :fta, Shale::Type::Integer
 
     # @!attribute [rw] ft_pct
-    #   Returns free throw percentage
+    #   Returns the free throw percentage
     #   @api public
     #   @example
-    #     game_log.ft_pct #=> 0.833
+    #     log.ft_pct #=> 0.833
     #   @return [Float] free throw percentage
     attribute :ft_pct, Shale::Type::Float
 
     # @!attribute [rw] oreb
-    #   Returns offensive rebounds
+    #   Returns the offensive rebounds
     #   @api public
     #   @example
-    #     game_log.oreb #=> 2
+    #     log.oreb #=> 1
     #   @return [Integer] offensive rebounds
     attribute :oreb, Shale::Type::Integer
 
     # @!attribute [rw] dreb
-    #   Returns defensive rebounds
+    #   Returns the defensive rebounds
     #   @api public
     #   @example
-    #     game_log.dreb #=> 5
+    #     log.dreb #=> 5
     #   @return [Integer] defensive rebounds
     attribute :dreb, Shale::Type::Integer
 
     # @!attribute [rw] reb
-    #   Returns total rebounds
+    #   Returns the total rebounds
     #   @api public
     #   @example
-    #     game_log.reb #=> 7
+    #     log.reb #=> 6
     #   @return [Integer] total rebounds
     attribute :reb, Shale::Type::Integer
 
     # @!attribute [rw] ast
-    #   Returns assists
+    #   Returns the assists
     #   @api public
     #   @example
-    #     game_log.ast #=> 10
+    #     log.ast #=> 8
     #   @return [Integer] assists
     attribute :ast, Shale::Type::Integer
 
     # @!attribute [rw] stl
-    #   Returns steals
+    #   Returns the steals
     #   @api public
     #   @example
-    #     game_log.stl #=> 2
+    #     log.stl #=> 2
     #   @return [Integer] steals
     attribute :stl, Shale::Type::Integer
 
     # @!attribute [rw] blk
-    #   Returns blocks
+    #   Returns the blocks
     #   @api public
     #   @example
-    #     game_log.blk #=> 1
+    #     log.blk #=> 0
     #   @return [Integer] blocks
     attribute :blk, Shale::Type::Integer
 
     # @!attribute [rw] tov
-    #   Returns turnovers
+    #   Returns the turnovers
     #   @api public
     #   @example
-    #     game_log.tov #=> 3
+    #     log.tov #=> 3
     #   @return [Integer] turnovers
     attribute :tov, Shale::Type::Integer
 
     # @!attribute [rw] pf
-    #   Returns personal fouls
+    #   Returns the personal fouls
     #   @api public
     #   @example
-    #     game_log.pf #=> 2
+    #     log.pf #=> 2
     #   @return [Integer] personal fouls
     attribute :pf, Shale::Type::Integer
 
     # @!attribute [rw] pts
-    #   Returns points
+    #   Returns the points scored
     #   @api public
     #   @example
-    #     game_log.pts #=> 30
+    #     log.pts #=> 30
     #   @return [Integer] points
     attribute :pts, Shale::Type::Integer
 
     # @!attribute [rw] plus_minus
-    #   Returns plus/minus
+    #   Returns the plus/minus
     #   @api public
     #   @example
-    #     game_log.plus_minus #=> 12
+    #     log.plus_minus #=> 15
     #   @return [Integer] plus/minus
     attribute :plus_minus, Shale::Type::Integer
 
@@ -218,41 +252,33 @@ module NBA
     #
     # @api public
     # @example
-    #   game_log.win? #=> true
-    # @return [Boolean] whether the game was a win
-    def win?
-      wl.eql?("W")
-    end
+    #   log.win? #=> true
+    # @return [Boolean] true if the game was a win
+    def win? = wl.eql?("W")
 
     # Returns whether the game was a loss
     #
     # @api public
     # @example
-    #   game_log.loss? #=> false
-    # @return [Boolean] whether the game was a loss
-    def loss?
-      wl.eql?("L")
-    end
+    #   log.loss? #=> false
+    # @return [Boolean] true if the game was a loss
+    def loss? = wl.eql?("L")
 
     # Returns the game object for this log entry
     #
     # @api public
     # @example
-    #   game_log.game #=> #<NBA::Game>
+    #   log.game #=> #<NBA::Game>
     # @return [Game, nil] the game object
-    def game
-      Games.find(game_id)
-    end
+    def game = Games.find(game_id)
 
     # Returns the player object for this log entry
     #
     # @api public
     # @example
-    #   game_log.player #=> #<NBA::Player>
+    #   log.player #=> #<NBA::Player>
     # @return [Player, nil] the player object
-    def player
-      Players.find(player_id)
-    end
+    def player = Players.find(player_id)
 
     # rubocop:disable Metrics/BlockLength
     json do
@@ -260,6 +286,15 @@ module NBA
       map "SEASON_ID", to: :season_id
       map "player_id", to: :player_id
       map "Player_ID", to: :player_id
+      map "PLAYER_ID", to: :player_id
+      map "player_name", to: :player_name
+      map "PLAYER_NAME", to: :player_name
+      map "team_id", to: :team_id
+      map "TEAM_ID", to: :team_id
+      map "team_abbreviation", to: :team_abbreviation
+      map "TEAM_ABBREVIATION", to: :team_abbreviation
+      map "team_name", to: :team_name
+      map "TEAM_NAME", to: :team_name
       map "game_id", to: :game_id
       map "Game_ID", to: :game_id
       map "game_date", to: :game_date

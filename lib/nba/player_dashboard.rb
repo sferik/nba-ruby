@@ -369,6 +369,22 @@ module NBA
       fetch_dashboard(player, season, season_type, per_mode, "playerdashboardbyyearoveryear", client: client)
     end
 
+    # Retrieves player dashboard by team performance
+    #
+    # @api public
+    # @example
+    #   stats = NBA::PlayerDashboard.team_performance(player: 201939)
+    #   stats.each { |s| puts "#{s.group_value}: #{s.pts} ppg" }
+    # @param player [Integer, Player] the player ID or Player object
+    # @param season [Integer] the season year
+    # @param season_type [String] the season type
+    # @param per_mode [String] the per mode
+    # @param client [Client] the API client to use
+    # @return [Collection] a collection of dashboard stats
+    def self.team_performance(player:, season: Utils.current_season, season_type: REGULAR_SEASON, per_mode: PER_GAME, client: CLIENT)
+      fetch_dashboard(player, season, season_type, per_mode, "playerdashboardbyteamperformance", client: client)
+    end
+
     # Fetches dashboard data from the API
     #
     # @api private
