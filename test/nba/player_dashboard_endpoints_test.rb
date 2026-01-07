@@ -40,6 +40,12 @@ module NBA
       assert_instance_of Collection, PlayerDashboard.year_over_year(player: 201_939)
     end
 
+    def test_team_performance_returns_collection
+      stub_dashboard_request("playerdashboardbyteamperformance")
+
+      assert_instance_of Collection, PlayerDashboard.team_performance(player: 201_939)
+    end
+
     private
 
     def stub_dashboard_request(endpoint)

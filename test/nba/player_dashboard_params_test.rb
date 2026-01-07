@@ -93,6 +93,14 @@ module NBA
       assert_requested :get, /playerdashboardbyyearoveryear.*PerMode=PerGame/
     end
 
+    def test_team_performance_uses_defaults
+      stub_request(:get, /playerdashboardbyteamperformance.*SeasonType=Regular(%20|\+)Season/)
+        .to_return(body: dashboard_response.to_json)
+      PlayerDashboard.team_performance(player: 201_939)
+
+      assert_requested :get, /playerdashboardbyteamperformance.*PerMode=PerGame/
+    end
+
     private
 
     def dashboard_response

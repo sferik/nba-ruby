@@ -414,29 +414,6 @@ defunct.size # => 15
 
 The following endpoints are not yet implemented:
 
-### Player Endpoints
-- [ ] PlayerCareerByCollege
-- [ ] PlayerCareerByCollegeRollup
-- [ ] PlayerDashboardByClutch
-- [ ] PlayerDashboardByGameSplits
-- [ ] PlayerDashboardByGeneralSplits
-- [ ] PlayerDashboardByLastNGames
-- [ ] PlayerDashboardByShootingSplits
-- [ ] PlayerDashboardByTeamPerformance
-- [ ] PlayerDashboardByYearOverYear
-- [ ] PlayerDashPtPass
-- [ ] PlayerDashPtReb
-- [ ] PlayerDashPtShotDefend
-- [ ] PlayerDashPtShots
-- [ ] PlayerEstimatedMetrics
-- [ ] PlayerFantasyProfileBarGraph
-- [ ] PlayerGameLogs (batch query)
-- [ ] PlayerGameStreakFinder
-- [ ] PlayerIndex
-- [ ] PlayerNextNGames
-- [ ] PlayerProfileV2
-- [ ] PlayerVsPlayer
-
 ### Team Endpoints
 - [ ] TeamAndPlayersVsPlayers
 - [ ] TeamDashboardByGeneralSplits
