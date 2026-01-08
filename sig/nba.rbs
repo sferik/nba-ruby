@@ -4194,4 +4194,807 @@ module NBA
     def self.identity_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
     def self.stat_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
   end
+
+  class LeagueDashPlayerClutchStat < Shale::Mapper
+    attr_accessor player_id: Integer?
+    attr_accessor player_name: String?
+    attr_accessor team_id: Integer?
+    attr_accessor team_abbreviation: String?
+    attr_accessor season_id: String?
+    attr_accessor age: Integer?
+    attr_accessor gp: Integer?
+    attr_accessor w: Integer?
+    attr_accessor l: Integer?
+    attr_accessor w_pct: Float?
+    attr_accessor min: Float?
+    attr_accessor fgm: Float?
+    attr_accessor fga: Float?
+    attr_accessor fg_pct: Float?
+    attr_accessor fg3m: Float?
+    attr_accessor fg3a: Float?
+    attr_accessor fg3_pct: Float?
+    attr_accessor ftm: Float?
+    attr_accessor fta: Float?
+    attr_accessor ft_pct: Float?
+    attr_accessor oreb: Float?
+    attr_accessor dreb: Float?
+    attr_accessor reb: Float?
+    attr_accessor ast: Float?
+    attr_accessor tov: Float?
+    attr_accessor stl: Float?
+    attr_accessor blk: Float?
+    attr_accessor pf: Float?
+    attr_accessor pts: Float?
+    attr_accessor plus_minus: Float?
+
+    def initialize: (**untyped) -> void
+    def player: () -> Player?
+    def team: () -> Team?
+  end
+
+  module LeagueDashPlayerClutch
+    LEAGUE_DASH_PLAYER_CLUTCH: String
+    REGULAR_SEASON: String
+    PLAYOFFS: String
+    PER_GAME: String
+    TOTALS: String
+    PER_36: String
+    LAST_5_MINUTES: String
+    LAST_4_MINUTES: String
+    LAST_3_MINUTES: String
+    LAST_2_MINUTES: String
+    LAST_1_MINUTE: String
+    AHEAD_OR_BEHIND: String
+    BEHIND_OR_TIED: String
+    AHEAD_OR_TIED: String
+
+    def self.all: (?season: Integer, ?season_type: String, ?clutch_time: String, ?ahead_behind: String, ?point_diff: Integer, ?per_mode: String, ?client: Client) -> Collection
+
+    private
+
+    def self.build_path: (Integer season, Hash[Symbol, untyped] opts) -> String
+    def self.parse_response: (String? response, Integer season) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data) -> Hash[String, untyped]?
+    def self.build_stats: (Hash[String, untyped] result_set, String season_id) -> Collection
+    def self.build_stat: (Array[String] headers, Array[untyped] row, String season_id) -> LeagueDashPlayerClutchStat
+    def self.stat_attributes: (Hash[String, untyped] data, String season_id) -> Hash[Symbol, untyped]
+    def self.identity_attributes: (Hash[String, untyped] data, String season_id) -> Hash[Symbol, untyped]
+    def self.shooting_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.counting_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+  end
+
+  class LeagueDashTeamClutchStat < Shale::Mapper
+    attr_accessor team_id: Integer?
+    attr_accessor team_name: String?
+    attr_accessor season_id: String?
+    attr_accessor gp: Integer?
+    attr_accessor w: Integer?
+    attr_accessor l: Integer?
+    attr_accessor w_pct: Float?
+    attr_accessor min: Float?
+    attr_accessor fgm: Float?
+    attr_accessor fga: Float?
+    attr_accessor fg_pct: Float?
+    attr_accessor fg3m: Float?
+    attr_accessor fg3a: Float?
+    attr_accessor fg3_pct: Float?
+    attr_accessor ftm: Float?
+    attr_accessor fta: Float?
+    attr_accessor ft_pct: Float?
+    attr_accessor oreb: Float?
+    attr_accessor dreb: Float?
+    attr_accessor reb: Float?
+    attr_accessor ast: Float?
+    attr_accessor tov: Float?
+    attr_accessor stl: Float?
+    attr_accessor blk: Float?
+    attr_accessor pf: Float?
+    attr_accessor pts: Float?
+    attr_accessor plus_minus: Float?
+
+    def initialize: (**untyped) -> void
+    def team: () -> Team?
+  end
+
+  module LeagueDashTeamClutch
+    LEAGUE_DASH_TEAM_CLUTCH: String
+    REGULAR_SEASON: String
+    PLAYOFFS: String
+    PER_GAME: String
+    TOTALS: String
+    PER_100: String
+    LAST_5_MINUTES: String
+    LAST_4_MINUTES: String
+    LAST_3_MINUTES: String
+    LAST_2_MINUTES: String
+    LAST_1_MINUTE: String
+    AHEAD_OR_BEHIND: String
+    BEHIND_OR_TIED: String
+    AHEAD_OR_TIED: String
+
+    def self.all: (?season: Integer, ?season_type: String, ?clutch_time: String, ?ahead_behind: String, ?point_diff: Integer, ?per_mode: String, ?client: Client) -> Collection
+
+    private
+
+    def self.build_path: (Integer season, Hash[Symbol, untyped] opts) -> String
+    def self.parse_response: (String? response, Integer season) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data) -> Hash[String, untyped]?
+    def self.build_stats: (Hash[String, untyped] result_set, String season_id) -> Collection
+    def self.build_stat: (Array[String] headers, Array[untyped] row, String season_id) -> LeagueDashTeamClutchStat
+    def self.stat_attributes: (Hash[String, untyped] data, String season_id) -> Hash[Symbol, untyped]
+    def self.identity_attributes: (Hash[String, untyped] data, String season_id) -> Hash[Symbol, untyped]
+    def self.shooting_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.counting_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+  end
+
+  class LeagueDashPlayerPtShotStat < Shale::Mapper
+    attr_accessor player_id: Integer?
+    attr_accessor player_name: String?
+    attr_accessor player_last_team_id: Integer?
+    attr_accessor player_last_team_abbreviation: String?
+    attr_accessor age: Float?
+    attr_accessor gp: Integer?
+    attr_accessor g: Integer?
+    attr_accessor fga_frequency: Float?
+    attr_accessor fgm: Float?
+    attr_accessor fga: Float?
+    attr_accessor fg_pct: Float?
+    attr_accessor efg_pct: Float?
+    attr_accessor fg2a_frequency: Float?
+    attr_accessor fg2m: Float?
+    attr_accessor fg2a: Float?
+    attr_accessor fg2_pct: Float?
+    attr_accessor fg3a_frequency: Float?
+    attr_accessor fg3m: Float?
+    attr_accessor fg3a: Float?
+    attr_accessor fg3_pct: Float?
+
+    def initialize: (**untyped) -> void
+    def player: () -> Player?
+    def team: () -> Team?
+  end
+
+  module LeagueDashPlayerPtShot
+    LEAGUE_DASH_PT_SHOTS: String
+    REGULAR_SEASON: String
+    PLAYOFFS: String
+    PER_GAME: String
+    TOTALS: String
+
+    def self.all: (?season: Integer, ?season_type: String, ?per_mode: String, ?client: Client) -> Collection
+
+    private
+
+    def self.build_path: (Integer season, Hash[Symbol, String] opts) -> String
+    def self.parse_response: (String? response) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data) -> Hash[String, untyped]?
+    def self.build_stats: (Hash[String, untyped]? result_set) -> Collection
+    def self.build_stat: (Hash[String, untyped] data) -> LeagueDashPlayerPtShotStat
+    def self.identity_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.shooting_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.two_point_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.three_point_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+  end
+
+  class LeagueDashTeamPtShotStat < Shale::Mapper
+    attr_accessor team_id: Integer?
+    attr_accessor team_name: String?
+    attr_accessor team_abbreviation: String?
+    attr_accessor gp: Integer?
+    attr_accessor g: Integer?
+    attr_accessor fga_frequency: Float?
+    attr_accessor fgm: Float?
+    attr_accessor fga: Float?
+    attr_accessor fg_pct: Float?
+    attr_accessor efg_pct: Float?
+    attr_accessor fg2a_frequency: Float?
+    attr_accessor fg2m: Float?
+    attr_accessor fg2a: Float?
+    attr_accessor fg2_pct: Float?
+    attr_accessor fg3a_frequency: Float?
+    attr_accessor fg3m: Float?
+    attr_accessor fg3a: Float?
+    attr_accessor fg3_pct: Float?
+
+    def initialize: (**untyped) -> void
+    def team: () -> Team?
+  end
+
+  module LeagueDashTeamPtShot
+    LEAGUE_DASH_PT_SHOTS: String
+    REGULAR_SEASON: String
+    PLAYOFFS: String
+    PER_GAME: String
+    TOTALS: String
+
+    def self.all: (?season: Integer, ?season_type: String, ?per_mode: String, ?client: Client) -> Collection
+
+    private
+
+    def self.build_path: (Integer season, Hash[Symbol, String] opts) -> String
+    def self.parse_response: (String? response) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data) -> Hash[String, untyped]?
+    def self.build_stats: (Hash[String, untyped]? result_set) -> Collection
+    def self.build_stat: (Hash[String, untyped] data) -> LeagueDashTeamPtShotStat
+    def self.identity_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.shooting_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.two_point_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.three_point_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+  end
+
+  module LeagueDashOppPtShot
+    LEAGUE_DASH_PT_SHOTS: String
+    REGULAR_SEASON: String
+    PLAYOFFS: String
+    PER_GAME: String
+    TOTALS: String
+
+    def self.all: (?season: Integer, ?season_type: String, ?per_mode: String, ?client: Client) -> Collection
+
+    private
+
+    def self.build_path: (Integer season, Hash[Symbol, String] opts) -> String
+    def self.parse_response: (String? response) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data) -> Hash[String, untyped]?
+    def self.build_stats: (Hash[String, untyped]? result_set) -> Collection
+    def self.build_stat: (Hash[String, untyped] data) -> LeagueDashTeamPtShotStat
+    def self.identity_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.shooting_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.two_point_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.three_point_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+  end
+
+  class LeagueDashPlayerBioStat < Shale::Mapper
+    attr_accessor player_id: Integer?
+    attr_accessor player_name: String?
+    attr_accessor team_id: Integer?
+    attr_accessor team_abbreviation: String?
+    attr_accessor age: Float?
+    attr_accessor player_height: String?
+    attr_accessor player_height_inches: Integer?
+    attr_accessor player_weight: Integer?
+    attr_accessor college: String?
+    attr_accessor country: String?
+    attr_accessor draft_year: String?
+    attr_accessor draft_round: String?
+    attr_accessor draft_number: String?
+    attr_accessor gp: Integer?
+    attr_accessor pts: Float?
+    attr_accessor reb: Float?
+    attr_accessor ast: Float?
+    attr_accessor net_rating: Float?
+    attr_accessor oreb_pct: Float?
+    attr_accessor dreb_pct: Float?
+    attr_accessor usg_pct: Float?
+    attr_accessor ts_pct: Float?
+    attr_accessor ast_pct: Float?
+
+    def initialize: (**untyped) -> void
+    def player: () -> Player?
+    def team: () -> Team?
+  end
+
+  module LeagueDashPlayerBioStats
+    LEAGUE_DASH_PLAYER_BIO_STATS: String
+    REGULAR_SEASON: String
+    PLAYOFFS: String
+    PER_GAME: String
+    TOTALS: String
+
+    def self.all: (?season: Integer, ?season_type: String, ?per_mode: String, ?client: Client) -> Collection
+
+    private
+
+    def self.build_path: (Integer season, Hash[Symbol, String] opts) -> String
+    def self.parse_response: (String? response) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data) -> Hash[String, untyped]?
+    def self.build_stats: (Hash[String, untyped]? result_set) -> Collection
+    def self.build_stat: (Hash[String, untyped] data) -> LeagueDashPlayerBioStat
+    def self.identity_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.physical_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.draft_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.stat_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.advanced_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+  end
+
+  class LeagueDashLineupStat < Shale::Mapper
+    attr_accessor group_set: String?
+    attr_accessor group_id: String?
+    attr_accessor group_name: String?
+    attr_accessor team_id: Integer?
+    attr_accessor team_abbreviation: String?
+    attr_accessor gp: Integer?
+    attr_accessor w: Integer?
+    attr_accessor l: Integer?
+    attr_accessor w_pct: Float?
+    attr_accessor min: Float?
+    attr_accessor fgm: Float?
+    attr_accessor fga: Float?
+    attr_accessor fg_pct: Float?
+    attr_accessor fg3m: Float?
+    attr_accessor fg3a: Float?
+    attr_accessor fg3_pct: Float?
+    attr_accessor ftm: Float?
+    attr_accessor fta: Float?
+    attr_accessor ft_pct: Float?
+    attr_accessor oreb: Float?
+    attr_accessor dreb: Float?
+    attr_accessor reb: Float?
+    attr_accessor ast: Float?
+    attr_accessor tov: Float?
+    attr_accessor stl: Float?
+    attr_accessor blk: Float?
+    attr_accessor blka: Float?
+    attr_accessor pf: Float?
+    attr_accessor pfd: Float?
+    attr_accessor pts: Float?
+    attr_accessor plus_minus: Float?
+
+    def initialize: (**untyped) -> void
+    def team: () -> Team?
+  end
+
+  module LeagueDashLineups
+    LINEUPS: String
+    REGULAR_SEASON: String
+    PLAYOFFS: String
+    PER_GAME: String
+    TOTALS: String
+    PER_100: String
+    FIVE_MAN: Integer
+    FOUR_MAN: Integer
+    THREE_MAN: Integer
+    TWO_MAN: Integer
+
+    def self.all: (?season: Integer, ?season_type: String, ?per_mode: String, ?group_quantity: Integer, ?client: Client) -> Collection
+
+    private
+
+    def self.build_path: (Integer season, Hash[Symbol, untyped] opts) -> String
+    def self.parse_response: (String? response) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data) -> Hash[String, untyped]?
+    def self.build_stats: (Hash[String, untyped]? result_set) -> Collection
+    def self.build_stat: (Hash[String, untyped] data) -> LeagueDashLineupStat
+    def self.identity_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.record_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.shooting_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.counting_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+  end
+
+  class LeagueDashPlayerShotLocationStat < Shale::Mapper
+    attr_accessor player_id: Integer?
+    attr_accessor player_name: String?
+    attr_accessor team_id: Integer?
+    attr_accessor team_abbreviation: String?
+    attr_accessor age: Float?
+    attr_accessor restricted_area_fgm: Float?
+    attr_accessor restricted_area_fga: Float?
+    attr_accessor restricted_area_fg_pct: Float?
+    attr_accessor in_the_paint_non_ra_fgm: Float?
+    attr_accessor in_the_paint_non_ra_fga: Float?
+    attr_accessor in_the_paint_non_ra_fg_pct: Float?
+    attr_accessor mid_range_fgm: Float?
+    attr_accessor mid_range_fga: Float?
+    attr_accessor mid_range_fg_pct: Float?
+    attr_accessor left_corner_3_fgm: Float?
+    attr_accessor left_corner_3_fga: Float?
+    attr_accessor left_corner_3_fg_pct: Float?
+    attr_accessor right_corner_3_fgm: Float?
+    attr_accessor right_corner_3_fga: Float?
+    attr_accessor right_corner_3_fg_pct: Float?
+    attr_accessor above_the_break_3_fgm: Float?
+    attr_accessor above_the_break_3_fga: Float?
+    attr_accessor above_the_break_3_fg_pct: Float?
+    attr_accessor backcourt_fgm: Float?
+    attr_accessor backcourt_fga: Float?
+    attr_accessor backcourt_fg_pct: Float?
+    attr_accessor corner_3_fgm: Float?
+    attr_accessor corner_3_fga: Float?
+    attr_accessor corner_3_fg_pct: Float?
+
+    def initialize: (**untyped) -> void
+    def player: () -> Player?
+    def team: () -> Team?
+  end
+
+  module LeagueDashPlayerShotLocations
+    SHOT_LOCATIONS: String
+    REGULAR_SEASON: String
+    PLAYOFFS: String
+    PER_GAME: String
+    TOTALS: String
+    BY_ZONE: String
+
+    def self.all: (?season: Integer, ?season_type: String, ?per_mode: String, ?distance_range: String, ?client: Client) -> Collection
+
+    private
+
+    def self.build_path: (Integer season, Hash[Symbol, untyped] opts) -> String
+    def self.parse_response: (String? response) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data) -> Hash[String, untyped]?
+    def self.build_stats: (Hash[String, untyped]? result_set) -> Collection
+    def self.build_headers: (Hash[String, untyped] result_set) -> Array[String]?
+    def self.build_stat: (Hash[String, untyped] data) -> LeagueDashPlayerShotLocationStat
+    def self.identity_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.restricted_area_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.paint_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.mid_range_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.corner_3_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.above_break_3_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.backcourt_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+  end
+
+  class LeagueDashTeamShotLocationStat < Shale::Mapper
+    attr_accessor team_id: Integer?
+    attr_accessor team_name: String?
+    attr_accessor restricted_area_fgm: Float?
+    attr_accessor restricted_area_fga: Float?
+    attr_accessor restricted_area_fg_pct: Float?
+    attr_accessor in_the_paint_non_ra_fgm: Float?
+    attr_accessor in_the_paint_non_ra_fga: Float?
+    attr_accessor in_the_paint_non_ra_fg_pct: Float?
+    attr_accessor mid_range_fgm: Float?
+    attr_accessor mid_range_fga: Float?
+    attr_accessor mid_range_fg_pct: Float?
+    attr_accessor left_corner_3_fgm: Float?
+    attr_accessor left_corner_3_fga: Float?
+    attr_accessor left_corner_3_fg_pct: Float?
+    attr_accessor right_corner_3_fgm: Float?
+    attr_accessor right_corner_3_fga: Float?
+    attr_accessor right_corner_3_fg_pct: Float?
+    attr_accessor above_the_break_3_fgm: Float?
+    attr_accessor above_the_break_3_fga: Float?
+    attr_accessor above_the_break_3_fg_pct: Float?
+    attr_accessor backcourt_fgm: Float?
+    attr_accessor backcourt_fga: Float?
+    attr_accessor backcourt_fg_pct: Float?
+    attr_accessor corner_3_fgm: Float?
+    attr_accessor corner_3_fga: Float?
+    attr_accessor corner_3_fg_pct: Float?
+
+    def initialize: (**untyped) -> void
+    def team: () -> Team?
+  end
+
+  module LeagueDashTeamShotLocations
+    SHOT_LOCATIONS: String
+    REGULAR_SEASON: String
+    PLAYOFFS: String
+    PER_GAME: String
+    TOTALS: String
+    BY_ZONE: String
+
+    def self.all: (?season: Integer, ?season_type: String, ?per_mode: String, ?distance_range: String, ?client: Client) -> Collection
+
+    private
+
+    def self.build_path: (Integer season, Hash[Symbol, untyped] opts) -> String
+    def self.parse_response: (String? response) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data) -> Hash[String, untyped]?
+    def self.build_stats: (Hash[String, untyped]? result_set) -> Collection
+    def self.build_headers: (Hash[String, untyped] result_set) -> Array[String]?
+    def self.build_stat: (Hash[String, untyped] data) -> LeagueDashTeamShotLocationStat
+    def self.identity_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.restricted_area_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.paint_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.mid_range_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.corner_3_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.above_break_3_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.backcourt_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+  end
+
+  class LeagueDashPtDefendStat < Shale::Mapper
+    attr_accessor player_id: Integer?
+    attr_accessor player_name: String?
+    attr_accessor team_id: Integer?
+    attr_accessor team_abbreviation: String?
+    attr_accessor player_position: String?
+    attr_accessor age: Float?
+    attr_accessor gp: Integer?
+    attr_accessor g: Integer?
+    attr_accessor freq: Float?
+    attr_accessor d_fgm: Float?
+    attr_accessor d_fga: Float?
+    attr_accessor d_fg_pct: Float?
+    attr_accessor normal_fg_pct: Float?
+    attr_accessor pct_plusminus: Float?
+
+    def initialize: (**untyped) -> void
+    def player: () -> Player?
+    def team: () -> Team?
+  end
+
+  module LeagueDashPtDefend
+    LEAGUE_DASH_PT_DEFEND: String
+    REGULAR_SEASON: String
+    PLAYOFFS: String
+    PER_GAME: String
+    TOTALS: String
+    OVERALL: String
+    THREE_POINTERS: String
+    TWO_POINTERS: String
+    LESS_THAN_6FT: String
+    LESS_THAN_10FT: String
+    GREATER_THAN_15FT: String
+
+    def self.all: (?season: Integer, ?season_type: String, ?per_mode: String, ?defense_category: String, ?client: Client) -> Collection
+
+    private
+
+    def self.build_path: (Integer season, Hash[Symbol, String] opts) -> String
+    def self.parse_response: (String? response) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data) -> Hash[String, untyped]?
+    def self.build_stats: (Hash[String, untyped]? result_set) -> Collection
+    def self.build_stat: (Hash[String, untyped] data) -> LeagueDashPtDefendStat
+    def self.identity_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.defensive_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+  end
+
+  class LeagueDashPtTeamDefendStat < Shale::Mapper
+    attr_accessor team_id: Integer?
+    attr_accessor team_name: String?
+    attr_accessor team_abbreviation: String?
+    attr_accessor gp: Integer?
+    attr_accessor g: Integer?
+    attr_accessor freq: Float?
+    attr_accessor d_fgm: Float?
+    attr_accessor d_fga: Float?
+    attr_accessor d_fg_pct: Float?
+    attr_accessor normal_fg_pct: Float?
+    attr_accessor pct_plusminus: Float?
+
+    def initialize: (**untyped) -> void
+    def team: () -> Team?
+  end
+
+  module LeagueDashPtTeamDefend
+    LEAGUE_DASH_PT_TEAM_DEFEND: String
+    REGULAR_SEASON: String
+    PLAYOFFS: String
+    PER_GAME: String
+    TOTALS: String
+    OVERALL: String
+    THREE_POINTERS: String
+    TWO_POINTERS: String
+    LESS_THAN_6FT: String
+    LESS_THAN_10FT: String
+    GREATER_THAN_15FT: String
+
+    def self.all: (?season: Integer, ?season_type: String, ?per_mode: String, ?defense_category: String, ?client: Client) -> Collection
+
+    private
+
+    def self.build_path: (Integer season, Hash[Symbol, String] opts) -> String
+    def self.parse_response: (String? response) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data) -> Hash[String, untyped]?
+    def self.build_stats: (Hash[String, untyped]? result_set) -> Collection
+    def self.build_stat: (Hash[String, untyped] data) -> LeagueDashPtTeamDefendStat
+    def self.identity_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.defensive_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+  end
+
+  class LeagueDashPtStatsStat < Shale::Mapper
+    attr_accessor player_id: Integer?
+    attr_accessor player_name: String?
+    attr_accessor team_id: Integer?
+    attr_accessor team_abbreviation: String?
+    attr_accessor team_name: String?
+    attr_accessor age: Float?
+    attr_accessor gp: Integer?
+    attr_accessor w: Integer?
+    attr_accessor l: Integer?
+    attr_accessor min: Float?
+    attr_accessor dist_feet: Float?
+    attr_accessor dist_miles: Float?
+    attr_accessor dist_miles_off: Float?
+    attr_accessor dist_miles_def: Float?
+    attr_accessor avg_speed: Float?
+    attr_accessor avg_speed_off: Float?
+    attr_accessor avg_speed_def: Float?
+
+    def initialize: (**untyped) -> void
+    def player: () -> Player?
+    def team: () -> Team?
+  end
+
+  module LeagueDashPtStats
+    LEAGUE_DASH_PT_STATS: String
+    REGULAR_SEASON: String
+    PLAYOFFS: String
+    PER_GAME: String
+    TOTALS: String
+    PLAYER: String
+    TEAM: String
+    SPEED_DISTANCE: String
+
+    def self.all: (?season: Integer, ?season_type: String, ?per_mode: String, ?player_or_team: String, ?pt_measure_type: String, ?client: Client) -> Collection
+
+    private
+
+    def self.build_path: (Integer season, Hash[Symbol, String] opts) -> String
+    def self.parse_response: (String? response) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data) -> Hash[String, untyped]?
+    def self.build_stats: (Hash[String, untyped]? result_set) -> Collection
+    def self.build_stat: (Hash[String, untyped] data) -> LeagueDashPtStatsStat
+    def self.identity_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.speed_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+  end
+
+  class LeagueLineupVizStat < Shale::Mapper
+    attr_accessor group_id: String?
+    attr_accessor group_name: String?
+    attr_accessor team_id: Integer?
+    attr_accessor team_abbreviation: String?
+    attr_accessor min: Float?
+    attr_accessor off_rating: Float?
+    attr_accessor def_rating: Float?
+    attr_accessor net_rating: Float?
+    attr_accessor pace: Float?
+    attr_accessor ts_pct: Float?
+    attr_accessor fta_rate: Float?
+    attr_accessor tm_ast_pct: Float?
+    attr_accessor pct_fga_2pt: Float?
+    attr_accessor pct_fga_3pt: Float?
+    attr_accessor pct_pts_2pt_mr: Float?
+    attr_accessor pct_pts_fb: Float?
+    attr_accessor pct_pts_ft: Float?
+    attr_accessor pct_pts_paint: Float?
+    attr_accessor pct_ast_fgm: Float?
+    attr_accessor pct_uast_fgm: Float?
+    attr_accessor opp_fg3_pct: Float?
+    attr_accessor opp_efg_pct: Float?
+    attr_accessor opp_fta_rate: Float?
+    attr_accessor opp_tov_pct: Float?
+
+    def initialize: (**untyped) -> void
+    def team: () -> Team?
+  end
+
+  module LeagueLineupViz
+    LEAGUE_LINEUP_VIZ: String
+    REGULAR_SEASON: String
+    PLAYOFFS: String
+    PER_GAME: String
+    TOTALS: String
+    BASE: String
+    ADVANCED: String
+    FIVE_MAN: Integer
+    FOUR_MAN: Integer
+    THREE_MAN: Integer
+    TWO_MAN: Integer
+
+    def self.all: (?season: Integer, ?season_type: String, ?per_mode: String, ?measure_type: String, ?group_quantity: Integer, ?minutes_min: Integer, ?client: Client) -> Collection
+
+    private
+
+    def self.build_path: (Integer season, Hash[Symbol, untyped] opts) -> String
+    def self.parse_response: (String? response) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data) -> Hash[String, untyped]?
+    def self.build_stats: (Hash[String, untyped]? result_set) -> Collection
+    def self.build_stat: (Hash[String, untyped] data) -> LeagueLineupVizStat
+    def self.identity_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.rating_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.shooting_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.opponent_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+  end
+
+  class LeaguePlayerOnDetailsStat < Shale::Mapper
+    attr_accessor group_set: String?
+    attr_accessor team_id: Integer?
+    attr_accessor team_abbreviation: String?
+    attr_accessor team_name: String?
+    attr_accessor vs_player_id: Integer?
+    attr_accessor vs_player_name: String?
+    attr_accessor court_status: String?
+    attr_accessor gp: Integer?
+    attr_accessor w: Integer?
+    attr_accessor l: Integer?
+    attr_accessor w_pct: Float?
+    attr_accessor min: Float?
+    attr_accessor fgm: Float?
+    attr_accessor fga: Float?
+    attr_accessor fg_pct: Float?
+    attr_accessor fg3m: Float?
+    attr_accessor fg3a: Float?
+    attr_accessor fg3_pct: Float?
+    attr_accessor ftm: Float?
+    attr_accessor fta: Float?
+    attr_accessor ft_pct: Float?
+    attr_accessor oreb: Float?
+    attr_accessor dreb: Float?
+    attr_accessor reb: Float?
+    attr_accessor ast: Float?
+    attr_accessor tov: Float?
+    attr_accessor stl: Float?
+    attr_accessor blk: Float?
+    attr_accessor blka: Float?
+    attr_accessor pf: Float?
+    attr_accessor pfd: Float?
+    attr_accessor pts: Float?
+    attr_accessor plus_minus: Float?
+
+    def initialize: (**untyped) -> void
+    def player: () -> Player?
+    def team: () -> Team?
+  end
+
+  module LeaguePlayerOnDetails
+    PLAYERS_ON_COURT: String
+    REGULAR_SEASON: String
+    PLAYOFFS: String
+    PER_GAME: String
+    TOTALS: String
+    BASE: String
+
+    def self.all: (team: Integer | Team, ?season: Integer, ?season_type: String, ?per_mode: String, ?measure_type: String, ?client: Client) -> Collection
+
+    private
+
+    def self.build_path: ((Integer | String) team_id, Integer season, String season_type, String per_mode, String measure_type) -> String
+    def self.parse_response: (String? response) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data) -> Hash[String, untyped]?
+    def self.build_stats: (Hash[String, untyped] result_set) -> Collection
+    def self.build_stat: (Array[String] headers, Array[untyped] row) -> LeaguePlayerOnDetailsStat
+    def self.stat_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.identity_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.record_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.shooting_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.counting_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+  end
+
+  class LeagueSeasonMatchupStat < Shale::Mapper
+    attr_accessor season_id: String?
+    attr_accessor off_player_id: Integer?
+    attr_accessor off_player_name: String?
+    attr_accessor def_player_id: Integer?
+    attr_accessor def_player_name: String?
+    attr_accessor gp: Integer?
+    attr_accessor matchup_min: Float?
+    attr_accessor partial_poss: Float?
+    attr_accessor player_pts: Float?
+    attr_accessor team_pts: Float?
+    attr_accessor matchup_ast: Float?
+    attr_accessor matchup_tov: Float?
+    attr_accessor matchup_blk: Float?
+    attr_accessor matchup_fgm: Float?
+    attr_accessor matchup_fga: Float?
+    attr_accessor matchup_fg_pct: Float?
+    attr_accessor matchup_fg3m: Float?
+    attr_accessor matchup_fg3a: Float?
+    attr_accessor matchup_fg3_pct: Float?
+    attr_accessor help_blk: Float?
+    attr_accessor help_fgm: Float?
+    attr_accessor help_fga: Float?
+    attr_accessor help_fg_pct: Float?
+    attr_accessor matchup_ftm: Float?
+    attr_accessor matchup_fta: Float?
+    attr_accessor sfl: Float?
+
+    def initialize: (**untyped) -> void
+    def off_player: () -> Player?
+    def def_player: () -> Player?
+  end
+
+  module LeagueSeasonMatchups
+    SEASON_MATCHUPS: String
+    REGULAR_SEASON: String
+    PLAYOFFS: String
+    PER_GAME: String
+    TOTALS: String
+
+    def self.all: (?season: Integer, ?season_type: String, ?per_mode: String, ?off_player: Integer | Player | nil, ?def_player: Integer | Player | nil, ?off_team: Integer | Team | nil, ?def_team: Integer | Team | nil, ?client: Client) -> Collection
+
+    private
+
+    def self.build_path: (Integer season, Hash[Symbol, untyped] opts) -> String
+    def self.append_optional_params: (String path, Hash[Symbol, untyped] opts) -> String
+    def self.parse_response: (String? response) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data) -> Hash[String, untyped]?
+    def self.build_stats: (Hash[String, untyped]? result_set) -> Collection
+    def self.build_stat: (Hash[String, untyped] data) -> LeagueSeasonMatchupStat
+    def self.identity_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.matchup_stats: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.shooting_stats: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.help_stats: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+  end
 end

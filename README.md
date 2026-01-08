@@ -414,24 +414,6 @@ defunct.size # => 15
 
 The following endpoints are not yet implemented:
 
-### League-Wide Endpoints
-- [ ] LeagueDashLineups
-- [ ] LeagueDashOppPtShot
-- [ ] LeagueDashPlayerBioStats
-- [ ] LeagueDashPlayerClutch
-- [ ] LeagueDashPlayerPtShot
-- [ ] LeagueDashPlayerShotLocations
-- [ ] LeagueDashPtDefend
-- [ ] LeagueDashPtStats
-- [ ] LeagueDashPtTeamDefend
-- [ ] LeagueDashTeamClutch
-- [ ] LeagueDashTeamPtShot
-- [ ] LeagueDashTeamShotLocations
-- [ ] LeagueLineupViz
-- [ ] LeaguePlayerOnDetails
-- [ ] LeagueSeasonMatchups
-- [ ] LeagueStandingsV3
-
 ### Box Score Endpoints
 - [ ] BoxScoreDefensiveV2
 - [ ] BoxScoreMatchupsV3
