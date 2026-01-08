@@ -414,24 +414,6 @@ defunct.size # => 15
 
 The following endpoints are not yet implemented:
 
-### Team Endpoints
-- [ ] TeamAndPlayersVsPlayers
-- [ ] TeamDashboardByGeneralSplits
-- [ ] TeamDashboardByShootingSplits
-- [ ] TeamDashLineups
-- [ ] TeamDashPtPass
-- [ ] TeamDashPtReb
-- [ ] TeamDashPtShots
-- [ ] TeamEstimatedMetrics
-- [ ] TeamGameLogs (batch query)
-- [ ] TeamGameStreakFinder
-- [ ] TeamHistoricalLeaders
-- [ ] TeamInfoCommon
-- [ ] TeamPlayerDashboard
-- [ ] TeamPlayerOnOffDetails
-- [ ] TeamPlayerOnOffSummary
-- [ ] TeamVsPlayer
-
 ### League-Wide Endpoints
 - [ ] LeagueDashLineups
 - [ ] LeagueDashOppPtShot

@@ -29,6 +29,17 @@ module NBA
       "#{year}-#{(year + 1).to_s[-2..]}"
     end
 
+    # Formats a season year into the NBA SeasonID format (e.g., "22024")
+    #
+    # @api public
+    # @example
+    #   NBA::Utils.format_season_id(2024) #=> "22024"
+    # @param year [Integer] the season start year
+    # @return [String] the formatted season ID string
+    def self.format_season_id(year)
+      "2#{year}"
+    end
+
     # Builds a query string from a hash of parameters
     #
     # @api public

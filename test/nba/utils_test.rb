@@ -58,6 +58,12 @@ module NBA
       assert_equal "1999-00", Utils.format_season(1999)
     end
 
+    def test_format_season_id_formats_correctly
+      assert_equal "22024", Utils.format_season_id(2024)
+      assert_equal "22023", Utils.format_season_id(2023)
+      assert_equal "21999", Utils.format_season_id(1999)
+    end
+
     def test_extract_id_returns_id_from_object_with_id_method
       player = Player.new(id: 123)
 
