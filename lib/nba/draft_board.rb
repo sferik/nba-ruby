@@ -70,36 +70,58 @@ module NBA
     # @return [DraftBoardPick] the pick object
     def self.build_pick(headers, row)
       data = headers.zip(row).to_h
-      DraftBoardPick.new(**pick_attributes(data))
+      DraftBoardPick.new(**PickAttributes.extract(data))
     end
     private_class_method :build_pick
 
     # Extracts pick attributes from data
     # @api private
-    # @return [Hash] the pick attributes
-    def self.pick_attributes(data)
-      {
-        person_id: data.fetch("PERSON_ID", nil),
-        player_name: data.fetch("PLAYER_NAME", nil),
-        season: data.fetch("SEASON", nil),
-        round_number: data.fetch("ROUND_NUMBER", nil),
-        round_pick: data.fetch("ROUND_PICK", nil),
-        overall_pick: data.fetch("OVERALL_PICK", nil),
-        team_id: data.fetch("TEAM_ID", nil),
-        team_city: data.fetch("TEAM_CITY", nil),
-        team_name: data.fetch("TEAM_NAME", nil),
-        team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil),
-        organization: data.fetch("ORGANIZATION", nil),
-        organization_type: data.fetch("ORGANIZATION_TYPE", nil),
-        height: data.fetch("HEIGHT", nil),
-        weight: data.fetch("WEIGHT", nil),
-        position: data.fetch("POSITION", nil),
-        jersey_number: data.fetch("JERSEY_NUMBER", nil),
-        birthdate: data.fetch("BIRTHDATE", nil),
-        age: data.fetch("AGE", nil)
-      }
+    module PickAttributes
+      # Extracts all pick attributes from data
+      # @api private
+      # @param data [Hash] the row data
+      # @return [Hash] extracted attributes
+      def self.extract(data)
+        player(data).merge(draft_info(data)).merge(team(data)).merge(physical(data))
+      end
+
+      # Extracts player attributes from data
+      # @api private
+      # @param data [Hash] the row data
+      # @return [Hash] player attributes
+      def self.player(data)
+        {person_id: data.fetch("PERSON_ID", nil), player_name: data.fetch("PLAYER_NAME", nil)}
+      end
+
+      # Extracts draft info attributes from data
+      # @api private
+      # @param data [Hash] the row data
+      # @return [Hash] draft info attributes
+      def self.draft_info(data)
+        {season: data.fetch("SEASON", nil), round_number: data.fetch("ROUND_NUMBER", nil),
+         round_pick: data.fetch("ROUND_PICK", nil), overall_pick: data.fetch("OVERALL_PICK", nil)}
+      end
+
+      # Extracts team attributes from data
+      # @api private
+      # @param data [Hash] the row data
+      # @return [Hash] team attributes
+      def self.team(data)
+        {team_id: data.fetch("TEAM_ID", nil), team_city: data.fetch("TEAM_CITY", nil),
+         team_name: data.fetch("TEAM_NAME", nil), team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil),
+         organization: data.fetch("ORGANIZATION", nil), organization_type: data.fetch("ORGANIZATION_TYPE", nil)}
+      end
+
+      # Extracts physical attributes from data
+      # @api private
+      # @param data [Hash] the row data
+      # @return [Hash] physical attributes
+      def self.physical(data)
+        {height: data.fetch("HEIGHT", nil), weight: data.fetch("WEIGHT", nil),
+         position: data.fetch("POSITION", nil), jersey_number: data.fetch("JERSEY_NUMBER", nil),
+         birthdate: data.fetch("BIRTHDATE", nil), age: data.fetch("AGE", nil)}
+      end
     end
-    private_class_method :pick_attributes
 
     # Extracts the league ID from a League object or string
     #

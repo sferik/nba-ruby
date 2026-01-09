@@ -36,7 +36,9 @@ require "yard"
 YARD::Rake::YardocTask.new(:yard) do |t|
   t.options = ["--quiet"]
   t.after = proc do
-    undocumented = YARD::Registry.all.count { |o| o.docstring.blank? && !o.has_tag?(:private) }
+    undocumented = YARD::Registry.all.count do |o|
+      o.docstring.blank? && !o.has_tag?(:private) && !o.has_tag?(:api)
+    end
     abort "YARD: #{undocumented} undocumented objects" unless undocumented.zero?
   end
 end

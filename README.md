@@ -414,23 +414,6 @@ defunct.size # => 15
 
 The following endpoints are not yet implemented:
 
-### Cumulative Stats Endpoints
-- [ ] CumeStatsPlayer
-- [ ] CumeStatsPlayerGames
-- [ ] CumeStatsTeam
-- [ ] CumeStatsTeamGames
-
-### Franchise Endpoints
-- [ ] FranchiseLeaders
-- [ ] FranchisePlayers
-
-### Video Endpoints
-- [ ] VideoDetails
-- [ ] VideoDetailsAsset
-- [ ] VideoEvents
-- [ ] VideoStatus
-
-### Other Endpoints
 - [ ] AssistLeaders
 - [ ] AssistTracker
 - [ ] DefenseHub
@@ -440,14 +423,12 @@ The following endpoints are not yet implemented:
 - [ ] HustleStatsBoxScore
 - [ ] IstStandings (In-Season Tournament)
 - [ ] LeadersTiles
+- [ ] Live Odds
 - [ ] MatchupsRollup
 - [ ] PlayByPlayV3
 - [ ] PlayoffPicture
 - [ ] ScoreboardV3
 - [ ] ShotChartLineupDetail
-
-### Live Data Endpoints
-- [ ] Live Odds
 
 ## Development
 

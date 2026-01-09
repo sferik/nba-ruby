@@ -70,30 +70,44 @@ module NBA
     # @return [DraftCombineDrillResult] the result object
     def self.build_result(headers, row)
       data = headers.zip(row).to_h
-      DraftCombineDrillResult.new(**result_attributes(data))
+      DraftCombineDrillResult.new(**ResultAttributes.extract(data))
     end
     private_class_method :build_result
 
     # Extracts result attributes from data
     # @api private
-    # @return [Hash] the result attributes
-    def self.result_attributes(data)
-      {
-        temp_player_id: data.fetch("TEMP_PLAYER_ID", nil),
-        player_id: data.fetch("PLAYER_ID", nil),
-        first_name: data.fetch("FIRST_NAME", nil),
-        last_name: data.fetch("LAST_NAME", nil),
-        player_name: data.fetch("PLAYER_NAME", nil),
-        position: data.fetch("POSITION", nil),
-        standing_vertical_leap: data.fetch("STANDING_VERTICAL_LEAP", nil),
-        max_vertical_leap: data.fetch("MAX_VERTICAL_LEAP", nil),
-        lane_agility_time: data.fetch("LANE_AGILITY_TIME", nil),
-        modified_lane_agility_time: data.fetch("MODIFIED_LANE_AGILITY_TIME", nil),
-        three_quarter_sprint: data.fetch("THREE_QUARTER_SPRINT", nil),
-        bench_press: data.fetch("BENCH_PRESS", nil)
-      }
+    module ResultAttributes
+      # Extracts all result attributes from data
+      # @api private
+      # @param data [Hash] the row data
+      # @return [Hash] extracted attributes
+      def self.extract(data)
+        player(data).merge(drills(data))
+      end
+
+      # Extracts player attributes from data
+      # @api private
+      # @param data [Hash] the row data
+      # @return [Hash] player attributes
+      def self.player(data)
+        {temp_player_id: data.fetch("TEMP_PLAYER_ID", nil), player_id: data.fetch("PLAYER_ID", nil),
+         first_name: data.fetch("FIRST_NAME", nil), last_name: data.fetch("LAST_NAME", nil),
+         player_name: data.fetch("PLAYER_NAME", nil), position: data.fetch("POSITION", nil)}
+      end
+
+      # Extracts drill result attributes from data
+      # @api private
+      # @param data [Hash] the row data
+      # @return [Hash] drill result attributes
+      def self.drills(data)
+        {standing_vertical_leap: data.fetch("STANDING_VERTICAL_LEAP", nil),
+         max_vertical_leap: data.fetch("MAX_VERTICAL_LEAP", nil),
+         lane_agility_time: data.fetch("LANE_AGILITY_TIME", nil),
+         modified_lane_agility_time: data.fetch("MODIFIED_LANE_AGILITY_TIME", nil),
+         three_quarter_sprint: data.fetch("THREE_QUARTER_SPRINT", nil),
+         bench_press: data.fetch("BENCH_PRESS", nil)}
+      end
     end
-    private_class_method :result_attributes
 
     # Extracts the league ID from a League object or string
     #
