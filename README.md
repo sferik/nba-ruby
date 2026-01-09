@@ -414,11 +414,6 @@ defunct.size # => 15
 
 The following endpoints are not yet implemented:
 
-### Box Score Endpoints
-- [ ] BoxScoreDefensiveV2
-- [ ] BoxScoreMatchupsV3
-- [ ] BoxScoreSummaryV3
-
 ### Draft Endpoints
 - [ ] DraftBoard
 - [ ] DraftCombineDrillResults

@@ -2515,6 +2515,78 @@ module NBA
     def self.other_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
   end
 
+  class BoxScoreSummaryV3Data < Shale::Mapper
+    attr_accessor game_id: String?
+    attr_accessor game_code: String?
+    attr_accessor game_status: Integer?
+    attr_accessor game_status_text: String?
+    attr_accessor period: Integer?
+    attr_accessor game_clock: String?
+    attr_accessor game_time_utc: String?
+    attr_accessor game_et: String?
+    attr_accessor duration: Integer?
+    attr_accessor attendance: Integer?
+    attr_accessor sellout: String?
+    attr_accessor arena_id: Integer?
+    attr_accessor arena_name: String?
+    attr_accessor arena_city: String?
+    attr_accessor arena_state: String?
+    attr_accessor arena_country: String?
+    attr_accessor arena_timezone: String?
+    attr_accessor home_team_id: Integer?
+    attr_accessor home_team_name: String?
+    attr_accessor home_team_city: String?
+    attr_accessor home_team_tricode: String?
+    attr_accessor home_team_slug: String?
+    attr_accessor home_team_wins: Integer?
+    attr_accessor home_team_losses: Integer?
+    attr_accessor home_pts: Integer?
+    attr_accessor home_pts_q1: Integer?
+    attr_accessor home_pts_q2: Integer?
+    attr_accessor home_pts_q3: Integer?
+    attr_accessor home_pts_q4: Integer?
+    attr_accessor away_team_id: Integer?
+    attr_accessor away_team_name: String?
+    attr_accessor away_team_city: String?
+    attr_accessor away_team_tricode: String?
+    attr_accessor away_team_slug: String?
+    attr_accessor away_team_wins: Integer?
+    attr_accessor away_team_losses: Integer?
+    attr_accessor away_pts: Integer?
+    attr_accessor away_pts_q1: Integer?
+    attr_accessor away_pts_q2: Integer?
+    attr_accessor away_pts_q3: Integer?
+    attr_accessor away_pts_q4: Integer?
+    attr_accessor lead_changes: Integer?
+    attr_accessor times_tied: Integer?
+    attr_accessor largest_lead: Integer?
+    attr_accessor officials: Array[String]
+
+    def initialize: (**untyped) -> void
+    def home_team: () -> Team?
+    def away_team: () -> Team?
+    def final?: () -> bool
+    def in_progress?: () -> bool
+    def scheduled?: () -> bool
+  end
+
+  module BoxScoreSummaryV3
+    BOX_SCORE_SUMMARY: String
+
+    def self.find: (game: String | Game, ?client: Client) -> BoxScoreSummaryV3Data?
+
+    private
+
+    def self.parse_response: (String? response, (Integer | String) game_id) -> BoxScoreSummaryV3Data?
+    def self.build_summary: (Hash[String, untyped] box_score, (Integer | String) game_id) -> BoxScoreSummaryV3Data
+    def self.game_attributes: (Hash[String, untyped] data, (Integer | String) game_id) -> Hash[Symbol, untyped]
+    def self.arena_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.team_attributes: (Hash[String, untyped] data, String team_key, String prefix) -> Hash[Symbol, untyped]
+    def self.extract_period_score: (Hash[String, untyped] team, Integer period) -> Integer?
+    def self.other_stats_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.extract_officials: (Hash[String, untyped] data) -> Array[String]
+  end
+
   class TeamYear < Shale::Mapper
     attr_accessor team_id: Integer?
     attr_accessor year: Integer?
@@ -4996,5 +5068,161 @@ module NBA
     def self.matchup_stats: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
     def self.shooting_stats: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
     def self.help_stats: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+  end
+
+  class BoxScoreDefensivePlayerStat < Shale::Mapper
+    attr_accessor game_id: String?
+    attr_accessor team_id: Integer?
+    attr_accessor team_city: String?
+    attr_accessor team_name: String?
+    attr_accessor team_tricode: String?
+    attr_accessor team_slug: String?
+    attr_accessor person_id: Integer?
+    attr_accessor first_name: String?
+    attr_accessor family_name: String?
+    attr_accessor name_i: String?
+    attr_accessor player_slug: String?
+    attr_accessor position: String?
+    attr_accessor comment: String?
+    attr_accessor jersey_num: String?
+    attr_accessor matchup_minutes: Float?
+    attr_accessor partial_possessions: Float?
+    attr_accessor switches_on: Integer?
+    attr_accessor player_points: Integer?
+    attr_accessor defensive_rebounds: Integer?
+    attr_accessor matchup_assists: Integer?
+    attr_accessor matchup_turnovers: Integer?
+    attr_accessor steals: Integer?
+    attr_accessor blocks: Integer?
+    attr_accessor matchup_field_goals_made: Integer?
+    attr_accessor matchup_field_goals_attempted: Integer?
+    attr_accessor matchup_field_goal_percentage: Float?
+    attr_accessor matchup_three_pointers_made: Integer?
+    attr_accessor matchup_three_pointers_attempted: Integer?
+    attr_accessor matchup_three_pointer_percentage: Float?
+
+    def initialize: (**untyped) -> void
+    def player: () -> Player?
+    def team: () -> Team?
+    def game: () -> Game?
+    def starter?: () -> bool
+  end
+
+  class BoxScoreDefensiveTeamStat < Shale::Mapper
+    attr_accessor game_id: String?
+    attr_accessor team_id: Integer?
+    attr_accessor team_city: String?
+    attr_accessor team_name: String?
+    attr_accessor team_tricode: String?
+    attr_accessor team_slug: String?
+    attr_accessor minutes: String?
+
+    def initialize: (**untyped) -> void
+    def team: () -> Team?
+    def game: () -> Game?
+  end
+
+  module BoxScoreDefensiveV2
+    PLAYER_STATS: String
+    TEAM_STATS: String
+
+    def self.player_stats: (game: String | Game, ?client: Client) -> Collection
+    def self.team_stats: (game: String | Game, ?client: Client) -> Collection
+
+    private
+
+    def self.parse_player_response: (String? response, (Integer | String) game_id) -> Collection
+    def self.parse_team_response: (String? response, (Integer | String) game_id) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data, String name) -> Hash[String, untyped]?
+    def self.build_player_stats: (Hash[String, untyped] result_set, (Integer | String) game_id) -> Collection
+    def self.build_team_stats: (Hash[String, untyped] result_set, (Integer | String) game_id) -> Collection
+    def self.build_player_stat: (Array[String] headers, Array[untyped] row, (Integer | String) game_id) -> BoxScoreDefensivePlayerStat
+    def self.build_team_stat: (Array[String] headers, Array[untyped] row, (Integer | String) game_id) -> BoxScoreDefensiveTeamStat
+    def self.player_stat_attributes: (Hash[String, untyped] data, (Integer | String) game_id) -> Hash[Symbol, untyped]
+    def self.team_stat_attributes: (Hash[String, untyped] data, (Integer | String) game_id) -> Hash[Symbol, untyped]
+    def self.player_identity: (Hash[String, untyped] data, (Integer | String) game_id) -> Hash[Symbol, untyped]
+    def self.team_identity: (Hash[String, untyped] data, (Integer | String) game_id) -> Hash[Symbol, untyped]
+    def self.defensive_stats: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.shooting_stats: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+  end
+
+  class BoxScoreMatchupStat < Shale::Mapper
+    attr_accessor game_id: String?
+    attr_accessor team_id: Integer?
+    attr_accessor team_city: String?
+    attr_accessor team_name: String?
+    attr_accessor team_tricode: String?
+    attr_accessor team_slug: String?
+    attr_accessor person_id_off: Integer?
+    attr_accessor first_name_off: String?
+    attr_accessor family_name_off: String?
+    attr_accessor name_i_off: String?
+    attr_accessor player_slug_off: String?
+    attr_accessor jersey_num_off: String?
+    attr_accessor person_id_def: Integer?
+    attr_accessor first_name_def: String?
+    attr_accessor family_name_def: String?
+    attr_accessor name_i_def: String?
+    attr_accessor player_slug_def: String?
+    attr_accessor position_def: String?
+    attr_accessor comment_def: String?
+    attr_accessor jersey_num_def: String?
+    attr_accessor matchup_minutes: String?
+    attr_accessor matchup_minutes_sort: Float?
+    attr_accessor partial_possessions: Float?
+    attr_accessor percentage_defender_total_time: Float?
+    attr_accessor percentage_offensive_total_time: Float?
+    attr_accessor percentage_total_time_both_on: Float?
+    attr_accessor switches_on: Integer?
+    attr_accessor player_points: Integer?
+    attr_accessor team_points: Integer?
+    attr_accessor matchup_assists: Integer?
+    attr_accessor matchup_potential_assists: Integer?
+    attr_accessor matchup_turnovers: Integer?
+    attr_accessor matchup_blocks: Integer?
+    attr_accessor matchup_field_goals_made: Integer?
+    attr_accessor matchup_field_goals_attempted: Integer?
+    attr_accessor matchup_field_goals_percentage: Float?
+    attr_accessor matchup_three_pointers_made: Integer?
+    attr_accessor matchup_three_pointers_attempted: Integer?
+    attr_accessor matchup_three_pointers_percentage: Float?
+    attr_accessor help_blocks: Integer?
+    attr_accessor help_field_goals_made: Integer?
+    attr_accessor help_field_goals_attempted: Integer?
+    attr_accessor help_field_goals_percentage: Float?
+    attr_accessor matchup_free_throws_made: Integer?
+    attr_accessor matchup_free_throws_attempted: Integer?
+    attr_accessor shooting_fouls: Integer?
+
+    def initialize: (**untyped) -> void
+    def offensive_player: () -> Player?
+    def defensive_player: () -> Player?
+    def team: () -> Team?
+    def game: () -> Game?
+  end
+
+  module BoxScoreMatchupsV3
+    BOX_SCORE_KEY: String
+    PLAYER_STATS: String
+
+    def self.find: (game: String | Game, ?client: Client) -> Collection
+
+    private
+    def self.build_path: ((Integer | String) game_id) -> String
+    def self.parse_response: (String? response, (Integer | String) game_id) -> Collection
+    def self.extract_matchups: (Hash[String, untyped] data) -> Array[Hash[String, untyped]]?
+    def self.build_matchup_stat: (Hash[String, untyped] matchup, (Integer | String) game_id) -> BoxScoreMatchupStat
+    def self.team_identity: (Hash[String, untyped] matchup) -> Hash[Symbol, untyped]
+    def self.player_identities: (Hash[String, untyped] matchup) -> Hash[Symbol, untyped]
+    def self.offensive_player_identity: (Hash[String, untyped] matchup) -> Hash[Symbol, untyped]
+    def self.defensive_player_identity: (Hash[String, untyped] matchup) -> Hash[Symbol, untyped]
+    def self.matchup_stats: (Hash[String, untyped] matchup) -> Hash[Symbol, untyped]
+    def self.matchup_time_stats: (Hash[String, untyped] matchup) -> Hash[Symbol, untyped]
+    def self.matchup_counting_stats: (Hash[String, untyped] matchup) -> Hash[Symbol, untyped]
+    def self.matchup_shooting_stats: (Hash[String, untyped] matchup) -> Hash[Symbol, untyped]
+    def self.field_goal_stats: (Hash[String, untyped] matchup) -> Hash[Symbol, untyped]
+    def self.three_point_stats: (Hash[String, untyped] matchup) -> Hash[Symbol, untyped]
+    def self.help_defense_stats: (Hash[String, untyped] matchup) -> Hash[Symbol, untyped]
+    def self.free_throw_stats: (Hash[String, untyped] matchup) -> Hash[Symbol, untyped]
   end
 end
