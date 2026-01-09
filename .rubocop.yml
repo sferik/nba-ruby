@@ -51,12 +51,10 @@ Minitest/MultipleAssertions:
 
 Naming/VariableNumber:
   CheckSymbols: false
+  CheckMethodNames: false
 
 Style/Alias:
   EnforcedStyle: prefer_alias_method
-
-Style/Documentation:
-  Enabled: false
 
 Style/FrozenStringLiteralComment:
   EnforcedStyle: never
@@ -77,34 +75,3 @@ Style/TernaryParentheses:
 # and Mutant (yield without block raises LocalJumpError, making mutations killable)
 Style/ExplicitBlockArgument:
   Enabled: false
-
-# Steep uses #: for inline type annotations
-Layout/LeadingCommentSpace:
-  AllowSteepAnnotation: true
-
-# Draft endpoint modules have attribute mapping methods that are necessarily long
-# These methods map API response keys to model attributes and splitting them
-# would reduce clarity without improving maintainability
-Metrics/MethodLength:
-  Exclude:
-    - lib/nba/draft_board.rb
-    - lib/nba/draft_combine_drill_results.rb
-    - lib/nba/draft_combine_non_stationary_shooting.rb
-    - lib/nba/draft_combine_player_anthro.rb
-    - lib/nba/draft_combine_spot_shooting.rb
-    - lib/nba/draft_combine_stats.rb
-
-Metrics/AbcSize:
-  Exclude:
-    - lib/nba/draft_board.rb
-
-Metrics/ModuleLength:
-  Exclude:
-    - lib/nba/draft_combine_non_stationary_shooting.rb
-    - lib/nba/draft_combine_spot_shooting.rb
-    - lib/nba/box_score_advanced_v3.rb
-    - lib/nba/box_score_defensive_v2.rb
-    - lib/nba/box_score_matchups_v3.rb
-    - lib/nba/team_info_common.rb
-    - lib/nba/team_player_on_off_details.rb
-    - lib/nba/team_player_on_off_summary.rb

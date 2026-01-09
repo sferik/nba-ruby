@@ -104,22 +104,43 @@ module NBA
     # @api private
     # @return [Hash] physical measurement attributes
     def self.physical_attributes(data)
-      {
-        height_wo_shoes: data.fetch("HEIGHT_WO_SHOES", nil),
-        height_wo_shoes_ft_in: data.fetch("HEIGHT_WO_SHOES_FT_IN", nil),
-        height_w_shoes: data.fetch("HEIGHT_W_SHOES", nil),
-        height_w_shoes_ft_in: data.fetch("HEIGHT_W_SHOES_FT_IN", nil),
-        weight: data.fetch("WEIGHT", nil),
-        wingspan: data.fetch("WINGSPAN", nil),
-        wingspan_ft_in: data.fetch("WINGSPAN_FT_IN", nil),
-        standing_reach: data.fetch("STANDING_REACH", nil),
-        standing_reach_ft_in: data.fetch("STANDING_REACH_FT_IN", nil),
-        body_fat_pct: data.fetch("BODY_FAT_PCT", nil),
-        hand_length: data.fetch("HAND_LENGTH", nil),
-        hand_width: data.fetch("HAND_WIDTH", nil)
-      }
+      height_attrs(data).merge(body_attrs(data)).merge(hand_attrs(data))
     end
     private_class_method :physical_attributes
+
+    # Extracts height attributes from data
+    # @api private
+    # @param data [Hash] the row data
+    # @return [Hash] height attributes
+    def self.height_attrs(data)
+      {height_wo_shoes: data.fetch("HEIGHT_WO_SHOES", nil),
+       height_wo_shoes_ft_in: data.fetch("HEIGHT_WO_SHOES_FT_IN", nil),
+       height_w_shoes: data.fetch("HEIGHT_W_SHOES", nil),
+       height_w_shoes_ft_in: data.fetch("HEIGHT_W_SHOES_FT_IN", nil)}
+    end
+    private_class_method :height_attrs
+
+    # Extracts body measurement attributes from data
+    # @api private
+    # @param data [Hash] the row data
+    # @return [Hash] body measurement attributes
+    def self.body_attrs(data)
+      {weight: data.fetch("WEIGHT", nil), wingspan: data.fetch("WINGSPAN", nil),
+       wingspan_ft_in: data.fetch("WINGSPAN_FT_IN", nil),
+       standing_reach: data.fetch("STANDING_REACH", nil),
+       standing_reach_ft_in: data.fetch("STANDING_REACH_FT_IN", nil),
+       body_fat_pct: data.fetch("BODY_FAT_PCT", nil)}
+    end
+    private_class_method :body_attrs
+
+    # Extracts hand measurement attributes from data
+    # @api private
+    # @param data [Hash] the row data
+    # @return [Hash] hand measurement attributes
+    def self.hand_attrs(data)
+      {hand_length: data.fetch("HAND_LENGTH", nil), hand_width: data.fetch("HAND_WIDTH", nil)}
+    end
+    private_class_method :hand_attrs
 
     # Extracts athletic test attributes from data
     # @api private
