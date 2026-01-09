@@ -414,14 +414,6 @@ defunct.size # => 15
 
 The following endpoints are not yet implemented:
 
-### Draft Endpoints
-- [ ] DraftBoard
-- [ ] DraftCombineDrillResults
-- [ ] DraftCombineNonStationaryShooting
-- [ ] DraftCombinePlayerAnthro
-- [ ] DraftCombineSpotShooting
-- [ ] DraftCombineStats
-
 ### Cumulative Stats Endpoints
 - [ ] CumeStatsPlayer
 - [ ] CumeStatsPlayerGames

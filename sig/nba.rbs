@@ -1671,6 +1671,46 @@ module NBA
     def self.percentage_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
   end
 
+  class DraftBoardPick < Shale::Mapper
+    attr_accessor person_id: Integer?
+    attr_accessor player_name: String?
+    attr_accessor season: String?
+    attr_accessor round_number: Integer?
+    attr_accessor round_pick: Integer?
+    attr_accessor overall_pick: Integer?
+    attr_accessor team_id: Integer?
+    attr_accessor team_city: String?
+    attr_accessor team_name: String?
+    attr_accessor team_abbreviation: String?
+    attr_accessor organization: String?
+    attr_accessor organization_type: String?
+    attr_accessor height: String?
+    attr_accessor weight: String?
+    attr_accessor position: String?
+    attr_accessor jersey_number: String?
+    attr_accessor birthdate: String?
+    attr_accessor age: Float?
+
+    def initialize: (**untyped) -> void
+    def player: () -> Player?
+    def team: () -> Team?
+  end
+
+  module DraftBoard
+    RESULTS: String
+
+    def self.all: (season: Integer, ?league: (String | League), ?client: Client) -> Collection
+
+    private
+
+    def self.build_path: (Integer season, (String | nil) league_id) -> String
+    def self.parse_response: (String? response) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data) -> Hash[String, untyped]?
+    def self.build_pick: (Array[String] headers, Array[untyped] row) -> DraftBoardPick
+    def self.pick_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.extract_league_id: ((String | League) league) -> (String | nil)
+  end
+
   class DraftPick < Shale::Mapper
     attr_accessor player_id: Integer?
     attr_accessor season: Integer?
@@ -1692,6 +1732,155 @@ module NBA
     def initialize: (**untyped) -> void
     def player: () -> Player?
     def team: () -> Team?
+  end
+
+  class DraftCombineStat < Shale::Mapper
+    attr_accessor season: String?
+    attr_accessor player_id: Integer?
+    attr_accessor first_name: String?
+    attr_accessor last_name: String?
+    attr_accessor player_name: String?
+    attr_accessor position: String?
+    attr_accessor height_wo_shoes: Float?
+    attr_accessor height_wo_shoes_ft_in: String?
+    attr_accessor height_w_shoes: Float?
+    attr_accessor height_w_shoes_ft_in: String?
+    attr_accessor weight: Float?
+    attr_accessor wingspan: Float?
+    attr_accessor wingspan_ft_in: String?
+    attr_accessor standing_reach: Float?
+    attr_accessor standing_reach_ft_in: String?
+    attr_accessor body_fat_pct: Float?
+    attr_accessor hand_length: Float?
+    attr_accessor hand_width: Float?
+    attr_accessor standing_vertical_leap: Float?
+    attr_accessor max_vertical_leap: Float?
+    attr_accessor lane_agility_time: Float?
+    attr_accessor modified_lane_agility_time: Float?
+    attr_accessor three_quarter_sprint: Float?
+    attr_accessor bench_press: Integer?
+
+    def initialize: (**untyped) -> void
+    def player: () -> Player?
+  end
+
+  module DraftCombineStats
+    RESULTS: String
+
+    def self.all: (season: Integer, ?league: (String | League), ?client: Client) -> Collection
+
+    private
+
+    def self.build_path: (Integer season, (String | nil) league_id) -> String
+    def self.parse_response: (String? response) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data) -> Hash[String, untyped]?
+    def self.build_result: (Array[String] headers, Array[untyped] row) -> DraftCombineStat
+    def self.result_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.player_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.physical_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.athletic_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.extract_league_id: ((String | League) league) -> (String | nil)
+  end
+
+  class DraftCombineDrillResult < Shale::Mapper
+    attr_accessor temp_player_id: Integer?
+    attr_accessor player_id: Integer?
+    attr_accessor first_name: String?
+    attr_accessor last_name: String?
+    attr_accessor player_name: String?
+    attr_accessor position: String?
+    attr_accessor standing_vertical_leap: Float?
+    attr_accessor max_vertical_leap: Float?
+    attr_accessor lane_agility_time: Float?
+    attr_accessor modified_lane_agility_time: Float?
+    attr_accessor three_quarter_sprint: Float?
+    attr_accessor bench_press: Integer?
+
+    def initialize: (**untyped) -> void
+    def player: () -> Player?
+  end
+
+  module DraftCombineDrillResults
+    RESULTS: String
+
+    def self.all: (season: Integer, ?league: (String | League), ?client: Client) -> Collection
+
+    private
+
+    def self.build_path: (Integer season, (String | nil) league_id) -> String
+    def self.parse_response: (String? response) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data) -> Hash[String, untyped]?
+    def self.build_result: (Array[String] headers, Array[untyped] row) -> DraftCombineDrillResult
+    def self.result_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.extract_league_id: ((String | League) league) -> (String | nil)
+  end
+
+  class DraftCombineNonStationaryShootingResult < Shale::Mapper
+    attr_accessor temp_player_id: Integer?
+    attr_accessor player_id: Integer?
+    attr_accessor player_name: String?
+    attr_accessor first_name: String?
+    attr_accessor last_name: String?
+    attr_accessor position: String?
+    attr_accessor off_dribble_fifteen_break_left_made: Integer?
+    attr_accessor off_dribble_fifteen_break_left_attempt: Integer?
+    attr_accessor off_dribble_fifteen_break_left_pct: Float?
+    attr_accessor off_dribble_fifteen_top_key_made: Integer?
+    attr_accessor off_dribble_fifteen_top_key_attempt: Integer?
+    attr_accessor off_dribble_fifteen_top_key_pct: Float?
+    attr_accessor off_dribble_fifteen_break_right_made: Integer?
+    attr_accessor off_dribble_fifteen_break_right_attempt: Integer?
+    attr_accessor off_dribble_fifteen_break_right_pct: Float?
+    attr_accessor on_move_fifteen_break_left_made: Integer?
+    attr_accessor on_move_fifteen_break_left_attempt: Integer?
+    attr_accessor on_move_fifteen_break_left_pct: Float?
+    attr_accessor on_move_fifteen_top_key_made: Integer?
+    attr_accessor on_move_fifteen_top_key_attempt: Integer?
+    attr_accessor on_move_fifteen_top_key_pct: Float?
+    attr_accessor on_move_fifteen_break_right_made: Integer?
+    attr_accessor on_move_fifteen_break_right_attempt: Integer?
+    attr_accessor on_move_fifteen_break_right_pct: Float?
+    attr_accessor off_dribble_college_break_left_made: Integer?
+    attr_accessor off_dribble_college_break_left_attempt: Integer?
+    attr_accessor off_dribble_college_break_left_pct: Float?
+    attr_accessor off_dribble_college_top_key_made: Integer?
+    attr_accessor off_dribble_college_top_key_attempt: Integer?
+    attr_accessor off_dribble_college_top_key_pct: Float?
+    attr_accessor off_dribble_college_break_right_made: Integer?
+    attr_accessor off_dribble_college_break_right_attempt: Integer?
+    attr_accessor off_dribble_college_break_right_pct: Float?
+    attr_accessor on_move_college_break_left_made: Integer?
+    attr_accessor on_move_college_break_left_attempt: Integer?
+    attr_accessor on_move_college_break_left_pct: Float?
+    attr_accessor on_move_college_top_key_made: Integer?
+    attr_accessor on_move_college_top_key_attempt: Integer?
+    attr_accessor on_move_college_top_key_pct: Float?
+    attr_accessor on_move_college_break_right_made: Integer?
+    attr_accessor on_move_college_break_right_attempt: Integer?
+    attr_accessor on_move_college_break_right_pct: Float?
+
+    def initialize: (**untyped) -> void
+    def player: () -> Player?
+  end
+
+  module DraftCombineNonStationaryShooting
+    RESULTS: String
+
+    def self.all: (season: Integer, ?league: (String | League), ?client: Client) -> Collection
+
+    private
+
+    def self.build_path: (Integer season, (String | nil) league_id) -> String
+    def self.parse_response: (String? response) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data) -> Hash[String, untyped]?
+    def self.build_result: (Array[String] headers, Array[untyped] row) -> DraftCombineNonStationaryShootingResult
+    def self.result_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.player_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.off_dribble_fifteen_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.on_move_fifteen_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.off_dribble_college_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.on_move_college_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.extract_league_id: ((String | League) league) -> (String | nil)
   end
 
   module DraftHistory
@@ -5224,5 +5413,126 @@ module NBA
     def self.three_point_stats: (Hash[String, untyped] matchup) -> Hash[Symbol, untyped]
     def self.help_defense_stats: (Hash[String, untyped] matchup) -> Hash[Symbol, untyped]
     def self.free_throw_stats: (Hash[String, untyped] matchup) -> Hash[Symbol, untyped]
+  end
+
+  class DraftCombineAnthroMeasurement < Shale::Mapper
+    attr_accessor temp_player_id: Integer?
+    attr_accessor player_id: Integer?
+    attr_accessor first_name: String?
+    attr_accessor last_name: String?
+    attr_accessor player_name: String?
+    attr_accessor position: String?
+    attr_accessor height_wo_shoes: Float?
+    attr_accessor height_wo_shoes_ft_in: String?
+    attr_accessor height_w_shoes: Float?
+    attr_accessor height_w_shoes_ft_in: String?
+    attr_accessor weight: Float?
+    attr_accessor wingspan: Float?
+    attr_accessor wingspan_ft_in: String?
+    attr_accessor standing_reach: Float?
+    attr_accessor standing_reach_ft_in: String?
+    attr_accessor body_fat_pct: Float?
+    attr_accessor hand_length: Float?
+    attr_accessor hand_width: Float?
+
+    def initialize: (?temp_player_id: Integer?, ?player_id: Integer?, ?first_name: String?, ?last_name: String?,
+                     ?player_name: String?, ?position: String?, ?height_wo_shoes: Float?, ?height_wo_shoes_ft_in: String?,
+                     ?height_w_shoes: Float?, ?height_w_shoes_ft_in: String?, ?weight: Float?, ?wingspan: Float?,
+                     ?wingspan_ft_in: String?, ?standing_reach: Float?, ?standing_reach_ft_in: String?,
+                     ?body_fat_pct: Float?, ?hand_length: Float?, ?hand_width: Float?) -> void
+    def player: () -> Player?
+    def full_name: () -> String
+  end
+
+  module DraftCombinePlayerAnthro
+    RESULTS: String
+
+    def self.all: (season: Integer, ?league: (String | League), ?client: Client) -> Collection
+
+    private
+    def self.build_path: (Integer season, (String | nil) league_id) -> String
+    def self.parse_response: (String? response) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data) -> Hash[String, untyped]?
+    def self.build_measurement: (Array[String] headers, Array[untyped] row) -> DraftCombineAnthroMeasurement
+    def self.measurement_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.player_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.height_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.physical_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.extract_league_id: ((String | League) league) -> (String | nil)
+  end
+
+  class DraftCombineSpotShootingResult < Shale::Mapper
+    attr_accessor player_id: Integer?
+    attr_accessor player_name: String?
+    attr_accessor first_name: String?
+    attr_accessor last_name: String?
+    attr_accessor position: String?
+    attr_accessor fifteen_corner_left_made: Integer?
+    attr_accessor fifteen_corner_left_attempt: Integer?
+    attr_accessor fifteen_corner_left_pct: Float?
+    attr_accessor fifteen_break_left_made: Integer?
+    attr_accessor fifteen_break_left_attempt: Integer?
+    attr_accessor fifteen_break_left_pct: Float?
+    attr_accessor fifteen_top_key_made: Integer?
+    attr_accessor fifteen_top_key_attempt: Integer?
+    attr_accessor fifteen_top_key_pct: Float?
+    attr_accessor fifteen_break_right_made: Integer?
+    attr_accessor fifteen_break_right_attempt: Integer?
+    attr_accessor fifteen_break_right_pct: Float?
+    attr_accessor fifteen_corner_right_made: Integer?
+    attr_accessor fifteen_corner_right_attempt: Integer?
+    attr_accessor fifteen_corner_right_pct: Float?
+    attr_accessor college_corner_left_made: Integer?
+    attr_accessor college_corner_left_attempt: Integer?
+    attr_accessor college_corner_left_pct: Float?
+    attr_accessor college_break_left_made: Integer?
+    attr_accessor college_break_left_attempt: Integer?
+    attr_accessor college_break_left_pct: Float?
+    attr_accessor college_top_key_made: Integer?
+    attr_accessor college_top_key_attempt: Integer?
+    attr_accessor college_top_key_pct: Float?
+    attr_accessor college_break_right_made: Integer?
+    attr_accessor college_break_right_attempt: Integer?
+    attr_accessor college_break_right_pct: Float?
+    attr_accessor college_corner_right_made: Integer?
+    attr_accessor college_corner_right_attempt: Integer?
+    attr_accessor college_corner_right_pct: Float?
+    attr_accessor nba_corner_left_made: Integer?
+    attr_accessor nba_corner_left_attempt: Integer?
+    attr_accessor nba_corner_left_pct: Float?
+    attr_accessor nba_break_left_made: Integer?
+    attr_accessor nba_break_left_attempt: Integer?
+    attr_accessor nba_break_left_pct: Float?
+    attr_accessor nba_top_key_made: Integer?
+    attr_accessor nba_top_key_attempt: Integer?
+    attr_accessor nba_top_key_pct: Float?
+    attr_accessor nba_break_right_made: Integer?
+    attr_accessor nba_break_right_attempt: Integer?
+    attr_accessor nba_break_right_pct: Float?
+    attr_accessor nba_corner_right_made: Integer?
+    attr_accessor nba_corner_right_attempt: Integer?
+    attr_accessor nba_corner_right_pct: Float?
+
+    def initialize: (**untyped) -> void
+    def player: () -> Player?
+  end
+
+  module DraftCombineSpotShooting
+    RESULTS: String
+
+    def self.all: (season: Integer, ?league: (String | League), ?client: Client) -> Collection
+
+    private
+
+    def self.build_path: (Integer season, (String | nil) league_id) -> String
+    def self.parse_response: (String? response) -> Collection
+    def self.find_result_set: (Hash[String, untyped] data) -> Hash[String, untyped]?
+    def self.build_result: (Array[String] headers, Array[untyped] row) -> DraftCombineSpotShootingResult
+    def self.result_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.player_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.fifteen_foot_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.college_range_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.nba_range_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.extract_league_id: ((String | League) league) -> (String | nil)
   end
 end
