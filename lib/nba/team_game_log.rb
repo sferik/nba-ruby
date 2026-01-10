@@ -27,7 +27,7 @@ module NBA
     # @return [Collection] a collection of team game logs
     def self.find(team:, season: Utils.current_season, season_type: REGULAR_SEASON, client: CLIENT)
       team_id = extract_team_id(team)
-      season_str = "#{season}-#{(season + 1).to_s[-2..]}"
+      season_str = Utils.format_season(season)
       path = build_path(team_id, season_str, season_type)
       response = client.get(path)
       parse_response(response)

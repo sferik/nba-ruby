@@ -84,175 +84,135 @@ module NBA
     end
     private_class_method :build_path
 
-    # Parses the API response and extracts the result set
-    #
+    # Parses the API response into stat objects
     # @api private
-    # @return [Collection] the collection of statistics
+    # @return [Collection] collection of stat objects
     def self.parse_response(response, result_set_name)
       return Collection.new unless response
 
-      data = JSON.parse(response)
-      result_sets = data["resultSets"]
-      return Collection.new unless result_sets
-
-      result_set = find_result_set(result_sets, result_set_name)
-      return Collection.new unless result_set
-
+      result_set = find_result_set(JSON.parse(response), result_set_name)
       build_collection(result_set, result_set_name)
     end
     private_class_method :parse_response
 
-    # Finds the result set matching the given name
-    #
+    # Finds a result set by name in the parsed response data
     # @api private
-    # @return [Hash, nil] the result set hash or nil
-    def self.find_result_set(result_sets, name)
-      result_sets.find { |rs| rs["name"].eql?(name) }
+    # @return [Hash, nil] the matching result set or nil
+    def self.find_result_set(data, name)
+      data["resultSets"]&.find { |rs| rs["name"].eql?(name) }
     end
     private_class_method :find_result_set
 
-    # Builds a collection from the result set data
-    #
+    # Builds a collection of stat objects from a result set
     # @api private
-    # @return [Collection] the collection of statistics
+    # @return [Collection] collection of stat objects
     def self.build_collection(result_set, result_set_name)
+      return Collection.new unless result_set
+
       headers = result_set["headers"]
       rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
-      Collection.new(rows.map { |row| build_stat(headers, row, result_set_name) })
+      Collection.new(rows.map { |row| build_stat(headers.zip(row).to_h, result_set_name) })
     end
     private_class_method :build_collection
 
-    # Builds a stat object from the data hash
-    #
+    # Builds a stat object from row data
     # @api private
     # @return [TeamOnOffOverallStat, TeamOnOffPlayerStat] the stat object
-    def self.build_stat(headers, row, result_set_name)
-      data = headers.zip(row).to_h
-      attrs = result_set_name.eql?(OVERALL) ? overall_attributes(data) : player_attributes(data)
+    def self.build_stat(data, result_set_name)
+      attrs = result_set_name.eql?(OVERALL) ? overall_attrs(data) : player_attrs(data)
       result_set_name.eql?(OVERALL) ? TeamOnOffOverallStat.new(**attrs) : TeamOnOffPlayerStat.new(**attrs)
     end
     private_class_method :build_stat
 
-    # Extracts overall attributes from the data hash
-    #
+    # Extracts overall stat attributes from row data
     # @api private
-    # @return [Hash] overall attributes
-    def self.overall_attributes(data)
-      overall_identity(data).merge(stat_attributes(data))
-    end
-    private_class_method :overall_attributes
-
-    # Extracts player attributes from the data hash
-    #
-    # @api private
-    # @return [Hash] player attributes
-    def self.player_attributes(data)
-      player_identity(data).merge(stat_attributes(data))
-    end
-    private_class_method :player_attributes
-
-    # Extracts stat attributes from the data hash
-    #
-    # @api private
-    # @return [Hash] stat attributes
-    def self.stat_attributes(data)
-      record_attributes(data).merge(shooting_attributes(data)).merge(counting_attributes(data)).merge(rank_attributes(data))
-    end
-    private_class_method :stat_attributes
-
-    # Extracts overall identity attributes from the data hash
-    #
-    # @api private
-    # @return [Hash] identity attributes
-    def self.overall_identity(data)
+    # @return [Hash] overall stat attributes
+    def self.overall_attrs(data)
       {group_set: data["GROUP_SET"], group_value: data["GROUP_VALUE"], team_id: data["TEAM_ID"],
-       team_abbreviation: data["TEAM_ABBREVIATION"], team_name: data["TEAM_NAME"]}
+       team_abbreviation: data["TEAM_ABBREVIATION"], team_name: data["TEAM_NAME"]}.merge(stat_attrs(data))
     end
-    private_class_method :overall_identity
+    private_class_method :overall_attrs
 
-    # Extracts player identity attributes from the data hash
-    #
+    # Extracts player stat attributes from row data
     # @api private
-    # @return [Hash] identity attributes
-    def self.player_identity(data)
+    # @return [Hash] player stat attributes
+    def self.player_attrs(data)
       {group_set: data["GROUP_SET"], team_id: data["TEAM_ID"], team_abbreviation: data["TEAM_ABBREVIATION"],
-       team_name: data["TEAM_NAME"], vs_player_id: data["VS_PLAYER_ID"],
-       vs_player_name: data["VS_PLAYER_NAME"], court_status: data["COURT_STATUS"]}
+       team_name: data["TEAM_NAME"], vs_player_id: data["VS_PLAYER_ID"], vs_player_name: data["VS_PLAYER_NAME"],
+       court_status: data["COURT_STATUS"]}.merge(stat_attrs(data))
     end
-    private_class_method :player_identity
+    private_class_method :player_attrs
 
-    # Extracts record attributes from the data hash
-    #
+    # Extracts common stat attributes from row data
+    # @api private
+    # @return [Hash] common stat attributes
+    def self.stat_attrs(data)
+      record_attrs(data).merge(shooting_attrs(data), counting_attrs(data), rank_attrs(data))
+    end
+    private_class_method :stat_attrs
+
+    # Extracts record attributes from row data
     # @api private
     # @return [Hash] record attributes
-    def self.record_attributes(data)
+    def self.record_attrs(data)
       {gp: data["GP"], w: data["W"], l: data["L"], w_pct: data["W_PCT"], min: data["MIN"]}
     end
-    private_class_method :record_attributes
+    private_class_method :record_attrs
 
-    # Extracts shooting attributes from the data hash
-    #
+    # Extracts shooting stat attributes from row data
     # @api private
-    # @return [Hash] shooting attributes
-    def self.shooting_attributes(data)
-      {fgm: data["FGM"], fga: data["FGA"], fg_pct: data["FG_PCT"], fg3m: data["FG3M"],
-       fg3a: data["FG3A"], fg3_pct: data["FG3_PCT"], ftm: data["FTM"], fta: data["FTA"], ft_pct: data["FT_PCT"]}
+    # @return [Hash] shooting stat attributes
+    def self.shooting_attrs(data)
+      {fgm: data["FGM"], fga: data["FGA"], fg_pct: data["FG_PCT"], fg3m: data["FG3M"], fg3a: data["FG3A"],
+       fg3_pct: data["FG3_PCT"], ftm: data["FTM"], fta: data["FTA"], ft_pct: data["FT_PCT"]}
     end
-    private_class_method :shooting_attributes
+    private_class_method :shooting_attrs
 
-    # Extracts counting attributes from the data hash
-    #
+    # Extracts counting stat attributes from row data
     # @api private
-    # @return [Hash] counting attributes
-    def self.counting_attributes(data)
-      {oreb: data["OREB"], dreb: data["DREB"], reb: data["REB"], ast: data["AST"], tov: data["TOV"],
-       stl: data["STL"], blk: data["BLK"], blka: data["BLKA"], pf: data["PF"], pfd: data["PFD"],
-       pts: data["PTS"], plus_minus: data["PLUS_MINUS"]}
+    # @return [Hash] counting stat attributes
+    def self.counting_attrs(data)
+      {oreb: data["OREB"], dreb: data["DREB"], reb: data["REB"], ast: data["AST"], tov: data["TOV"], stl: data["STL"],
+       blk: data["BLK"], blka: data["BLKA"], pf: data["PF"], pfd: data["PFD"], pts: data["PTS"], plus_minus: data["PLUS_MINUS"]}
     end
-    private_class_method :counting_attributes
+    private_class_method :counting_attrs
 
-    # Extracts rank attributes from the data hash
-    #
+    # Extracts rank attributes from row data
     # @api private
     # @return [Hash] rank attributes
-    def self.rank_attributes(data)
-      record_ranks(data).merge(shooting_ranks(data)).merge(counting_ranks(data))
+    def self.rank_attrs(data)
+      record_rank_attrs(data).merge(shooting_rank_attrs(data), counting_rank_attrs(data))
     end
-    private_class_method :rank_attributes
+    private_class_method :rank_attrs
 
-    # Extracts record rank attributes from the data hash
-    #
+    # Extracts record rank attributes from row data
     # @api private
     # @return [Hash] record rank attributes
-    def self.record_ranks(data)
-      {gp_rank: data["GP_RANK"], w_rank: data["W_RANK"], l_rank: data["L_RANK"],
-       w_pct_rank: data["W_PCT_RANK"], min_rank: data["MIN_RANK"]}
+    def self.record_rank_attrs(data)
+      {gp_rank: data["GP_RANK"], w_rank: data["W_RANK"], l_rank: data["L_RANK"], w_pct_rank: data["W_PCT_RANK"], min_rank: data["MIN_RANK"]}
     end
-    private_class_method :record_ranks
+    private_class_method :record_rank_attrs
 
-    # Extracts shooting rank attributes from the data hash
-    #
+    # Extracts shooting rank attributes from row data
     # @api private
     # @return [Hash] shooting rank attributes
-    def self.shooting_ranks(data)
-      {fgm_rank: data["FGM_RANK"], fga_rank: data["FGA_RANK"], fg_pct_rank: data["FG_PCT_RANK"],
-       fg3m_rank: data["FG3M_RANK"], fg3a_rank: data["FG3A_RANK"], fg3_pct_rank: data["FG3_PCT_RANK"],
-       ftm_rank: data["FTM_RANK"], fta_rank: data["FTA_RANK"], ft_pct_rank: data["FT_PCT_RANK"]}
+    def self.shooting_rank_attrs(data)
+      {fgm_rank: data["FGM_RANK"], fga_rank: data["FGA_RANK"], fg_pct_rank: data["FG_PCT_RANK"], fg3m_rank: data["FG3M_RANK"],
+       fg3a_rank: data["FG3A_RANK"], fg3_pct_rank: data["FG3_PCT_RANK"], ftm_rank: data["FTM_RANK"], fta_rank: data["FTA_RANK"],
+       ft_pct_rank: data["FT_PCT_RANK"]}
     end
-    private_class_method :shooting_ranks
+    private_class_method :shooting_rank_attrs
 
-    # Extracts counting rank attributes from the data hash
-    #
+    # Extracts counting rank attributes from row data
     # @api private
     # @return [Hash] counting rank attributes
-    def self.counting_ranks(data)
-      {oreb_rank: data["OREB_RANK"], dreb_rank: data["DREB_RANK"], reb_rank: data["REB_RANK"],
-       ast_rank: data["AST_RANK"], tov_rank: data["TOV_RANK"], stl_rank: data["STL_RANK"],
-       blk_rank: data["BLK_RANK"], blka_rank: data["BLKA_RANK"], pf_rank: data["PF_RANK"],
-       pfd_rank: data["PFD_RANK"], pts_rank: data["PTS_RANK"], plus_minus_rank: data["PLUS_MINUS_RANK"]}
+    def self.counting_rank_attrs(data)
+      {oreb_rank: data["OREB_RANK"], dreb_rank: data["DREB_RANK"], reb_rank: data["REB_RANK"], ast_rank: data["AST_RANK"],
+       tov_rank: data["TOV_RANK"], stl_rank: data["STL_RANK"], blk_rank: data["BLK_RANK"], blka_rank: data["BLKA_RANK"],
+       pf_rank: data["PF_RANK"], pfd_rank: data["PFD_RANK"], pts_rank: data["PTS_RANK"], plus_minus_rank: data["PLUS_MINUS_RANK"]}
     end
-    private_class_method :counting_ranks
+    private_class_method :counting_rank_attrs
   end
 end

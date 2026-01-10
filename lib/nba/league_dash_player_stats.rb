@@ -360,7 +360,7 @@ module NBA
     # @param per_mode [String] the per mode
     # @return [String] the API path
     def self.build_path(season, season_type, per_mode)
-      season_str = "#{season}-#{(season + 1).to_s[-2..]}"
+      season_str = Utils.format_season(season)
       encoded_type = season_type
       "leaguedashplayerstats?LeagueID=00&Season=#{season_str}&SeasonType=#{encoded_type}&PerMode=#{per_mode}" \
         "&MeasureType=Base&Pace=N&PlusMinus=N&Rank=N"
@@ -384,7 +384,7 @@ module NBA
       rows = result_set.fetch("rowSet", nil)
       return Collection.new unless headers && rows
 
-      season_id = "#{season}-#{(season + 1).to_s[-2..]}"
+      season_id = Utils.format_season(season)
       stats = rows.map { |row| build_player_stat(headers, row, season_id) }
       Collection.new(stats)
     end

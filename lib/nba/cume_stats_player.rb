@@ -38,7 +38,7 @@ module NBA
     # @return [Hash, nil] hash with :game_by_game and :total keys, or nil
     def self.find(player:, game_ids:, season:, season_type: "Regular Season", league: League::NBA, client: CLIENT)
       player_id = Utils.extract_id(player)
-      league_id = extract_league_id(league)
+      league_id = Utils.extract_league_id(league)
       game_ids_param = format_game_ids(game_ids)
 
       path = "cumestatsplayer?PlayerID=#{player_id}&GameIDs=#{game_ids_param}" \
@@ -147,19 +147,6 @@ module NBA
       game_ids.instance_of?(Array) ? game_ids.join("|") : game_ids
     end
     private_class_method :format_game_ids
-
-    # Extracts the league ID from a League object or string
-    #
-    # @api private
-    # @param league [String, League] the league ID or League object
-    # @return [String] the league ID string
-    def self.extract_league_id(league)
-      case league
-      when League then league.id
-      else league
-      end
-    end
-    private_class_method :extract_league_id
 
     # Extracts game attributes from row data
     # @api private

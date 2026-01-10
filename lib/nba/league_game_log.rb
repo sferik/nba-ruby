@@ -68,7 +68,7 @@ module NBA
     # @param player_or_team [String] player or team type
     # @return [String] the API path
     def self.build_path(season, season_type, player_or_team)
-      season_str = "#{season}-#{(season + 1).to_s[-2..]}"
+      season_str = Utils.format_season(season)
       encoded_type = season_type
       "leaguegamelog?LeagueID=00&Season=#{season_str}&SeasonType=#{encoded_type}&PlayerOrTeam=#{player_or_team}"
     end

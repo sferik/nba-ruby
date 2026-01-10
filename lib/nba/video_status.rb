@@ -21,7 +21,7 @@ module NBA
     # @param client [Client] the API client to use
     # @return [Collection] a collection of video status entries
     def self.all(game_date:, league: League::NBA, client: CLIENT)
-      league_id = extract_league_id(league)
+      league_id = Utils.extract_league_id(league)
       path = build_path(game_date, league_id)
       response = client.get(path)
       parse_response(response)
@@ -125,18 +125,5 @@ module NBA
       {is_available: data.fetch("IS_AVAILABLE", nil), pt_xyz_available: data.fetch("PT_XYZ_AVAILABLE", nil)}
     end
     private_class_method :availability_attributes
-
-    # Extracts the league ID from a League object or string
-    #
-    # @api private
-    # @param league [String, League] the league ID or League object
-    # @return [String] the league ID string
-    def self.extract_league_id(league)
-      case league
-      when League then league.id
-      else league
-      end
-    end
-    private_class_method :extract_league_id
   end
 end

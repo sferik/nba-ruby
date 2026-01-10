@@ -321,6 +321,86 @@ module NBA
       fetch_dashboard(team, season, season_type, per_mode, "teamdashlineups", client: client)
     end
 
+    # Retrieves team dashboard by clutch splits
+    #
+    # @api public
+    # @example
+    #   stats = NBA::TeamDashboard.clutch_splits(team: NBA::Team::GSW)
+    #   stats.each { |s| puts "#{s.group_value}: #{s.pts} ppg" }
+    # @param team [Integer, Team] the team ID or Team object
+    # @param season [Integer] the season year
+    # @param season_type [String] the season type
+    # @param per_mode [String] the per mode
+    # @param client [Client] the API client to use
+    # @return [Collection] a collection of dashboard stats
+    def self.clutch_splits(team:, season: Utils.current_season, season_type: REGULAR_SEASON, per_mode: PER_GAME, client: CLIENT)
+      fetch_dashboard(team, season, season_type, per_mode, "teamdashboardbyclutch", client: client)
+    end
+
+    # Retrieves team dashboard by game splits
+    #
+    # @api public
+    # @example
+    #   stats = NBA::TeamDashboard.game_splits(team: NBA::Team::GSW)
+    #   stats.each { |s| puts "#{s.group_value}: #{s.pts} ppg" }
+    # @param team [Integer, Team] the team ID or Team object
+    # @param season [Integer] the season year
+    # @param season_type [String] the season type
+    # @param per_mode [String] the per mode
+    # @param client [Client] the API client to use
+    # @return [Collection] a collection of dashboard stats
+    def self.game_splits(team:, season: Utils.current_season, season_type: REGULAR_SEASON, per_mode: PER_GAME, client: CLIENT)
+      fetch_dashboard(team, season, season_type, per_mode, "teamdashboardbygamesplits", client: client)
+    end
+
+    # Retrieves team dashboard by last N games
+    #
+    # @api public
+    # @example
+    #   stats = NBA::TeamDashboard.last_n_games(team: NBA::Team::GSW)
+    #   stats.each { |s| puts "#{s.group_value}: #{s.pts} ppg" }
+    # @param team [Integer, Team] the team ID or Team object
+    # @param season [Integer] the season year
+    # @param season_type [String] the season type
+    # @param per_mode [String] the per mode
+    # @param client [Client] the API client to use
+    # @return [Collection] a collection of dashboard stats
+    def self.last_n_games(team:, season: Utils.current_season, season_type: REGULAR_SEASON, per_mode: PER_GAME, client: CLIENT)
+      fetch_dashboard(team, season, season_type, per_mode, "teamdashboardbylastngames", client: client)
+    end
+
+    # Retrieves team dashboard by team performance
+    #
+    # @api public
+    # @example
+    #   stats = NBA::TeamDashboard.team_performance(team: NBA::Team::GSW)
+    #   stats.each { |s| puts "#{s.group_value}: #{s.pts} ppg" }
+    # @param team [Integer, Team] the team ID or Team object
+    # @param season [Integer] the season year
+    # @param season_type [String] the season type
+    # @param per_mode [String] the per mode
+    # @param client [Client] the API client to use
+    # @return [Collection] a collection of dashboard stats
+    def self.team_performance(team:, season: Utils.current_season, season_type: REGULAR_SEASON, per_mode: PER_GAME, client: CLIENT)
+      fetch_dashboard(team, season, season_type, per_mode, "teamdashboardbyteamperformance", client: client)
+    end
+
+    # Retrieves team dashboard by year over year
+    #
+    # @api public
+    # @example
+    #   stats = NBA::TeamDashboard.year_over_year(team: NBA::Team::GSW)
+    #   stats.each { |s| puts "#{s.group_value}: #{s.pts} ppg" }
+    # @param team [Integer, Team] the team ID or Team object
+    # @param season [Integer] the season year
+    # @param season_type [String] the season type
+    # @param per_mode [String] the per mode
+    # @param client [Client] the API client to use
+    # @return [Collection] a collection of dashboard stats
+    def self.year_over_year(team:, season: Utils.current_season, season_type: REGULAR_SEASON, per_mode: PER_GAME, client: CLIENT)
+      fetch_dashboard(team, season, season_type, per_mode, "teamdashboardbyyearoveryear", client: client)
+    end
+
     # Fetches dashboard data from the API
     #
     # @api private

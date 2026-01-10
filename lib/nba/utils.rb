@@ -78,5 +78,17 @@ module NBA
     rescue ArgumentError
       nil
     end
+
+    # Extracts a league ID from a League object or returns the value as-is
+    #
+    # @api public
+    # @example
+    #   NBA::Utils.extract_league_id(league) #=> "00"
+    #   NBA::Utils.extract_league_id("00") #=> "00"
+    # @param league [League, String] the league or ID
+    # @return [String] the extracted league ID
+    def self.extract_league_id(league)
+      league.respond_to?(:id) ? league.id : league
+    end
   end
 end

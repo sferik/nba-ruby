@@ -97,5 +97,16 @@ module NBA
       assert_nil Utils.parse_integer("abc")
       assert_nil Utils.parse_integer("N/A")
     end
+
+    def test_extract_league_id_returns_id_from_league_object
+      league = League.new(id: "00")
+
+      assert_equal "00", Utils.extract_league_id(league)
+    end
+
+    def test_extract_league_id_returns_value_for_string
+      assert_equal "00", Utils.extract_league_id("00")
+      assert_equal "10", Utils.extract_league_id("10")
+    end
   end
 end

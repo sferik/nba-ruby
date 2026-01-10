@@ -24,7 +24,7 @@ module NBA
     # @param client [Client] the API client to use
     # @return [Collection] a collection of franchises
     def self.all(league: League::NBA, client: CLIENT)
-      league_id = extract_league_id(league)
+      league_id = Utils.extract_league_id(league)
       path = "franchisehistory?LeagueID=#{league_id}"
       response = client.get(path)
       parse_response(response, FRANCHISE_HISTORY)
@@ -40,7 +40,7 @@ module NBA
     # @param client [Client] the API client to use
     # @return [Collection] a collection of defunct franchises
     def self.defunct(league: League::NBA, client: CLIENT)
-      league_id = extract_league_id(league)
+      league_id = Utils.extract_league_id(league)
       path = "franchisehistory?LeagueID=#{league_id}"
       response = client.get(path)
       parse_response(response, DEFUNCT_TEAMS)
@@ -138,18 +138,5 @@ module NBA
        conf_titles: data.fetch("CONF_TITLES", nil), league_titles: data.fetch("LEAGUE_TITLES", nil)}
     end
     private_class_method :title_attributes
-
-    # Extracts the league ID from a League object or string
-    #
-    # @api private
-    # @param league [String, League] the league ID or League object
-    # @return [String] the league ID string
-    def self.extract_league_id(league)
-      case league
-      when League then league.id
-      else league
-      end
-    end
-    private_class_method :extract_league_id
   end
 end

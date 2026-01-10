@@ -111,5 +111,25 @@ module NBA
     #     summary.net_rating #=> 6.5
     #   @return [Float, nil] net rating
     attribute :net_rating, Shale::Type::Float
+
+    # Returns whether the player is on court
+    #
+    # @api public
+    # @example
+    #   summary.on_court? #=> true
+    # @return [Boolean] true if player is on court
+    def on_court?
+      court_status.eql?("On")
+    end
+
+    # Returns whether the player is off court
+    #
+    # @api public
+    # @example
+    #   summary.off_court? #=> true
+    # @return [Boolean] true if player is off court
+    def off_court?
+      court_status.eql?("Off")
+    end
   end
 end

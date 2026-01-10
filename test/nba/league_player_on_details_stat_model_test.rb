@@ -57,6 +57,30 @@ module NBA
       assert_equal Team::GSW, result.id
     end
 
+    def test_on_court_returns_true_when_court_status_is_on
+      stat = LeaguePlayerOnDetailsStat.new(court_status: "On")
+
+      assert_predicate stat, :on_court?
+    end
+
+    def test_on_court_returns_false_when_court_status_is_off
+      stat = LeaguePlayerOnDetailsStat.new(court_status: "Off")
+
+      refute_predicate stat, :on_court?
+    end
+
+    def test_off_court_returns_true_when_court_status_is_off
+      stat = LeaguePlayerOnDetailsStat.new(court_status: "Off")
+
+      assert_predicate stat, :off_court?
+    end
+
+    def test_off_court_returns_false_when_court_status_is_on
+      stat = LeaguePlayerOnDetailsStat.new(court_status: "On")
+
+      refute_predicate stat, :off_court?
+    end
+
     private
 
     def player_response

@@ -40,27 +40,17 @@ Layout/SpaceInsideHashLiteralBraces:
 Metrics/ParameterLists:
   CountKeywordArgs: false
 
-Metrics/ModuleLength:
-  Max: 115
-
 Metrics/BlockLength:
   Max: 28
 
 Minitest/MultipleAssertions:
   Max: 5
 
-Naming/VariableNumber:
-  CheckSymbols: false
-  CheckMethodNames: false
-
 Style/Alias:
   EnforcedStyle: prefer_alias_method
 
 Style/FrozenStringLiteralComment:
   EnforcedStyle: never
-
-Style/OpenStructUse:
-  Enabled: false
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes

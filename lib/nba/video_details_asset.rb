@@ -29,7 +29,7 @@ module NBA
       client: CLIENT)
       player_id = Utils.extract_id(player)
       team_id = Utils.extract_id(team)
-      league_id = extract_league_id(league)
+      league_id = Utils.extract_league_id(league)
       season_param = Utils.format_season(season)
       params = {player_id: player_id, team_id: team_id, season: season_param, context_measure: context_measure,
                 season_type: season_type, league_id: league_id}
@@ -111,18 +111,5 @@ module NBA
        video_duration: data.fetch("VIDEO_DURATION", nil), video_description: data.fetch("VIDEO_DESCRIPTION", nil)}
     end
     private_class_method :video_attributes
-
-    # Extracts the league ID from a League object or string
-    #
-    # @api private
-    # @param league [String, League] the league ID or League object
-    # @return [String] the league ID string
-    def self.extract_league_id(league)
-      case league
-      when League then league.id
-      else league
-      end
-    end
-    private_class_method :extract_league_id
   end
 end

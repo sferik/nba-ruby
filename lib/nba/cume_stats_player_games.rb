@@ -57,19 +57,6 @@ module NBA
     end
     private_class_method :entry_attributes
 
-    # Extracts the league ID from a League object or string
-    #
-    # @api private
-    # @param league [String, League] the league ID or League object
-    # @return [String] the league ID string
-    def self.extract_league_id(league)
-      case league
-      when League then league.id
-      else league
-      end
-    end
-    private_class_method :extract_league_id
-
     # Builds API path from options
     # @api private
     module PathBuilder
@@ -86,12 +73,12 @@ module NBA
       # @param opts [Hash] the options hash
       # @return [String] the base API path
       def self.base_path(opts)
-        player_id = Utils.extract_id(opts[:player])
-        league_id = CumeStatsPlayerGames.send(:extract_league_id, opts[:league])
-        season_str = Utils.format_season(opts[:season])
+        player_id = Utils.extract_id(opts.fetch(:player))
+        league_id = Utils.extract_league_id(opts.fetch(:league))
+        season_str = Utils.format_season(opts.fetch(:season))
 
         "cumestatsplayergames?PlayerID=#{player_id}&LeagueID=#{league_id}" \
-          "&Season=#{season_str}&SeasonType=#{opts[:season_type]}"
+          "&Season=#{season_str}&SeasonType=#{opts.fetch(:season_type)}"
       end
 
       # Builds optional parameters string from options
@@ -100,11 +87,11 @@ module NBA
       # @return [String] the optional parameters string
       def self.optional_params(opts)
         path = ""
-        path += "&Location=#{opts[:location]}" if opts[:location]
-        path += "&Outcome=#{opts[:outcome]}" if opts[:outcome]
-        path += "&VsConference=#{opts[:vs_conference]}" if opts[:vs_conference]
-        path += "&VsDivision=#{opts[:vs_division]}" if opts[:vs_division]
-        path += "&VsTeamID=#{Utils.extract_id(opts[:vs_team])}" if opts[:vs_team]
+        path += "&Location=#{opts.fetch(:location)}" if opts.fetch(:location)
+        path += "&Outcome=#{opts.fetch(:outcome)}" if opts.fetch(:outcome)
+        path += "&VsConference=#{opts.fetch(:vs_conference)}" if opts.fetch(:vs_conference)
+        path += "&VsDivision=#{opts.fetch(:vs_division)}" if opts.fetch(:vs_division)
+        path += "&VsTeamID=#{Utils.extract_id(opts.fetch(:vs_team))}" if opts.fetch(:vs_team)
         path
       end
     end

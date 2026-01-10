@@ -123,13 +123,11 @@ module NBA
     # @api private
     # @return [Hash] matchup time statistics
     def self.matchup_time_stats(matchup)
-      {matchup_minutes: matchup.fetch("matchupMinutes", nil),
-       matchup_minutes_sort: matchup.fetch("matchupMinutesSort", nil),
+      {matchup_minutes: matchup.fetch("matchupMinutes", nil), matchup_minutes_sort: matchup.fetch("matchupMinutesSort", nil),
        partial_possessions: matchup.fetch("partialPossessions", nil),
        percentage_defender_total_time: matchup.fetch("percentageDefenderTotalTime", nil),
        percentage_offensive_total_time: matchup.fetch("percentageOffensiveTotalTime", nil),
-       percentage_total_time_both_on: matchup.fetch("percentageTotalTimeBothOn", nil),
-       switches_on: matchup.fetch("switchesOn", nil)}
+       percentage_total_time_both_on: matchup.fetch("percentageTotalTimeBothOn", nil), switches_on: matchup.fetch("switchesOn", nil)}
     end
     private_class_method :matchup_time_stats
 
@@ -138,10 +136,8 @@ module NBA
     # @return [Hash] matchup counting statistics
     def self.matchup_counting_stats(matchup)
       {player_points: matchup.fetch("playerPoints", nil), team_points: matchup.fetch("teamPoints", nil),
-       matchup_assists: matchup.fetch("matchupAssists", nil),
-       matchup_potential_assists: matchup.fetch("matchupPotentialAssists", nil),
-       matchup_turnovers: matchup.fetch("matchupTurnovers", nil),
-       matchup_blocks: matchup.fetch("matchupBlocks", nil)}
+       matchup_assists: matchup.fetch("matchupAssists", nil), matchup_potential_assists: matchup.fetch("matchupPotentialAssists", nil),
+       matchup_turnovers: matchup.fetch("matchupTurnovers", nil), matchup_blocks: matchup.fetch("matchupBlocks", nil)}
     end
     private_class_method :matchup_counting_stats
 
@@ -149,50 +145,40 @@ module NBA
     # @api private
     # @return [Hash] matchup shooting statistics
     def self.matchup_shooting_stats(matchup)
-      field_goal_stats(matchup).merge(three_point_stats(matchup), help_defense_stats(matchup),
-        free_throw_stats(matchup))
+      fg_stats(matchup).merge(three_pt_stats(matchup), help_and_ft_stats(matchup))
     end
     private_class_method :matchup_shooting_stats
 
     # Extracts field goal statistics from matchup data
     # @api private
     # @return [Hash] field goal statistics
-    def self.field_goal_stats(matchup)
-      {matchup_field_goals_made: matchup.fetch("matchupFieldGoalsMade", nil),
-       matchup_field_goals_attempted: matchup.fetch("matchupFieldGoalsAttempted", nil),
-       matchup_field_goals_percentage: matchup.fetch("matchupFieldGoalsPercentage", nil)}
+    def self.fg_stats(data)
+      {matchup_field_goals_made: data.fetch("matchupFieldGoalsMade", nil),
+       matchup_field_goals_attempted: data.fetch("matchupFieldGoalsAttempted", nil),
+       matchup_field_goals_percentage: data.fetch("matchupFieldGoalsPercentage", nil)}
     end
-    private_class_method :field_goal_stats
+    private_class_method :fg_stats
 
-    # Extracts three point statistics from matchup data
+    # Extracts three-pointer statistics from matchup data
     # @api private
-    # @return [Hash] three point statistics
-    def self.three_point_stats(matchup)
-      {matchup_three_pointers_made: matchup.fetch("matchupThreePointersMade", nil),
-       matchup_three_pointers_attempted: matchup.fetch("matchupThreePointersAttempted", nil),
-       matchup_three_pointers_percentage: matchup.fetch("matchupThreePointersPercentage", nil)}
+    # @return [Hash] three-pointer statistics
+    def self.three_pt_stats(data)
+      {matchup_three_pointers_made: data.fetch("matchupThreePointersMade", nil),
+       matchup_three_pointers_attempted: data.fetch("matchupThreePointersAttempted", nil),
+       matchup_three_pointers_percentage: data.fetch("matchupThreePointersPercentage", nil)}
     end
-    private_class_method :three_point_stats
+    private_class_method :three_pt_stats
 
-    # Extracts help defense statistics from matchup data
+    # Extracts help defense and free throw statistics from matchup data
     # @api private
-    # @return [Hash] help defense statistics
-    def self.help_defense_stats(matchup)
-      {help_blocks: matchup.fetch("helpBlocks", nil),
-       help_field_goals_made: matchup.fetch("helpFieldGoalsMade", nil),
-       help_field_goals_attempted: matchup.fetch("helpFieldGoalsAttempted", nil),
-       help_field_goals_percentage: matchup.fetch("helpFieldGoalsPercentage", nil)}
+    # @return [Hash] help defense and free throw statistics
+    def self.help_and_ft_stats(data)
+      {help_blocks: data.fetch("helpBlocks", nil), help_field_goals_made: data.fetch("helpFieldGoalsMade", nil),
+       help_field_goals_attempted: data.fetch("helpFieldGoalsAttempted", nil),
+       help_field_goals_percentage: data.fetch("helpFieldGoalsPercentage", nil),
+       matchup_free_throws_made: data.fetch("matchupFreeThrowsMade", nil),
+       matchup_free_throws_attempted: data.fetch("matchupFreeThrowsAttempted", nil), shooting_fouls: data.fetch("shootingFouls", nil)}
     end
-    private_class_method :help_defense_stats
-
-    # Extracts free throw statistics from matchup data
-    # @api private
-    # @return [Hash] free throw statistics
-    def self.free_throw_stats(matchup)
-      {matchup_free_throws_made: matchup.fetch("matchupFreeThrowsMade", nil),
-       matchup_free_throws_attempted: matchup.fetch("matchupFreeThrowsAttempted", nil),
-       shooting_fouls: matchup.fetch("shootingFouls", nil)}
-    end
-    private_class_method :free_throw_stats
+    private_class_method :help_and_ft_stats
   end
 end

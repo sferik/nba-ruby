@@ -410,26 +410,6 @@ defunct = NBA::FranchiseHistory.defunct
 defunct.size # => 15
 ```
 
-## TODO
-
-The following endpoints are not yet implemented:
-
-- [ ] AssistLeaders
-- [ ] AssistTracker
-- [ ] DefenseHub
-- [ ] FantasyWidget
-- [ ] HomePageLeaders
-- [ ] HomePageV2
-- [ ] HustleStatsBoxScore
-- [ ] IstStandings (In-Season Tournament)
-- [ ] LeadersTiles
-- [ ] Live Odds
-- [ ] MatchupsRollup
-- [ ] PlayByPlayV3
-- [ ] PlayoffPicture
-- [ ] ScoreboardV3
-- [ ] ShotChartLineupDetail
-
 ## Development
 
 After checking out the repo, run `bundle install` to install dependencies.

@@ -72,10 +72,10 @@ module NBA
       # @return [Hash] the required parameters
       def self.required_params(opts)
         {
-          TeamID: Utils.extract_id(opts[:team]),
-          LeagueID: CumeStatsTeamGames.send(:extract_league_id, opts[:league]),
-          Season: Utils.format_season(opts[:season]),
-          SeasonType: opts[:season_type]
+          TeamID: Utils.extract_id(opts.fetch(:team)),
+          LeagueID: Utils.extract_league_id(opts.fetch(:league)),
+          Season: Utils.format_season(opts.fetch(:season)),
+          SeasonType: opts.fetch(:season_type)
         }
       end
 
@@ -85,9 +85,9 @@ module NBA
       # @return [Hash] the optional parameters
       def self.optional_params(opts)
         {
-          Location: opts[:location], Outcome: opts[:outcome], SeasonID: opts[:season_id],
-          VsConference: opts[:vs_conference], VsDivision: opts[:vs_division],
-          VsTeamID: Utils.extract_id(opts[:vs_team])
+          Location: opts.fetch(:location), Outcome: opts.fetch(:outcome), SeasonID: opts.fetch(:season_id),
+          VsConference: opts.fetch(:vs_conference), VsDivision: opts.fetch(:vs_division),
+          VsTeamID: Utils.extract_id(opts.fetch(:vs_team))
         }
       end
     end
@@ -141,18 +141,5 @@ module NBA
       }
     end
     private_class_method :entry_attributes
-
-    # Extracts the league ID from a League object or string
-    #
-    # @api private
-    # @param league [String, League] the league ID or League object
-    # @return [String] the league ID string
-    def self.extract_league_id(league)
-      case league
-      when League then league.id
-      else league
-      end
-    end
-    private_class_method :extract_league_id
   end
 end

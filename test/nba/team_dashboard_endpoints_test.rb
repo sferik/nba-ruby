@@ -22,6 +22,36 @@ module NBA
       assert_instance_of Collection, TeamDashboard.lineups(team: Team::GSW)
     end
 
+    def test_clutch_splits_returns_collection
+      stub_dashboard_request("teamdashboardbyclutch")
+
+      assert_instance_of Collection, TeamDashboard.clutch_splits(team: Team::GSW)
+    end
+
+    def test_game_splits_returns_collection
+      stub_dashboard_request("teamdashboardbygamesplits")
+
+      assert_instance_of Collection, TeamDashboard.game_splits(team: Team::GSW)
+    end
+
+    def test_last_n_games_returns_collection
+      stub_dashboard_request("teamdashboardbylastngames")
+
+      assert_instance_of Collection, TeamDashboard.last_n_games(team: Team::GSW)
+    end
+
+    def test_team_performance_returns_collection
+      stub_dashboard_request("teamdashboardbyteamperformance")
+
+      assert_instance_of Collection, TeamDashboard.team_performance(team: Team::GSW)
+    end
+
+    def test_year_over_year_returns_collection
+      stub_dashboard_request("teamdashboardbyyearoveryear")
+
+      assert_instance_of Collection, TeamDashboard.year_over_year(team: Team::GSW)
+    end
+
     private
 
     def stub_dashboard_request(endpoint)

@@ -84,6 +84,30 @@ module NBA
       refute_equal stat1, stat2
     end
 
+    def test_on_court_returns_true_when_court_status_is_on
+      stat = VsPlayerStat.new(court_status: "On")
+
+      assert_predicate stat, :on_court?
+    end
+
+    def test_on_court_returns_false_when_court_status_is_off
+      stat = VsPlayerStat.new(court_status: "Off")
+
+      refute_predicate stat, :on_court?
+    end
+
+    def test_off_court_returns_true_when_court_status_is_off
+      stat = VsPlayerStat.new(court_status: "Off")
+
+      assert_predicate stat, :off_court?
+    end
+
+    def test_off_court_returns_false_when_court_status_is_on
+      stat = VsPlayerStat.new(court_status: "On")
+
+      refute_predicate stat, :off_court?
+    end
+
     private
 
     def player_response(id)

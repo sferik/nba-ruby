@@ -112,5 +112,33 @@ module NBA
        tov: stats.fetch("turnovers", nil), pf: stats.fetch("foulsPersonal", nil),
        pts: stats.fetch("points", nil), plus_minus: stats.fetch("plusMinusPoints", nil)}
     end
+
+    # Extracts advanced rating statistics from V3 API format
+    # @api private
+    # @return [Hash] rating statistics
+    def self.advanced_rating_stats(stats)
+      {e_off_rating: stats.fetch("estimatedOffensiveRating", nil), off_rating: stats.fetch("offensiveRating", nil),
+       e_def_rating: stats.fetch("estimatedDefensiveRating", nil), def_rating: stats.fetch("defensiveRating", nil),
+       e_net_rating: stats.fetch("estimatedNetRating", nil), net_rating: stats.fetch("netRating", nil)}
+    end
+
+    # Extracts advanced efficiency statistics from V3 API format
+    # @api private
+    # @return [Hash] efficiency statistics
+    def self.advanced_efficiency_stats(stats)
+      {ast_pct: stats.fetch("assistPercentage", nil), ast_tov: stats.fetch("assistToTurnover", nil),
+       ast_ratio: stats.fetch("assistRatio", nil), oreb_pct: stats.fetch("reboundsOffensivePercentage", nil),
+       dreb_pct: stats.fetch("reboundsDefensivePercentage", nil), reb_pct: stats.fetch("reboundsPercentage", nil),
+       tov_pct: stats.fetch("turnoverPercentage", nil), efg_pct: stats.fetch("effectiveFieldGoalPercentage", nil),
+       ts_pct: stats.fetch("trueShootingPercentage", nil), pie: stats.fetch("playerImpactEstimate", nil)}
+    end
+
+    # Extracts advanced tempo statistics from V3 API format
+    # @api private
+    # @return [Hash] tempo statistics
+    def self.advanced_tempo_stats(stats)
+      {e_pace: stats.fetch("estimatedPace", nil), pace: stats.fetch("pace", nil),
+       pace_per40: stats.fetch("pacePer40", nil), poss: stats.fetch("possessions", nil)}
+    end
   end
 end

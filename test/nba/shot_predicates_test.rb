@@ -4,6 +4,24 @@ module NBA
   class ShotPredicatesTest < Minitest::Test
     cover Shot
 
+    def test_attempted_returns_true_when_shot_attempted_flag_is_one
+      shot = Shot.new(shot_attempted_flag: 1)
+
+      assert_predicate shot, :attempted?
+    end
+
+    def test_attempted_returns_false_when_shot_attempted_flag_is_zero
+      shot = Shot.new(shot_attempted_flag: 0)
+
+      refute_predicate shot, :attempted?
+    end
+
+    def test_attempted_uses_value_equality
+      shot = Shot.new(shot_attempted_flag: 1.0)
+
+      assert_predicate shot, :attempted?
+    end
+
     def test_made_returns_true_when_shot_made_flag_is_one
       shot = Shot.new(shot_made_flag: 1)
 

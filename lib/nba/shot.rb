@@ -155,6 +155,16 @@ module NBA
     #   @return [Integer] 1 if made, 0 if missed
     attribute :shot_made_flag, Shale::Type::Integer
 
+    # Returns whether a shot was attempted
+    #
+    # @api public
+    # @example
+    #   shot.attempted? #=> true
+    # @return [Boolean] true if attempted
+    def attempted?
+      shot_attempted_flag.eql?(1)
+    end
+
     # Returns whether the shot was made
     #
     # @api public

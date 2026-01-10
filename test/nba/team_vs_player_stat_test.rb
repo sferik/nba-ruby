@@ -18,6 +18,30 @@ module NBA
       assert_equal 201_566, stat.vs_player.id
     end
 
+    def test_on_court_returns_true_when_court_status_is_on
+      stat = TeamVsPlayerStat.new(court_status: "On")
+
+      assert_predicate stat, :on_court?
+    end
+
+    def test_on_court_returns_false_when_court_status_is_off
+      stat = TeamVsPlayerStat.new(court_status: "Off")
+
+      refute_predicate stat, :on_court?
+    end
+
+    def test_off_court_returns_true_when_court_status_is_off
+      stat = TeamVsPlayerStat.new(court_status: "Off")
+
+      assert_predicate stat, :off_court?
+    end
+
+    def test_off_court_returns_false_when_court_status_is_on
+      stat = TeamVsPlayerStat.new(court_status: "On")
+
+      refute_predicate stat, :off_court?
+    end
+
     private
 
     def team_response

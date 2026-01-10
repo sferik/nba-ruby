@@ -289,5 +289,25 @@ module NBA
     def team
       Teams.find(team_id)
     end
+
+    # Returns whether the player is on court
+    #
+    # @api public
+    # @example
+    #   stat.on_court? #=> true
+    # @return [Boolean] true if player is on court
+    def on_court?
+      court_status.eql?("On")
+    end
+
+    # Returns whether the player is off court
+    #
+    # @api public
+    # @example
+    #   stat.off_court? #=> true
+    # @return [Boolean] true if player is off court
+    def off_court?
+      court_status.eql?("Off")
+    end
   end
 end

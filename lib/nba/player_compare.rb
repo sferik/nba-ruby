@@ -287,7 +287,7 @@ module NBA
     # @api private
     # @return [String] the request path
     def self.build_path(player_id, vs_player_id, season, season_type)
-      season_str = "#{season}-#{(season + 1).to_s[-2..]}"
+      season_str = Utils.format_season(season)
       encoded_type = season_type
       "playercompare?PlayerIDList=#{player_id}&VsPlayerIDList=#{vs_player_id}" \
         "&Season=#{season_str}&SeasonType=#{encoded_type}&PerMode=PerGame&LeagueID=00"
