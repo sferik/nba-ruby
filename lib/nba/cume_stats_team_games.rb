@@ -72,10 +72,10 @@ module NBA
       # @return [Hash] the required parameters
       def self.required_params(opts)
         {
-          TeamID: Utils.extract_id(opts[:team]),
-          LeagueID: CumeStatsTeamGames.send(:extract_league_id, opts[:league]),
-          Season: Utils.format_season(opts[:season]),
-          SeasonType: opts[:season_type]
+          TeamID: Utils.extract_id(opts.fetch(:team)),
+          LeagueID: CumeStatsTeamGames.__send__(:extract_league_id, opts.fetch(:league)),
+          Season: Utils.format_season(opts.fetch(:season)),
+          SeasonType: opts.fetch(:season_type)
         }
       end
 
@@ -85,9 +85,9 @@ module NBA
       # @return [Hash] the optional parameters
       def self.optional_params(opts)
         {
-          Location: opts[:location], Outcome: opts[:outcome], SeasonID: opts[:season_id],
-          VsConference: opts[:vs_conference], VsDivision: opts[:vs_division],
-          VsTeamID: Utils.extract_id(opts[:vs_team])
+          Location: opts.fetch(:location), Outcome: opts.fetch(:outcome), SeasonID: opts.fetch(:season_id),
+          VsConference: opts.fetch(:vs_conference), VsDivision: opts.fetch(:vs_division),
+          VsTeamID: Utils.extract_id(opts.fetch(:vs_team))
         }
       end
     end

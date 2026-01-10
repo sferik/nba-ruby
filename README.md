@@ -410,26 +410,6 @@ defunct = NBA::FranchiseHistory.defunct
 defunct.size # => 15
 ```
 
-## TODO
-
-The following endpoints are not yet implemented:
-
-- [ ] AssistLeaders
-- [ ] AssistTracker
-- [ ] DefenseHub
-- [ ] FantasyWidget
-- [ ] HomePageLeaders
-- [ ] HomePageV2
-- [ ] HustleStatsBoxScore
-- [ ] IstStandings (In-Season Tournament)
-- [ ] LeadersTiles
-- [ ] Live Odds
-- [ ] MatchupsRollup
-- [ ] PlayByPlayV3
-- [ ] PlayoffPicture
-- [ ] ScoreboardV3
-- [ ] ShotChartLineupDetail
-
 ## Development
 
 After checking out the repo, run `bundle install` to install dependencies.
@@ -469,6 +449,56 @@ bundle exec rake yard
 ```bash
 bundle exec rake
 ```
+
+## TODO
+
+The following features from [nba_api](https://github.com/swar/nba_api) are not yet implemented:
+
+### Box Score Endpoints
+
+- [ ] `BoxScoreSimilarityScore` - GLA Alum box score similarity scoring
+
+### Player Dashboard Endpoints
+
+- [ ] `PlayerDashboardByClutch` - Clutch situation performance
+- [ ] `PlayerDashboardByGameSplits` - Game-by-game splits
+- [ ] `PlayerDashboardByGeneralSplits` - General performance splits
+- [ ] `PlayerDashboardByLastNGames` - Last N games splits
+- [ ] `PlayerDashboardByShootingSplits` - Shooting performance splits
+- [ ] `PlayerDashboardByTeamPerformance` - Performance by team outcome
+- [ ] `PlayerDashboardByYearOverYear` - Year-over-year comparison
+
+### Team Dashboard Endpoints
+
+- [ ] `TeamDashboardByClutch` - Team clutch situation performance
+- [ ] `TeamDashboardByGameSplits` - Team game-by-game splits
+- [ ] `TeamDashboardByGeneralSplits` - Team general performance splits
+- [ ] `TeamDashboardByLastNGames` - Team last N games splits
+- [ ] `TeamDashboardByShootingSplits` - Team shooting performance splits
+- [ ] `TeamDashboardByTeamPerformance` - Team performance by outcome
+- [ ] `TeamDashboardByYearOverYear` - Team year-over-year comparison
+- [ ] `TeamDashLineups` - Team lineup statistics
+
+### League-Wide Endpoints
+
+- [ ] `LeagueDashLineups` - League-wide lineup statistics
+- [ ] `LeagueStandingsV3` - League standings (v3 API)
+
+### Schedule Endpoints
+
+- [ ] `ScheduleLeagueV2` - Full league schedule (v2 API)
+
+### Scoreboard Endpoints
+
+- [ ] `ScoreboardV2` - Scoreboard data (v2 API)
+
+### Live Data Endpoints
+
+- [ ] `LiveOdds` - Real-time betting odds data
+
+### Static Data
+
+- [ ] Static player/team data caching (like `nba_api.stats.static`)
 
 ## Contributing
 

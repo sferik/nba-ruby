@@ -153,75 +153,25 @@ module NBA
     private_class_method :find_result_set
 
     # Builds a team info object from API data
-    #
     # @api private
     # @return [TeamInfo] the team info object
     def self.build_team_info(data)
-      TeamInfo.new(**identity_info(data), **record_info(data), **year_info(data))
+      TeamInfo.new(team_id: data["TEAM_ID"], team_city: data["TEAM_CITY"], team_name: data["TEAM_NAME"],
+        team_abbreviation: data["TEAM_ABBREVIATION"], team_conference: data["TEAM_CONFERENCE"],
+        team_division: data["TEAM_DIVISION"], team_code: data["TEAM_CODE"], team_slug: data["TEAM_SLUG"],
+        w: data["W"], l: data["L"], pct: data["PCT"], conf_rank: data["CONF_RANK"], div_rank: data["DIV_RANK"],
+        min_year: data["MIN_YEAR"], max_year: data["MAX_YEAR"], season_year: data["SEASON_YEAR"])
     end
     private_class_method :build_team_info
 
-    # Extracts identity information from data
-    #
-    # @api private
-    # @return [Hash] the identity information hash
-    def self.identity_info(data)
-      {team_id: data["TEAM_ID"], team_city: data["TEAM_CITY"],
-       team_name: data["TEAM_NAME"], team_abbreviation: data["TEAM_ABBREVIATION"],
-       team_conference: data["TEAM_CONFERENCE"], team_division: data["TEAM_DIVISION"],
-       team_code: data["TEAM_CODE"], team_slug: data["TEAM_SLUG"]}
-    end
-    private_class_method :identity_info
-
-    # Extracts record information from data
-    #
-    # @api private
-    # @return [Hash] the record information hash
-    def self.record_info(data)
-      {w: data["W"], l: data["L"], pct: data["PCT"],
-       conf_rank: data["CONF_RANK"], div_rank: data["DIV_RANK"]}
-    end
-    private_class_method :record_info
-
-    # Extracts year information from data
-    #
-    # @api private
-    # @return [Hash] the year information hash
-    def self.year_info(data)
-      {min_year: data["MIN_YEAR"], max_year: data["MAX_YEAR"],
-       season_year: data["SEASON_YEAR"]}
-    end
-    private_class_method :year_info
-
     # Builds a team season rank object from API data
-    #
     # @api private
     # @return [TeamSeasonRank] the team season rank object
     def self.build_team_season_rank(data)
-      TeamSeasonRank.new(**rank_identity_info(data), **rank_stats_info(data))
+      TeamSeasonRank.new(league_id: data["LEAGUE_ID"], season_id: data["SEASON_ID"], team_id: data["TEAM_ID"],
+        pts_rank: data["PTS_RANK"], pts_pg: data["PTS_PG"], reb_rank: data["REB_RANK"], reb_pg: data["REB_PG"],
+        ast_rank: data["AST_RANK"], ast_pg: data["AST_PG"], opp_pts_rank: data["OPP_PTS_RANK"], opp_pts_pg: data["OPP_PTS_PG"])
     end
     private_class_method :build_team_season_rank
-
-    # Extracts rank identity information from data
-    #
-    # @api private
-    # @return [Hash] the rank identity information hash
-    def self.rank_identity_info(data)
-      {league_id: data["LEAGUE_ID"], season_id: data["SEASON_ID"],
-       team_id: data["TEAM_ID"]}
-    end
-    private_class_method :rank_identity_info
-
-    # Extracts rank stats information from data
-    #
-    # @api private
-    # @return [Hash] the rank stats information hash
-    def self.rank_stats_info(data)
-      {pts_rank: data["PTS_RANK"], pts_pg: data["PTS_PG"],
-       reb_rank: data["REB_RANK"], reb_pg: data["REB_PG"],
-       ast_rank: data["AST_RANK"], ast_pg: data["AST_PG"],
-       opp_pts_rank: data["OPP_PTS_RANK"], opp_pts_pg: data["OPP_PTS_PG"]}
-    end
-    private_class_method :rank_stats_info
   end
 end

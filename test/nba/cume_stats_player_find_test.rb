@@ -173,7 +173,7 @@ module NBA
 
     def cume_stats_player_response
       {resultSets: [
-        {name: GAME_BY_GAME_STATS, headers: game_headers, rowSet: [game_row, game_row_2]},
+        {name: GAME_BY_GAME_STATS, headers: game_headers, rowSet: [game_row, second_game_row]},
         {name: TOTAL_PLAYER_STATS, headers: total_headers, rowSet: [total_row]}
       ]}
     end
@@ -188,7 +188,7 @@ module NBA
         35, 42, 10, 20, 0.500, 3, 8, 0.375, 7, 8, 0.875, 2, 6, 8, 5, 3, 2, 3, 1, 30]
     end
 
-    def game_row_2
+    def second_game_row
       ["0022400002", "GSW @ PHX", "2024-10-24", 1_610_612_756, "Phoenix", "Suns",
         32, 15, 8, 18, 0.444, 2, 7, 0.286, 5, 6, 0.833, 1, 5, 6, 7, 2, 1, 2, 0, 23]
     end

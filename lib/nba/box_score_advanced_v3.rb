@@ -93,10 +93,9 @@ module NBA
     def self.build_player_stat(player, game_id)
       stats = player.fetch("statistics", {})
       BoxScoreAdvancedPlayerStat.new(
-        **BoxScoreV3Helpers.player_identity(player, game_id),
-        min: stats.fetch("minutes", nil),
-        **rating_stats(stats), **efficiency_stats(stats),
-        **tempo_stats(stats), **player_usage_stats(stats)
+        **BoxScoreV3Helpers.player_identity(player, game_id), min: stats.fetch("minutes", nil),
+        **BoxScoreV3Helpers.advanced_rating_stats(stats), **BoxScoreV3Helpers.advanced_efficiency_stats(stats),
+        **BoxScoreV3Helpers.advanced_tempo_stats(stats), **player_usage_stats(stats)
       )
     end
     private_class_method :build_player_stat
@@ -107,85 +106,18 @@ module NBA
     def self.build_team_stat(team, game_id)
       stats = team.fetch("statistics", {})
       BoxScoreAdvancedTeamStat.new(
-        **BoxScoreV3Helpers.team_identity(team, game_id),
-        min: stats.fetch("minutes", nil),
-        **rating_stats(stats), **efficiency_stats(stats), **tempo_stats(stats)
+        **BoxScoreV3Helpers.team_identity(team, game_id), min: stats.fetch("minutes", nil),
+        **BoxScoreV3Helpers.advanced_rating_stats(stats), **BoxScoreV3Helpers.advanced_efficiency_stats(stats),
+        **BoxScoreV3Helpers.advanced_tempo_stats(stats)
       )
     end
     private_class_method :build_team_stat
-
-    # Extracts rating statistics from raw data
-    # @api private
-    # @return [Hash] rating statistics
-    def self.rating_stats(stats)
-      {
-        e_off_rating: stats.fetch("estimatedOffensiveRating", nil),
-        off_rating: stats.fetch("offensiveRating", nil),
-        e_def_rating: stats.fetch("estimatedDefensiveRating", nil),
-        def_rating: stats.fetch("defensiveRating", nil),
-        e_net_rating: stats.fetch("estimatedNetRating", nil),
-        net_rating: stats.fetch("netRating", nil)
-      }
-    end
-    private_class_method :rating_stats
-
-    # Extracts efficiency statistics from raw data
-    # @api private
-    # @return [Hash] efficiency statistics
-    def self.efficiency_stats(stats)
-      assist_stats(stats).merge(rebound_pct_stats(stats), shooting_pct_stats(stats))
-    end
-    private_class_method :efficiency_stats
-
-    # Extracts assist statistics from raw data
-    # @api private
-    # @return [Hash] assist statistics
-    def self.assist_stats(stats)
-      {ast_pct: stats.fetch("assistPercentage", nil), ast_tov: stats.fetch("assistToTurnover", nil),
-       ast_ratio: stats.fetch("assistRatio", nil)}
-    end
-    private_class_method :assist_stats
-
-    # Extracts rebound percentage statistics from raw data
-    # @api private
-    # @return [Hash] rebound percentage statistics
-    def self.rebound_pct_stats(stats)
-      {oreb_pct: stats.fetch("reboundsOffensivePercentage", nil),
-       dreb_pct: stats.fetch("reboundsDefensivePercentage", nil),
-       reb_pct: stats.fetch("reboundsPercentage", nil), tov_pct: stats.fetch("turnoverPercentage", nil)}
-    end
-    private_class_method :rebound_pct_stats
-
-    # Extracts shooting percentage statistics from raw data
-    # @api private
-    # @return [Hash] shooting percentage statistics
-    def self.shooting_pct_stats(stats)
-      {efg_pct: stats.fetch("effectiveFieldGoalPercentage", nil),
-       ts_pct: stats.fetch("trueShootingPercentage", nil), pie: stats.fetch("playerImpactEstimate", nil)}
-    end
-    private_class_method :shooting_pct_stats
-
-    # Extracts tempo statistics from raw data
-    # @api private
-    # @return [Hash] tempo statistics
-    def self.tempo_stats(stats)
-      {
-        e_pace: stats.fetch("estimatedPace", nil),
-        pace: stats.fetch("pace", nil),
-        pace_per40: stats.fetch("pacePer40", nil),
-        poss: stats.fetch("possessions", nil)
-      }
-    end
-    private_class_method :tempo_stats
 
     # Extracts player usage statistics from raw data
     # @api private
     # @return [Hash] usage statistics
     def self.player_usage_stats(stats)
-      {
-        usg_pct: stats.fetch("usagePercentage", nil),
-        e_usg_pct: stats.fetch("estimatedUsagePercentage", nil)
-      }
+      {usg_pct: stats.fetch("usagePercentage", nil), e_usg_pct: stats.fetch("estimatedUsagePercentage", nil)}
     end
     private_class_method :player_usage_stats
   end
