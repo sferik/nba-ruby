@@ -24,7 +24,9 @@ require "mutant"
 
 desc "Run mutant"
 task :mutant do
-  system(*%w[bundle exec mutant run]) or raise "Mutant task failed"
+  cmd = %w[bundle exec mutant run]
+  cmd << "--fail-fast" if ENV["CI"]
+  system(*cmd) or raise "Mutant task failed"
 end
 
 require "steep/rake_task"
