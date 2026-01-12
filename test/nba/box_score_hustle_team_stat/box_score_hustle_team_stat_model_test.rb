@@ -1,0 +1,67 @@
+require_relative "../../test_helper"
+
+module NBA
+  class BoxScoreHustleTeamStatModelTest < Minitest::Test
+    cover BoxScoreHustleTeamStat
+
+    def test_objects_with_same_game_id_and_team_id_are_equal
+      stat0 = BoxScoreHustleTeamStat.new(game_id: "0022400001", team_id: Team::GSW)
+      stat1 = BoxScoreHustleTeamStat.new(game_id: "0022400001", team_id: Team::GSW)
+
+      assert_equal stat0, stat1
+    end
+
+    def test_objects_with_different_game_id_are_not_equal
+      stat0 = BoxScoreHustleTeamStat.new(game_id: "0022400001", team_id: Team::GSW)
+      stat1 = BoxScoreHustleTeamStat.new(game_id: "0022400002", team_id: Team::GSW)
+
+      refute_equal stat0, stat1
+    end
+
+    def test_objects_with_different_team_id_are_not_equal
+      stat0 = BoxScoreHustleTeamStat.new(game_id: "0022400001", team_id: Team::GSW)
+      stat1 = BoxScoreHustleTeamStat.new(game_id: "0022400001", team_id: 1_610_612_747)
+
+      refute_equal stat0, stat1
+    end
+
+    def test_team_returns_nil_when_team_id_is_nil
+      stat = BoxScoreHustleTeamStat.new(team_id: nil)
+
+      assert_nil stat.team
+    end
+
+    def test_game_returns_nil_when_game_id_is_nil
+      stat = BoxScoreHustleTeamStat.new(game_id: nil)
+
+      assert_nil stat.game
+    end
+
+    def test_team_returns_team_object_when_team_id_valid
+      stat = BoxScoreHustleTeamStat.new(team_id: Team::GSW)
+
+      result = stat.team
+
+      assert_instance_of Team, result
+      assert_equal Team::GSW, result.id
+    end
+
+    def test_game_returns_game_object_when_game_id_valid
+      stub_request(:get, /boxscoresummaryv2/).to_return(body: game_response.to_json)
+
+      stat = BoxScoreHustleTeamStat.new(game_id: "0022400001")
+      result = stat.game
+
+      assert_instance_of Game, result
+      assert_equal "0022400001", result.id
+    end
+
+    private
+
+    def game_response
+      headers = %w[GAME_DATE_EST GAME_SEQUENCE GAME_ID GAME_STATUS_ID GAME_STATUS_TEXT HOME_TEAM_ID VISITOR_TEAM_ID ARENA]
+      row = ["2024-10-22", 1, "0022400001", 3, "Final", Team::GSW, Team::LAL, "Chase Center"]
+      {resultSets: [{name: "GameSummary", headers: headers, rowSet: [row]}]}
+    end
+  end
+end
