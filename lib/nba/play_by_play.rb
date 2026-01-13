@@ -39,9 +39,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.event_info(data)
-      {game_id: data.fetch("GAME_ID", nil), event_num: data.fetch("EVENTNUM", nil), event_msg_type: data.fetch("EVENTMSGTYPE", nil),
-       event_msg_action_type: data.fetch("EVENTMSGACTIONTYPE", nil), period: data.fetch("PERIOD", nil),
-       wc_time_string: data.fetch("WCTIMESTRING", nil), pc_time_string: data.fetch("PCTIMESTRING", nil)}
+      {game_id: data["GAME_ID"], event_num: data["EVENTNUM"], event_msg_type: data["EVENTMSGTYPE"],
+       event_msg_action_type: data["EVENTMSGACTIONTYPE"], period: data["PERIOD"],
+       wc_time_string: data["WCTIMESTRING"], pc_time_string: data["PCTIMESTRING"]}
     end
     private_class_method :event_info
 
@@ -49,9 +49,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.descriptions(data)
-      {home_description: data.fetch("HOMEDESCRIPTION", nil), neutral_description: data.fetch("NEUTRALDESCRIPTION", nil),
-       visitor_description: data.fetch("VISITORDESCRIPTION", nil), score: data.fetch("SCORE", nil),
-       score_margin: data.fetch("SCOREMARGIN", nil), video_available: data.fetch("VIDEO_AVAILABLE_FLAG", nil)}
+      {home_description: data["HOMEDESCRIPTION"], neutral_description: data["NEUTRALDESCRIPTION"],
+       visitor_description: data["VISITORDESCRIPTION"], score: data["SCORE"],
+       score_margin: data["SCOREMARGIN"], video_available: data["VIDEO_AVAILABLE_FLAG"]}
     end
     private_class_method :descriptions
 
@@ -59,8 +59,8 @@ module NBA
     # @api private
     # @return [Hash]
     def self.player1_info(data)
-      {player1_id: data.fetch("PLAYER1_ID", nil), player1_name: data.fetch("PLAYER1_NAME", nil),
-       player1_team_id: data.fetch("PLAYER1_TEAM_ID", nil), player1_team_abbreviation: data.fetch("PLAYER1_TEAM_ABBREVIATION", nil)}
+      {player1_id: data["PLAYER1_ID"], player1_name: data["PLAYER1_NAME"],
+       player1_team_id: data["PLAYER1_TEAM_ID"], player1_team_abbreviation: data["PLAYER1_TEAM_ABBREVIATION"]}
     end
     private_class_method :player1_info
 
@@ -68,8 +68,8 @@ module NBA
     # @api private
     # @return [Hash]
     def self.player2_info(data)
-      {player2_id: data.fetch("PLAYER2_ID", nil), player2_name: data.fetch("PLAYER2_NAME", nil),
-       player2_team_id: data.fetch("PLAYER2_TEAM_ID", nil), player2_team_abbreviation: data.fetch("PLAYER2_TEAM_ABBREVIATION", nil)}
+      {player2_id: data["PLAYER2_ID"], player2_name: data["PLAYER2_NAME"],
+       player2_team_id: data["PLAYER2_TEAM_ID"], player2_team_abbreviation: data["PLAYER2_TEAM_ABBREVIATION"]}
     end
     private_class_method :player2_info
 
@@ -77,8 +77,8 @@ module NBA
     # @api private
     # @return [Hash]
     def self.player3_info(data)
-      {player3_id: data.fetch("PLAYER3_ID", nil), player3_name: data.fetch("PLAYER3_NAME", nil),
-       player3_team_id: data.fetch("PLAYER3_TEAM_ID", nil), player3_team_abbreviation: data.fetch("PLAYER3_TEAM_ABBREVIATION", nil)}
+      {player3_id: data["PLAYER3_ID"], player3_name: data["PLAYER3_NAME"],
+       player3_team_id: data["PLAYER3_TEAM_ID"], player3_team_abbreviation: data["PLAYER3_TEAM_ABBREVIATION"]}
     end
     private_class_method :player3_info
   end

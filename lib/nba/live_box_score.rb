@@ -34,7 +34,7 @@ module NBA
       return Collection.new unless response
 
       data = JSON.parse(response)
-      game_data = data.fetch("game", nil)
+      game_data = data["game"]
       return Collection.new unless game_data
 
       home_players = extract_players(game_data, "homeTeam", game_id)
@@ -51,14 +51,14 @@ module NBA
     # @param game_id [String] the game ID
     # @return [Array<LivePlayerStat>] array of player stats
     def self.extract_players(game_data, team_key, game_id)
-      team_data = game_data.fetch(team_key, nil)
+      team_data = game_data[team_key]
       return [] unless team_data
 
-      players = team_data.fetch("players", nil)
+      players = team_data["players"]
       return [] unless players
 
-      team_id = team_data.fetch("teamId", nil)
-      team_tricode = team_data.fetch("teamTricode", nil)
+      team_id = team_data["teamId"]
+      team_tricode = team_data["teamTricode"]
 
       players.map { |p| build_player_stat(p, game_id, team_id, team_tricode) }
     end
@@ -101,10 +101,10 @@ module NBA
     # @param team_tricode [String] the team tricode
     # @return [Hash] identity attributes
     def self.identity_attributes(data, game_id, team_id, team_tricode)
-      {game_id: game_id, player_id: data.fetch("personId", nil), name: data.fetch("name", nil),
-       first_name: data.fetch("firstName", nil), family_name: data.fetch("familyName", nil),
-       jersey_num: data.fetch("jerseyNum", nil), position: data.fetch("position", nil),
-       team_id: team_id, team_tricode: team_tricode, starter: data.fetch("starter", nil),
+      {game_id: game_id, player_id: data["personId"], name: data["name"],
+       first_name: data["firstName"], family_name: data["familyName"],
+       jersey_num: data["jerseyNum"], position: data["position"],
+       team_id: team_id, team_tricode: team_tricode, starter: data["starter"],
        minutes: data.dig("statistics", "minutes")}
     end
     private_class_method :identity_attributes
@@ -115,12 +115,12 @@ module NBA
     # @param data [Hash] the player data
     # @return [Hash] counting attributes
     def self.counting_attributes(data)
-      stats = data.fetch("statistics", nil) || {}
-      {points: stats.fetch("points", nil), rebounds_total: stats.fetch("reboundsTotal", nil),
-       rebounds_offensive: stats.fetch("reboundsOffensive", nil), rebounds_defensive: stats.fetch("reboundsDefensive", nil),
-       assists: stats.fetch("assists", nil), steals: stats.fetch("steals", nil), blocks: stats.fetch("blocks", nil),
-       turnovers: stats.fetch("turnovers", nil), fouls_personal: stats.fetch("foulsPersonal", nil),
-       plus_minus: stats.fetch("plusMinusPoints", nil)}
+      stats = data["statistics"] || {}
+      {points: stats["points"], rebounds_total: stats["reboundsTotal"],
+       rebounds_offensive: stats["reboundsOffensive"], rebounds_defensive: stats["reboundsDefensive"],
+       assists: stats["assists"], steals: stats["steals"], blocks: stats["blocks"],
+       turnovers: stats["turnovers"], fouls_personal: stats["foulsPersonal"],
+       plus_minus: stats["plusMinusPoints"]}
     end
     private_class_method :counting_attributes
 
@@ -130,13 +130,13 @@ module NBA
     # @param data [Hash] the player data
     # @return [Hash] shooting attributes
     def self.shooting_attributes(data)
-      stats = data.fetch("statistics", nil) || {}
-      {field_goals_made: stats.fetch("fieldGoalsMade", nil), field_goals_attempted: stats.fetch("fieldGoalsAttempted", nil),
-       field_goals_percentage: stats.fetch("fieldGoalsPercentage", nil),
-       three_pointers_made: stats.fetch("threePointersMade", nil), three_pointers_attempted: stats.fetch("threePointersAttempted", nil),
-       three_pointers_percentage: stats.fetch("threePointersPercentage", nil),
-       free_throws_made: stats.fetch("freeThrowsMade", nil), free_throws_attempted: stats.fetch("freeThrowsAttempted", nil),
-       free_throws_percentage: stats.fetch("freeThrowsPercentage", nil)}
+      stats = data["statistics"] || {}
+      {field_goals_made: stats["fieldGoalsMade"], field_goals_attempted: stats["fieldGoalsAttempted"],
+       field_goals_percentage: stats["fieldGoalsPercentage"],
+       three_pointers_made: stats["threePointersMade"], three_pointers_attempted: stats["threePointersAttempted"],
+       three_pointers_percentage: stats["threePointersPercentage"],
+       free_throws_made: stats["freeThrowsMade"], free_throws_attempted: stats["freeThrowsAttempted"],
+       free_throws_percentage: stats["freeThrowsPercentage"]}
     end
     private_class_method :shooting_attributes
   end

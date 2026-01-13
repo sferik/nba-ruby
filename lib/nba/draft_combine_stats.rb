@@ -45,8 +45,8 @@ module NBA
       result_set = find_result_set(data)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       results = rows.map { |row| build_result(headers, row) }
@@ -58,10 +58,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(RESULTS) }
+      result_sets.find { |rs| rs["name"].eql?(RESULTS) }
     end
     private_class_method :find_result_set
 
@@ -90,12 +90,12 @@ module NBA
     # @return [Hash] player attributes
     def self.player_attributes(data)
       {
-        season: data.fetch("SEASON", nil),
-        player_id: data.fetch("PLAYER_ID", nil),
-        first_name: data.fetch("FIRST_NAME", nil),
-        last_name: data.fetch("LAST_NAME", nil),
-        player_name: data.fetch("PLAYER_NAME", nil),
-        position: data.fetch("POSITION", nil)
+        season: data["SEASON"],
+        player_id: data["PLAYER_ID"],
+        first_name: data["FIRST_NAME"],
+        last_name: data["LAST_NAME"],
+        player_name: data["PLAYER_NAME"],
+        position: data["POSITION"]
       }
     end
     private_class_method :player_attributes
@@ -113,10 +113,10 @@ module NBA
     # @param data [Hash] the row data
     # @return [Hash] height attributes
     def self.height_attrs(data)
-      {height_wo_shoes: data.fetch("HEIGHT_WO_SHOES", nil),
-       height_wo_shoes_ft_in: data.fetch("HEIGHT_WO_SHOES_FT_IN", nil),
-       height_w_shoes: data.fetch("HEIGHT_W_SHOES", nil),
-       height_w_shoes_ft_in: data.fetch("HEIGHT_W_SHOES_FT_IN", nil)}
+      {height_wo_shoes: data["HEIGHT_WO_SHOES"],
+       height_wo_shoes_ft_in: data["HEIGHT_WO_SHOES_FT_IN"],
+       height_w_shoes: data["HEIGHT_W_SHOES"],
+       height_w_shoes_ft_in: data["HEIGHT_W_SHOES_FT_IN"]}
     end
     private_class_method :height_attrs
 
@@ -125,11 +125,11 @@ module NBA
     # @param data [Hash] the row data
     # @return [Hash] body measurement attributes
     def self.body_attrs(data)
-      {weight: data.fetch("WEIGHT", nil), wingspan: data.fetch("WINGSPAN", nil),
-       wingspan_ft_in: data.fetch("WINGSPAN_FT_IN", nil),
-       standing_reach: data.fetch("STANDING_REACH", nil),
-       standing_reach_ft_in: data.fetch("STANDING_REACH_FT_IN", nil),
-       body_fat_pct: data.fetch("BODY_FAT_PCT", nil)}
+      {weight: data["WEIGHT"], wingspan: data["WINGSPAN"],
+       wingspan_ft_in: data["WINGSPAN_FT_IN"],
+       standing_reach: data["STANDING_REACH"],
+       standing_reach_ft_in: data["STANDING_REACH_FT_IN"],
+       body_fat_pct: data["BODY_FAT_PCT"]}
     end
     private_class_method :body_attrs
 
@@ -138,7 +138,7 @@ module NBA
     # @param data [Hash] the row data
     # @return [Hash] hand measurement attributes
     def self.hand_attrs(data)
-      {hand_length: data.fetch("HAND_LENGTH", nil), hand_width: data.fetch("HAND_WIDTH", nil)}
+      {hand_length: data["HAND_LENGTH"], hand_width: data["HAND_WIDTH"]}
     end
     private_class_method :hand_attrs
 
@@ -147,12 +147,12 @@ module NBA
     # @return [Hash] athletic test attributes
     def self.athletic_attributes(data)
       {
-        standing_vertical_leap: data.fetch("STANDING_VERTICAL_LEAP", nil),
-        max_vertical_leap: data.fetch("MAX_VERTICAL_LEAP", nil),
-        lane_agility_time: data.fetch("LANE_AGILITY_TIME", nil),
-        modified_lane_agility_time: data.fetch("MODIFIED_LANE_AGILITY_TIME", nil),
-        three_quarter_sprint: data.fetch("THREE_QUARTER_SPRINT", nil),
-        bench_press: data.fetch("BENCH_PRESS", nil)
+        standing_vertical_leap: data["STANDING_VERTICAL_LEAP"],
+        max_vertical_leap: data["MAX_VERTICAL_LEAP"],
+        lane_agility_time: data["LANE_AGILITY_TIME"],
+        modified_lane_agility_time: data["MODIFIED_LANE_AGILITY_TIME"],
+        three_quarter_sprint: data["THREE_QUARTER_SPRINT"],
+        bench_press: data["BENCH_PRESS"]
       }
     end
     private_class_method :athletic_attributes

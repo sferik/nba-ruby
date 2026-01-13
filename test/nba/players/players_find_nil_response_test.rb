@@ -54,6 +54,22 @@ module NBA
       refute Players.find(201_939).is_active
     end
 
+    def test_find_returns_nil_id_when_person_id_header_missing
+      response = {resultSets: [{headers: %w[DISPLAY_FIRST_LAST FIRST_NAME LAST_NAME ROSTERSTATUS],
+                                rowSet: [["Stephen Curry", "Stephen", "Curry", "Active"]]}]}
+      stub_request(:get, /commonplayerinfo/).to_return(body: response.to_json)
+
+      assert_nil Players.find(201_939).id
+    end
+
+    def test_find_returns_nil_full_name_when_display_first_last_header_missing
+      response = {resultSets: [{headers: %w[PERSON_ID FIRST_NAME LAST_NAME ROSTERSTATUS],
+                                rowSet: [[201_939, "Stephen", "Curry", "Active"]]}]}
+      stub_request(:get, /commonplayerinfo/).to_return(body: response.to_json)
+
+      assert_nil Players.find(201_939).full_name
+    end
+
     private
 
     def player_info_headers

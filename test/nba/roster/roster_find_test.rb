@@ -31,6 +31,7 @@ module NBA
       assert_equal 30, curry.jersey_number
       assert_equal "6-2", curry.height
       assert_equal 185, curry.weight
+      assert_equal "G", curry.position.abbreviation
     end
 
     def test_find_parses_player_background
@@ -118,6 +119,15 @@ module NBA
       assert_nil player.full_name
     end
 
+    def test_find_handles_missing_position
+      response = {resultSets: [{headers: %w[PLAYER_ID PLAYER], rowSet: [[201_939, "Stephen Curry"]]}]}
+      stub_request(:get, /commonteamroster/).to_return(body: response.to_json)
+
+      player = Roster.find(team: Team::GSW).first
+
+      assert_nil player.position
+    end
+
     private
 
     def stub_roster_request
@@ -125,9 +135,9 @@ module NBA
     end
 
     def roster_response
-      {resultSets: [{headers: roster_headers, rowSet: [[201_939, "Stephen Curry", "30", "6-2", 185, "Davidson", "March 14, 1988"]]}]}
+      {resultSets: [{headers: roster_headers, rowSet: [[201_939, "Stephen Curry", "30", "G", "6-2", 185, "Davidson", "March 14, 1988"]]}]}
     end
 
-    def roster_headers = %w[PLAYER_ID PLAYER NUM HEIGHT WEIGHT SCHOOL BIRTH_DATE]
+    def roster_headers = %w[PLAYER_ID PLAYER NUM POSITION HEIGHT WEIGHT SCHOOL BIRTH_DATE]
   end
 end

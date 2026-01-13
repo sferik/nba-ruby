@@ -94,7 +94,7 @@ module NBA
       stats = player.fetch("statistics", {})
       BoxScoreFourFactorsPlayerStat.new(
         **BoxScoreV3Helpers.player_identity(player, game_id),
-        min: stats.fetch("minutes", nil),
+        min: stats["minutes"],
         **four_factors_stats(stats)
       )
     end
@@ -107,7 +107,7 @@ module NBA
       stats = team.fetch("statistics", {})
       BoxScoreFourFactorsTeamStat.new(
         **BoxScoreV3Helpers.team_identity(team, game_id),
-        min: stats.fetch("minutes", nil),
+        min: stats["minutes"],
         **four_factors_stats(stats)
       )
     end
@@ -118,14 +118,14 @@ module NBA
     # @return [Hash] four factors statistics
     def self.four_factors_stats(stats)
       {
-        efg_pct: stats.fetch("effectiveFieldGoalPercentage", nil),
-        fta_rate: stats.fetch("freeThrowAttemptRate", nil),
-        tov_pct: stats.fetch("teamTurnoverPercentage", nil),
-        oreb_pct: stats.fetch("offensiveReboundPercentage", nil),
-        opp_efg_pct: stats.fetch("oppEffectiveFieldGoalPercentage", nil),
-        opp_fta_rate: stats.fetch("oppFreeThrowAttemptRate", nil),
-        opp_tov_pct: stats.fetch("oppTurnoverPercentage", nil),
-        opp_oreb_pct: stats.fetch("oppOffensiveReboundPercentage", nil)
+        efg_pct: stats["effectiveFieldGoalPercentage"],
+        fta_rate: stats["freeThrowAttemptRate"],
+        tov_pct: stats["teamTurnoverPercentage"],
+        oreb_pct: stats["offensiveReboundPercentage"],
+        opp_efg_pct: stats["oppEffectiveFieldGoalPercentage"],
+        opp_fta_rate: stats["oppFreeThrowAttemptRate"],
+        opp_tov_pct: stats["oppTurnoverPercentage"],
+        opp_oreb_pct: stats["oppOffensiveReboundPercentage"]
       }
     end
     private_class_method :four_factors_stats

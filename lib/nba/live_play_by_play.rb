@@ -74,9 +74,9 @@ module NBA
     # @param game_id [String] the game ID
     # @return [Hash] timing attributes
     def self.timing_attributes(data, game_id)
-      {game_id: game_id, action_number: data.fetch("actionNumber", nil),
-       clock: data.fetch("clock", nil), time_actual: data.fetch("timeActual", nil),
-       period: data.fetch("period", nil), period_type: data.fetch("periodType", nil)}
+      {game_id: game_id, action_number: data["actionNumber"],
+       clock: data["clock"], time_actual: data["timeActual"],
+       period: data["period"], period_type: data["periodType"]}
     end
     private_class_method :timing_attributes
 
@@ -86,10 +86,10 @@ module NBA
     # @param data [Hash] the action data
     # @return [Hash] action info attributes
     def self.action_info_attributes(data)
-      {action_type: data.fetch("actionType", nil), sub_type: data.fetch("subType", nil),
-       qualifiers: data.fetch("qualifiers", nil), description: data.fetch("description", nil),
-       score_home: data.fetch("scoreHome", nil), score_away: data.fetch("scoreAway", nil),
-       points_total: data.fetch("pointsTotal", nil)}
+      {action_type: data["actionType"], sub_type: data["subType"],
+       qualifiers: data["qualifiers"], description: data["description"],
+       score_home: data["scoreHome"], score_away: data["scoreAway"],
+       points_total: data["pointsTotal"]}
     end
     private_class_method :action_info_attributes
 
@@ -99,9 +99,9 @@ module NBA
     # @param data [Hash] the action data
     # @return [Hash] player and team attributes
     def self.player_team_attributes(data)
-      {player_id: data.fetch("personId", nil), player_name: data.fetch("playerName", nil),
-       player_name_i: data.fetch("playerNameI", nil), team_id: data.fetch("teamId", nil),
-       team_tricode: data.fetch("teamTricode", nil)}
+      {player_id: data["personId"], player_name: data["playerName"],
+       player_name_i: data["playerNameI"], team_id: data["teamId"],
+       team_tricode: data["teamTricode"]}
     end
     private_class_method :player_team_attributes
 
@@ -111,9 +111,9 @@ module NBA
     # @param data [Hash] the action data
     # @return [Hash] shot attributes
     def self.shot_attributes(data)
-      {x_legacy: data.fetch("xLegacy", nil), y_legacy: data.fetch("yLegacy", nil),
-       shot_distance: data.fetch("shotDistance", nil), is_field_goal: data.fetch("isFieldGoal", nil),
-       shot_result: data.fetch("shotResult", nil)}
+      {x_legacy: data["xLegacy"], y_legacy: data["yLegacy"],
+       shot_distance: data["shotDistance"], is_field_goal: data["isFieldGoal"],
+       shot_result: data["shotResult"]}
     end
     private_class_method :shot_attributes
   end

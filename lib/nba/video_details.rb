@@ -48,8 +48,8 @@ module NBA
       result_set = find_result_set(data)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       videos = rows.map { |row| build_video_detail(headers, row) }
@@ -63,10 +63,10 @@ module NBA
     # @param data [Hash] the parsed JSON data
     # @return [Hash, nil] the result set
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(RESULT_SET_NAME) }
+      result_sets.find { |rs| rs["name"].eql?(RESULT_SET_NAME) }
     end
     private_class_method :find_result_set
 
@@ -98,9 +98,9 @@ module NBA
     # @param data [Hash] the video data
     # @return [Hash] the identity attributes
     def self.identity_attributes(data)
-      {video_id: data.fetch("VIDEO_ID", nil), game_id: data.fetch("GAME_ID", nil),
-       game_event_id: data.fetch("GAME_EVENT_ID", nil), player_id: data.fetch("PLAYER_ID", nil),
-       team_id: data.fetch("TEAM_ID", nil)}
+      {video_id: data["VIDEO_ID"], game_id: data["GAME_ID"],
+       game_event_id: data["GAME_EVENT_ID"], player_id: data["PLAYER_ID"],
+       team_id: data["TEAM_ID"]}
     end
     private_class_method :identity_attributes
 
@@ -110,8 +110,8 @@ module NBA
     # @param data [Hash] the video data
     # @return [Hash] the video information attributes
     def self.video_info_attributes(data)
-      {description: data.fetch("DESCRIPTION", nil), video_urls: data.fetch("VIDEO_URLS", nil),
-       video_available: data.fetch("VIDEO_AVAILABLE", nil)}
+      {description: data["DESCRIPTION"], video_urls: data["VIDEO_URLS"],
+       video_available: data["VIDEO_AVAILABLE"]}
     end
     private_class_method :video_info_attributes
   end

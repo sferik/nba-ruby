@@ -68,9 +68,9 @@ module NBA
     # @param data [Hash] the row data
     # @return [Hash] leader attributes
     def self.leader_attributes(data)
-      {player_id: data.fetch("PLAYER_ID", nil), player_name: data.fetch("PLAYER_NAME", nil),
-       team_id: data.fetch("TEAM_ID", nil), team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil),
-       rank: data.fetch("RANK", nil), dunk_score: data.fetch("DUNK_SCORE", nil)}
+      {player_id: data["PLAYER_ID"], player_name: data["PLAYER_NAME"],
+       team_id: data["TEAM_ID"], team_abbreviation: data["TEAM_ABBREVIATION"],
+       rank: data["RANK"], dunk_score: data["DUNK_SCORE"]}
     end
     private_class_method :leader_attributes
   end

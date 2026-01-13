@@ -53,7 +53,7 @@ module NBA
     # @param data [Hash] the entry data
     # @return [Hash] the entry attributes
     def self.entry_attributes(data)
-      {game_id: data.fetch("GAME_ID", nil), matchup: data.fetch("MATCHUP", nil)}
+      {game_id: data["GAME_ID"], matchup: data["MATCHUP"]}
     end
     private_class_method :entry_attributes
 

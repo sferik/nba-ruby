@@ -76,10 +76,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash or nil if not found
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(RESULT_SET_NAME) }
+      result_sets.find { |rs| rs["name"].eql?(RESULT_SET_NAME) }
     end
     private_class_method :find_result_set
 
@@ -88,8 +88,8 @@ module NBA
     # @api private
     # @return [Collection] the stats collection
     def self.build_stats(result_set, first_person_id)
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       Collection.new(rows.map { |row| build_stat(headers.zip(row).to_h, first_person_id) })
@@ -110,9 +110,9 @@ module NBA
     # @api private
     # @return [Hash] the stat attributes
     def self.stat_attributes(data, first_person_id)
-      {first_person_id: first_person_id, second_person_id: data.fetch("PERSON_2_ID", nil),
-       second_person_name: data.fetch("PERSON_2", nil), team_id: data.fetch("TEAM_ID", nil),
-       similarity_score: data.fetch("SIMILARITY_SCORE", nil)}
+      {first_person_id: first_person_id, second_person_id: data["PERSON_2_ID"],
+       second_person_name: data["PERSON_2"], team_id: data["TEAM_ID"],
+       similarity_score: data["SIMILARITY_SCORE"]}
     end
     private_class_method :stat_attributes
   end

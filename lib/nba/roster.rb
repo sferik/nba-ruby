@@ -35,11 +35,22 @@ module NBA
     # @api private
     # @return [Hash]
     def self.player_attributes(data)
-      {id: data.fetch("PLAYER_ID", nil), height: data.fetch("HEIGHT", nil), college: data.fetch("SCHOOL", nil), is_active: true,
-       jersey_number: Utils.parse_integer(data.fetch("NUM", nil)), weight: Utils.parse_integer(data.fetch("WEIGHT", nil)),
-       country: extract_country(data.fetch("BIRTH_DATE", nil)), **name_attributes(data.fetch("PLAYER", nil))}
+      {id: data["PLAYER_ID"], height: data["HEIGHT"], college: data["SCHOOL"], is_active: true,
+       jersey_number: Utils.parse_integer(data["NUM"]), weight: Utils.parse_integer(data["WEIGHT"]),
+       country: extract_country(data["BIRTH_DATE"]), position: build_position(data["POSITION"]),
+       **name_attributes(data["PLAYER"])}
     end
     private_class_method :player_attributes
+
+    # Builds a position from abbreviation
+    # @api private
+    # @return [Position, nil]
+    def self.build_position(abbreviation)
+      return unless abbreviation
+
+      Position.new(abbreviation: abbreviation)
+    end
+    private_class_method :build_position
 
     # Extracts name attributes from full name
     # @api private

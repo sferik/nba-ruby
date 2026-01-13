@@ -45,8 +45,8 @@ module NBA
       result_set = find_result_set(data)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       results = rows.map { |row| build_result(headers, row) }
@@ -58,10 +58,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(RESULTS) }
+      result_sets.find { |rs| rs["name"].eql?(RESULTS) }
     end
     private_class_method :find_result_set
 
@@ -91,9 +91,9 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] player attributes
       def self.player(data)
-        {temp_player_id: data.fetch("TEMP_PLAYER_ID", nil), player_id: data.fetch("PLAYER_ID", nil),
-         player_name: data.fetch("PLAYER_NAME", nil), first_name: data.fetch("FIRST_NAME", nil),
-         last_name: data.fetch("LAST_NAME", nil), position: data.fetch("POSITION", nil)}
+        {temp_player_id: data["TEMP_PLAYER_ID"], player_id: data["PLAYER_ID"],
+         player_name: data["PLAYER_NAME"], first_name: data["FIRST_NAME"],
+         last_name: data["LAST_NAME"], position: data["POSITION"]}
       end
 
       # Extracts off-dribble fifteen-foot shot attributes from data
@@ -129,6 +129,7 @@ module NBA
       end
     end
 
+    # Extracts off-dribble fifteen-foot shot attributes
     # @api private
     module OffDribbleFifteen
       # Extracts left break shot attributes from data
@@ -136,9 +137,9 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] left break shot attributes
       def self.left(data)
-        {off_dribble_fifteen_break_left_made: data.fetch("OFF_DRIBBLE_FIFTEEN_BREAK_LEFT_MADE", nil),
-         off_dribble_fifteen_break_left_attempt: data.fetch("OFF_DRIBBLE_FIFTEEN_BREAK_LEFT_ATTEMPT", nil),
-         off_dribble_fifteen_break_left_pct: data.fetch("OFF_DRIBBLE_FIFTEEN_BREAK_LEFT_PCT", nil)}
+        {off_dribble_fifteen_break_left_made: data["OFF_DRIBBLE_FIFTEEN_BREAK_LEFT_MADE"],
+         off_dribble_fifteen_break_left_attempt: data["OFF_DRIBBLE_FIFTEEN_BREAK_LEFT_ATTEMPT"],
+         off_dribble_fifteen_break_left_pct: data["OFF_DRIBBLE_FIFTEEN_BREAK_LEFT_PCT"]}
       end
 
       # Extracts top key shot attributes from data
@@ -146,9 +147,9 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] top key shot attributes
       def self.top(data)
-        {off_dribble_fifteen_top_key_made: data.fetch("OFF_DRIBBLE_FIFTEEN_TOP_KEY_MADE", nil),
-         off_dribble_fifteen_top_key_attempt: data.fetch("OFF_DRIBBLE_FIFTEEN_TOP_KEY_ATTEMPT", nil),
-         off_dribble_fifteen_top_key_pct: data.fetch("OFF_DRIBBLE_FIFTEEN_TOP_KEY_PCT", nil)}
+        {off_dribble_fifteen_top_key_made: data["OFF_DRIBBLE_FIFTEEN_TOP_KEY_MADE"],
+         off_dribble_fifteen_top_key_attempt: data["OFF_DRIBBLE_FIFTEEN_TOP_KEY_ATTEMPT"],
+         off_dribble_fifteen_top_key_pct: data["OFF_DRIBBLE_FIFTEEN_TOP_KEY_PCT"]}
       end
 
       # Extracts right break shot attributes from data
@@ -156,12 +157,13 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] right break shot attributes
       def self.right(data)
-        {off_dribble_fifteen_break_right_made: data.fetch("OFF_DRIBBLE_FIFTEEN_BREAK_RIGHT_MADE", nil),
-         off_dribble_fifteen_break_right_attempt: data.fetch("OFF_DRIBBLE_FIFTEEN_BREAK_RIGHT_ATTEMPT", nil),
-         off_dribble_fifteen_break_right_pct: data.fetch("OFF_DRIBBLE_FIFTEEN_BREAK_RIGHT_PCT", nil)}
+        {off_dribble_fifteen_break_right_made: data["OFF_DRIBBLE_FIFTEEN_BREAK_RIGHT_MADE"],
+         off_dribble_fifteen_break_right_attempt: data["OFF_DRIBBLE_FIFTEEN_BREAK_RIGHT_ATTEMPT"],
+         off_dribble_fifteen_break_right_pct: data["OFF_DRIBBLE_FIFTEEN_BREAK_RIGHT_PCT"]}
       end
     end
 
+    # Extracts on-move fifteen-foot shot attributes
     # @api private
     module OnMoveFifteen
       # Extracts left break shot attributes from data
@@ -169,9 +171,9 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] left break shot attributes
       def self.left(data)
-        {on_move_fifteen_break_left_made: data.fetch("ON_MOVE_FIFTEEN_BREAK_LEFT_MADE", nil),
-         on_move_fifteen_break_left_attempt: data.fetch("ON_MOVE_FIFTEEN_BREAK_LEFT_ATTEMPT", nil),
-         on_move_fifteen_break_left_pct: data.fetch("ON_MOVE_FIFTEEN_BREAK_LEFT_PCT", nil)}
+        {on_move_fifteen_break_left_made: data["ON_MOVE_FIFTEEN_BREAK_LEFT_MADE"],
+         on_move_fifteen_break_left_attempt: data["ON_MOVE_FIFTEEN_BREAK_LEFT_ATTEMPT"],
+         on_move_fifteen_break_left_pct: data["ON_MOVE_FIFTEEN_BREAK_LEFT_PCT"]}
       end
 
       # Extracts top key shot attributes from data
@@ -179,9 +181,9 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] top key shot attributes
       def self.top(data)
-        {on_move_fifteen_top_key_made: data.fetch("ON_MOVE_FIFTEEN_TOP_KEY_MADE", nil),
-         on_move_fifteen_top_key_attempt: data.fetch("ON_MOVE_FIFTEEN_TOP_KEY_ATTEMPT", nil),
-         on_move_fifteen_top_key_pct: data.fetch("ON_MOVE_FIFTEEN_TOP_KEY_PCT", nil)}
+        {on_move_fifteen_top_key_made: data["ON_MOVE_FIFTEEN_TOP_KEY_MADE"],
+         on_move_fifteen_top_key_attempt: data["ON_MOVE_FIFTEEN_TOP_KEY_ATTEMPT"],
+         on_move_fifteen_top_key_pct: data["ON_MOVE_FIFTEEN_TOP_KEY_PCT"]}
       end
 
       # Extracts right break shot attributes from data
@@ -189,12 +191,13 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] right break shot attributes
       def self.right(data)
-        {on_move_fifteen_break_right_made: data.fetch("ON_MOVE_FIFTEEN_BREAK_RIGHT_MADE", nil),
-         on_move_fifteen_break_right_attempt: data.fetch("ON_MOVE_FIFTEEN_BREAK_RIGHT_ATTEMPT", nil),
-         on_move_fifteen_break_right_pct: data.fetch("ON_MOVE_FIFTEEN_BREAK_RIGHT_PCT", nil)}
+        {on_move_fifteen_break_right_made: data["ON_MOVE_FIFTEEN_BREAK_RIGHT_MADE"],
+         on_move_fifteen_break_right_attempt: data["ON_MOVE_FIFTEEN_BREAK_RIGHT_ATTEMPT"],
+         on_move_fifteen_break_right_pct: data["ON_MOVE_FIFTEEN_BREAK_RIGHT_PCT"]}
       end
     end
 
+    # Extracts off-dribble college range shot attributes
     # @api private
     module OffDribbleCollege
       # Extracts left break shot attributes from data
@@ -202,9 +205,9 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] left break shot attributes
       def self.left(data)
-        {off_dribble_college_break_left_made: data.fetch("OFF_DRIBBLE_COLLEGE_BREAK_LEFT_MADE", nil),
-         off_dribble_college_break_left_attempt: data.fetch("OFF_DRIBBLE_COLLEGE_BREAK_LEFT_ATTEMPT", nil),
-         off_dribble_college_break_left_pct: data.fetch("OFF_DRIBBLE_COLLEGE_BREAK_LEFT_PCT", nil)}
+        {off_dribble_college_break_left_made: data["OFF_DRIBBLE_COLLEGE_BREAK_LEFT_MADE"],
+         off_dribble_college_break_left_attempt: data["OFF_DRIBBLE_COLLEGE_BREAK_LEFT_ATTEMPT"],
+         off_dribble_college_break_left_pct: data["OFF_DRIBBLE_COLLEGE_BREAK_LEFT_PCT"]}
       end
 
       # Extracts top key shot attributes from data
@@ -212,9 +215,9 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] top key shot attributes
       def self.top(data)
-        {off_dribble_college_top_key_made: data.fetch("OFF_DRIBBLE_COLLEGE_TOP_KEY_MADE", nil),
-         off_dribble_college_top_key_attempt: data.fetch("OFF_DRIBBLE_COLLEGE_TOP_KEY_ATTEMPT", nil),
-         off_dribble_college_top_key_pct: data.fetch("OFF_DRIBBLE_COLLEGE_TOP_KEY_PCT", nil)}
+        {off_dribble_college_top_key_made: data["OFF_DRIBBLE_COLLEGE_TOP_KEY_MADE"],
+         off_dribble_college_top_key_attempt: data["OFF_DRIBBLE_COLLEGE_TOP_KEY_ATTEMPT"],
+         off_dribble_college_top_key_pct: data["OFF_DRIBBLE_COLLEGE_TOP_KEY_PCT"]}
       end
 
       # Extracts right break shot attributes from data
@@ -222,12 +225,13 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] right break shot attributes
       def self.right(data)
-        {off_dribble_college_break_right_made: data.fetch("OFF_DRIBBLE_COLLEGE_BREAK_RIGHT_MADE", nil),
-         off_dribble_college_break_right_attempt: data.fetch("OFF_DRIBBLE_COLLEGE_BREAK_RIGHT_ATTEMPT", nil),
-         off_dribble_college_break_right_pct: data.fetch("OFF_DRIBBLE_COLLEGE_BREAK_RIGHT_PCT", nil)}
+        {off_dribble_college_break_right_made: data["OFF_DRIBBLE_COLLEGE_BREAK_RIGHT_MADE"],
+         off_dribble_college_break_right_attempt: data["OFF_DRIBBLE_COLLEGE_BREAK_RIGHT_ATTEMPT"],
+         off_dribble_college_break_right_pct: data["OFF_DRIBBLE_COLLEGE_BREAK_RIGHT_PCT"]}
       end
     end
 
+    # Extracts on-move college range shot attributes
     # @api private
     module OnMoveCollege
       # Extracts left break shot attributes from data
@@ -235,9 +239,9 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] left break shot attributes
       def self.left(data)
-        {on_move_college_break_left_made: data.fetch("ON_MOVE_COLLEGE_BREAK_LEFT_MADE", nil),
-         on_move_college_break_left_attempt: data.fetch("ON_MOVE_COLLEGE_BREAK_LEFT_ATTEMPT", nil),
-         on_move_college_break_left_pct: data.fetch("ON_MOVE_COLLEGE_BREAK_LEFT_PCT", nil)}
+        {on_move_college_break_left_made: data["ON_MOVE_COLLEGE_BREAK_LEFT_MADE"],
+         on_move_college_break_left_attempt: data["ON_MOVE_COLLEGE_BREAK_LEFT_ATTEMPT"],
+         on_move_college_break_left_pct: data["ON_MOVE_COLLEGE_BREAK_LEFT_PCT"]}
       end
 
       # Extracts top key shot attributes from data
@@ -245,9 +249,9 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] top key shot attributes
       def self.top(data)
-        {on_move_college_top_key_made: data.fetch("ON_MOVE_COLLEGE_TOP_KEY_MADE", nil),
-         on_move_college_top_key_attempt: data.fetch("ON_MOVE_COLLEGE_TOP_KEY_ATTEMPT", nil),
-         on_move_college_top_key_pct: data.fetch("ON_MOVE_COLLEGE_TOP_KEY_PCT", nil)}
+        {on_move_college_top_key_made: data["ON_MOVE_COLLEGE_TOP_KEY_MADE"],
+         on_move_college_top_key_attempt: data["ON_MOVE_COLLEGE_TOP_KEY_ATTEMPT"],
+         on_move_college_top_key_pct: data["ON_MOVE_COLLEGE_TOP_KEY_PCT"]}
       end
 
       # Extracts right break shot attributes from data
@@ -255,9 +259,9 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] right break shot attributes
       def self.right(data)
-        {on_move_college_break_right_made: data.fetch("ON_MOVE_COLLEGE_BREAK_RIGHT_MADE", nil),
-         on_move_college_break_right_attempt: data.fetch("ON_MOVE_COLLEGE_BREAK_RIGHT_ATTEMPT", nil),
-         on_move_college_break_right_pct: data.fetch("ON_MOVE_COLLEGE_BREAK_RIGHT_PCT", nil)}
+        {on_move_college_break_right_made: data["ON_MOVE_COLLEGE_BREAK_RIGHT_MADE"],
+         on_move_college_break_right_attempt: data["ON_MOVE_COLLEGE_BREAK_RIGHT_ATTEMPT"],
+         on_move_college_break_right_pct: data["ON_MOVE_COLLEGE_BREAK_RIGHT_PCT"]}
       end
     end
   end

@@ -45,8 +45,8 @@ module NBA
       result_set = find_result_set(data)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       measurements = rows.map { |row| build_measurement(headers, row) }
@@ -58,10 +58,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(RESULTS) }
+      result_sets.find { |rs| rs["name"].eql?(RESULTS) }
     end
     private_class_method :find_result_set
 
@@ -90,12 +90,12 @@ module NBA
     # @return [Hash] player attributes
     def self.player_attributes(data)
       {
-        temp_player_id: data.fetch("TEMP_PLAYER_ID", nil),
-        player_id: data.fetch("PLAYER_ID", nil),
-        first_name: data.fetch("FIRST_NAME", nil),
-        last_name: data.fetch("LAST_NAME", nil),
-        player_name: data.fetch("PLAYER_NAME", nil),
-        position: data.fetch("POSITION", nil)
+        temp_player_id: data["TEMP_PLAYER_ID"],
+        player_id: data["PLAYER_ID"],
+        first_name: data["FIRST_NAME"],
+        last_name: data["LAST_NAME"],
+        player_name: data["PLAYER_NAME"],
+        position: data["POSITION"]
       }
     end
     private_class_method :player_attributes
@@ -105,10 +105,10 @@ module NBA
     # @return [Hash] height attributes
     def self.height_attributes(data)
       {
-        height_wo_shoes: data.fetch("HEIGHT_WO_SHOES", nil),
-        height_wo_shoes_ft_in: data.fetch("HEIGHT_WO_SHOES_FT_IN", nil),
-        height_w_shoes: data.fetch("HEIGHT_W_SHOES", nil),
-        height_w_shoes_ft_in: data.fetch("HEIGHT_W_SHOES_FT_IN", nil)
+        height_wo_shoes: data["HEIGHT_WO_SHOES"],
+        height_wo_shoes_ft_in: data["HEIGHT_WO_SHOES_FT_IN"],
+        height_w_shoes: data["HEIGHT_W_SHOES"],
+        height_w_shoes_ft_in: data["HEIGHT_W_SHOES_FT_IN"]
       }
     end
     private_class_method :height_attributes
@@ -118,14 +118,14 @@ module NBA
     # @return [Hash] physical attributes
     def self.physical_attributes(data)
       {
-        weight: data.fetch("WEIGHT", nil),
-        wingspan: data.fetch("WINGSPAN", nil),
-        wingspan_ft_in: data.fetch("WINGSPAN_FT_IN", nil),
-        standing_reach: data.fetch("STANDING_REACH", nil),
-        standing_reach_ft_in: data.fetch("STANDING_REACH_FT_IN", nil),
-        body_fat_pct: data.fetch("BODY_FAT_PCT", nil),
-        hand_length: data.fetch("HAND_LENGTH", nil),
-        hand_width: data.fetch("HAND_WIDTH", nil)
+        weight: data["WEIGHT"],
+        wingspan: data["WINGSPAN"],
+        wingspan_ft_in: data["WINGSPAN_FT_IN"],
+        standing_reach: data["STANDING_REACH"],
+        standing_reach_ft_in: data["STANDING_REACH_FT_IN"],
+        body_fat_pct: data["BODY_FAT_PCT"],
+        hand_length: data["HAND_LENGTH"],
+        hand_width: data["HAND_WIDTH"]
       }
     end
     private_class_method :physical_attributes

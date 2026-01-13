@@ -76,8 +76,8 @@ module NBA
       result_set = find_result_set(JSON.parse(response), result_set_name)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       Collection.new(rows.map { |row| __send__(builder_method, headers, row, game_id) })
@@ -94,11 +94,11 @@ module NBA
       result_set = find_result_set(JSON.parse(response), HUSTLE_STATS_AVAILABLE)
       return false unless result_set
 
-      rows = result_set.fetch("rowSet", nil)
-      headers = result_set.fetch("headers", nil)
+      rows = result_set["rowSet"]
+      headers = result_set["headers"]
       return false unless rows && !rows.empty? && headers
 
-      headers.zip(rows.first).to_h.fetch("HUSTLE_STATUS", nil).eql?(1)
+      headers.zip(rows.first).to_h["HUSTLE_STATUS"].eql?(1)
     end
     private_class_method :stats_available?
 
@@ -108,7 +108,7 @@ module NBA
     # @param name [String] the result set name to find
     # @return [Hash, nil] the result set hash or nil
     def self.find_result_set(data, name)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
       result_sets.find { |rs| rs.fetch("name").eql?(name) }

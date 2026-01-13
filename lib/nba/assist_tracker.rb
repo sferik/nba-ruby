@@ -54,8 +54,8 @@ module NBA
     # @param data [Hash] the row data
     # @return [Hash] player attributes
     def self.player_attrs(data)
-      {player_id: data.fetch("PLAYER_ID", nil), player_name: data.fetch("PLAYER_NAME", nil),
-       team_id: data.fetch("TEAM_ID", nil), team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil)}
+      {player_id: data["PLAYER_ID"], player_name: data["PLAYER_NAME"],
+       team_id: data["TEAM_ID"], team_abbreviation: data["TEAM_ABBREVIATION"]}
     end
     private_class_method :player_attrs
 
@@ -64,8 +64,8 @@ module NBA
     # @param data [Hash] the row data
     # @return [Hash] pass attributes
     def self.pass_attrs(data)
-      {pass_to: data.fetch("PASS_TO", nil), pass_to_player_id: data.fetch("PASS_TO_PLAYER_ID", nil),
-       frequency: data.fetch("FREQUENCY", nil), pass: data.fetch("PASS", nil), ast: data.fetch("AST", nil)}
+      {pass_to: data["PASS_TO"], pass_to_player_id: data["PASS_TO_PLAYER_ID"],
+       frequency: data["FREQUENCY"], pass: data["PASS"], ast: data["AST"]}
     end
     private_class_method :pass_attrs
 
@@ -83,7 +83,7 @@ module NBA
     # @param data [Hash] the row data
     # @return [Hash] field goal attributes
     def self.fg_attrs(data)
-      {fg_m: data.fetch("FGM", nil), fg_a: data.fetch("FGA", nil), fg_pct: data.fetch("FG_PCT", nil)}
+      {fg_m: data["FGM"], fg_a: data["FGA"], fg_pct: data["FG_PCT"]}
     end
     private_class_method :fg_attrs
 
@@ -92,7 +92,7 @@ module NBA
     # @param data [Hash] the row data
     # @return [Hash] 2-point field goal attributes
     def self.fg2_attrs(data)
-      {fg2m: data.fetch("FG2M", nil), fg2a: data.fetch("FG2A", nil), fg2_pct: data.fetch("FG2_PCT", nil)}
+      {fg2m: data["FG2M"], fg2a: data["FG2A"], fg2_pct: data["FG2_PCT"]}
     end
     private_class_method :fg2_attrs
 
@@ -101,7 +101,7 @@ module NBA
     # @param data [Hash] the row data
     # @return [Hash] 3-point field goal attributes
     def self.fg3_attrs(data)
-      {fg3m: data.fetch("FG3M", nil), fg3a: data.fetch("FG3A", nil), fg3_pct: data.fetch("FG3_PCT", nil)}
+      {fg3m: data["FG3M"], fg3a: data["FG3A"], fg3_pct: data["FG3_PCT"]}
     end
     private_class_method :fg3_attrs
   end

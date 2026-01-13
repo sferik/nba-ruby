@@ -48,7 +48,7 @@ module NBA
     # @return [BoxScoreAdvancedPlayerStat]
     def self.build_player_stat(data)
       BoxScoreAdvancedPlayerStat.new(**player_identity(data), **rating_stats(data),
-        **efficiency_stats(data), **tempo_stats(data), usg_pct: data.fetch("USG_PCT", nil), e_usg_pct: data.fetch("E_USG_PCT", nil))
+        **efficiency_stats(data), **tempo_stats(data), usg_pct: data["USG_PCT"], e_usg_pct: data["E_USG_PCT"])
     end
     private_class_method :build_player_stat
 
@@ -65,9 +65,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.player_identity(data)
-      {game_id: data.fetch("GAME_ID", nil), team_id: data.fetch("TEAM_ID", nil), team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil),
-       team_city: data.fetch("TEAM_CITY", nil), player_id: data.fetch("PLAYER_ID", nil), player_name: data.fetch("PLAYER_NAME", nil),
-       start_position: data.fetch("START_POSITION", nil), comment: data.fetch("COMMENT", nil), min: data.fetch("MIN", nil)}
+      {game_id: data["GAME_ID"], team_id: data["TEAM_ID"], team_abbreviation: data["TEAM_ABBREVIATION"],
+       team_city: data["TEAM_CITY"], player_id: data["PLAYER_ID"], player_name: data["PLAYER_NAME"],
+       start_position: data["START_POSITION"], comment: data["COMMENT"], min: data["MIN"]}
     end
     private_class_method :player_identity
 
@@ -75,8 +75,8 @@ module NBA
     # @api private
     # @return [Hash]
     def self.team_identity(data)
-      {game_id: data.fetch("GAME_ID", nil), team_id: data.fetch("TEAM_ID", nil), team_name: data.fetch("TEAM_NAME", nil),
-       team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil), team_city: data.fetch("TEAM_CITY", nil), min: data.fetch("MIN", nil)}
+      {game_id: data["GAME_ID"], team_id: data["TEAM_ID"], team_name: data["TEAM_NAME"],
+       team_abbreviation: data["TEAM_ABBREVIATION"], team_city: data["TEAM_CITY"], min: data["MIN"]}
     end
     private_class_method :team_identity
 
@@ -84,9 +84,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.rating_stats(data)
-      {e_off_rating: data.fetch("E_OFF_RATING", nil), off_rating: data.fetch("OFF_RATING", nil),
-       e_def_rating: data.fetch("E_DEF_RATING", nil), def_rating: data.fetch("DEF_RATING", nil),
-       e_net_rating: data.fetch("E_NET_RATING", nil), net_rating: data.fetch("NET_RATING", nil)}
+      {e_off_rating: data["E_OFF_RATING"], off_rating: data["OFF_RATING"],
+       e_def_rating: data["E_DEF_RATING"], def_rating: data["DEF_RATING"],
+       e_net_rating: data["E_NET_RATING"], net_rating: data["NET_RATING"]}
     end
     private_class_method :rating_stats
 
@@ -94,11 +94,11 @@ module NBA
     # @api private
     # @return [Hash]
     def self.efficiency_stats(data)
-      {ast_pct: data.fetch("AST_PCT", nil), ast_tov: data.fetch("AST_TOV", nil),
-       ast_ratio: data.fetch("AST_RATIO", nil), oreb_pct: data.fetch("OREB_PCT", nil),
-       dreb_pct: data.fetch("DREB_PCT", nil), reb_pct: data.fetch("REB_PCT", nil),
-       tov_pct: data.fetch("TM_TOV_PCT", nil), efg_pct: data.fetch("EFG_PCT", nil),
-       ts_pct: data.fetch("TS_PCT", nil), pie: data.fetch("PIE", nil)}
+      {ast_pct: data["AST_PCT"], ast_tov: data["AST_TOV"],
+       ast_ratio: data["AST_RATIO"], oreb_pct: data["OREB_PCT"],
+       dreb_pct: data["DREB_PCT"], reb_pct: data["REB_PCT"],
+       tov_pct: data["TM_TOV_PCT"], efg_pct: data["EFG_PCT"],
+       ts_pct: data["TS_PCT"], pie: data["PIE"]}
     end
     private_class_method :efficiency_stats
 
@@ -106,8 +106,8 @@ module NBA
     # @api private
     # @return [Hash]
     def self.tempo_stats(data)
-      {e_pace: data.fetch("E_PACE", nil), pace: data.fetch("PACE", nil), pace_per40: data.fetch("PACE_PER40", nil),
-       poss: data.fetch("POSS", nil)}
+      {e_pace: data["E_PACE"], pace: data["PACE"], pace_per40: data["PACE_PER40"],
+       poss: data["POSS"]}
     end
     private_class_method :tempo_stats
   end

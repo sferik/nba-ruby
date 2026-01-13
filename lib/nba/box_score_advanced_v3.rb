@@ -93,7 +93,7 @@ module NBA
     def self.build_player_stat(player, game_id)
       stats = player.fetch("statistics", {})
       BoxScoreAdvancedPlayerStat.new(
-        **BoxScoreV3Helpers.player_identity(player, game_id), min: stats.fetch("minutes", nil),
+        **BoxScoreV3Helpers.player_identity(player, game_id), min: stats["minutes"],
         **BoxScoreV3Helpers.advanced_rating_stats(stats), **BoxScoreV3Helpers.advanced_efficiency_stats(stats),
         **BoxScoreV3Helpers.advanced_tempo_stats(stats), **player_usage_stats(stats)
       )
@@ -106,7 +106,7 @@ module NBA
     def self.build_team_stat(team, game_id)
       stats = team.fetch("statistics", {})
       BoxScoreAdvancedTeamStat.new(
-        **BoxScoreV3Helpers.team_identity(team, game_id), min: stats.fetch("minutes", nil),
+        **BoxScoreV3Helpers.team_identity(team, game_id), min: stats["minutes"],
         **BoxScoreV3Helpers.advanced_rating_stats(stats), **BoxScoreV3Helpers.advanced_efficiency_stats(stats),
         **BoxScoreV3Helpers.advanced_tempo_stats(stats)
       )
@@ -117,7 +117,7 @@ module NBA
     # @api private
     # @return [Hash] usage statistics
     def self.player_usage_stats(stats)
-      {usg_pct: stats.fetch("usagePercentage", nil), e_usg_pct: stats.fetch("estimatedUsagePercentage", nil)}
+      {usg_pct: stats["usagePercentage"], e_usg_pct: stats["estimatedUsagePercentage"]}
     end
     private_class_method :player_usage_stats
   end

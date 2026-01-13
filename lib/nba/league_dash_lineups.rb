@@ -98,10 +98,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash or nil if not found
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(LINEUPS) }
+      result_sets.find { |rs| rs["name"].eql?(LINEUPS) }
     end
     private_class_method :find_result_set
 
@@ -112,8 +112,8 @@ module NBA
     def self.build_stats(result_set)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       Collection.new(rows.map { |row| build_stat(headers.zip(row).to_h) })
@@ -135,9 +135,9 @@ module NBA
     # @api private
     # @return [Hash] the identity information hash
     def self.identity_info(data)
-      {group_set: data.fetch("GROUP_SET", nil), group_id: data.fetch("GROUP_ID", nil),
-       group_name: data.fetch("GROUP_NAME", nil), team_id: data.fetch("TEAM_ID", nil),
-       team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil)}
+      {group_set: data["GROUP_SET"], group_id: data["GROUP_ID"],
+       group_name: data["GROUP_NAME"], team_id: data["TEAM_ID"],
+       team_abbreviation: data["TEAM_ABBREVIATION"]}
     end
     private_class_method :identity_info
 
@@ -146,8 +146,8 @@ module NBA
     # @api private
     # @return [Hash] the record information hash
     def self.record_info(data)
-      {gp: data.fetch("GP", nil), w: data.fetch("W", nil), l: data.fetch("L", nil),
-       w_pct: data.fetch("W_PCT", nil), min: data.fetch("MIN", nil)}
+      {gp: data["GP"], w: data["W"], l: data["L"],
+       w_pct: data["W_PCT"], min: data["MIN"]}
     end
     private_class_method :record_info
 
@@ -156,9 +156,9 @@ module NBA
     # @api private
     # @return [Hash] the shooting information hash
     def self.shooting_info(data)
-      {fgm: data.fetch("FGM", nil), fga: data.fetch("FGA", nil), fg_pct: data.fetch("FG_PCT", nil),
-       fg3m: data.fetch("FG3M", nil), fg3a: data.fetch("FG3A", nil), fg3_pct: data.fetch("FG3_PCT", nil),
-       ftm: data.fetch("FTM", nil), fta: data.fetch("FTA", nil), ft_pct: data.fetch("FT_PCT", nil)}
+      {fgm: data["FGM"], fga: data["FGA"], fg_pct: data["FG_PCT"],
+       fg3m: data["FG3M"], fg3a: data["FG3A"], fg3_pct: data["FG3_PCT"],
+       ftm: data["FTM"], fta: data["FTA"], ft_pct: data["FT_PCT"]}
     end
     private_class_method :shooting_info
 
@@ -167,10 +167,10 @@ module NBA
     # @api private
     # @return [Hash] the counting information hash
     def self.counting_info(data)
-      {oreb: data.fetch("OREB", nil), dreb: data.fetch("DREB", nil), reb: data.fetch("REB", nil),
-       ast: data.fetch("AST", nil), tov: data.fetch("TOV", nil), stl: data.fetch("STL", nil),
-       blk: data.fetch("BLK", nil), blka: data.fetch("BLKA", nil), pf: data.fetch("PF", nil),
-       pfd: data.fetch("PFD", nil), pts: data.fetch("PTS", nil), plus_minus: data.fetch("PLUS_MINUS", nil)}
+      {oreb: data["OREB"], dreb: data["DREB"], reb: data["REB"],
+       ast: data["AST"], tov: data["TOV"], stl: data["STL"],
+       blk: data["BLK"], blka: data["BLKA"], pf: data["PF"],
+       pfd: data["PFD"], pts: data["PTS"], plus_minus: data["PLUS_MINUS"]}
     end
     private_class_method :counting_info
   end

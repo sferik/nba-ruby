@@ -45,8 +45,8 @@ module NBA
       result_set = find_result_set(data)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       results = rows.map { |row| build_result(headers, row) }
@@ -58,10 +58,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(RESULTS) }
+      result_sets.find { |rs| rs["name"].eql?(RESULTS) }
     end
     private_class_method :find_result_set
 
@@ -90,9 +90,9 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] player attributes
       def self.player(data)
-        {player_id: data.fetch("PLAYER_ID", nil), player_name: data.fetch("PLAYER_NAME", nil),
-         first_name: data.fetch("FIRST_NAME", nil), last_name: data.fetch("LAST_NAME", nil),
-         position: data.fetch("POSITION", nil)}
+        {player_id: data["PLAYER_ID"], player_name: data["PLAYER_NAME"],
+         first_name: data["FIRST_NAME"], last_name: data["LAST_NAME"],
+         position: data["POSITION"]}
       end
 
       # Extracts fifteen-foot range shot attributes from data
@@ -120,6 +120,7 @@ module NBA
       end
     end
 
+    # Extracts fifteen-foot range shot attributes
     # @api private
     module FifteenFoot
       # Extracts corner shot attributes from data
@@ -127,12 +128,12 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] corner shot attributes
       def self.corners(data)
-        {fifteen_corner_left_made: data.fetch("FIFTEEN_CORNER_LEFT_MADE", nil),
-         fifteen_corner_left_attempt: data.fetch("FIFTEEN_CORNER_LEFT_ATTEMPT", nil),
-         fifteen_corner_left_pct: data.fetch("FIFTEEN_CORNER_LEFT_PCT", nil),
-         fifteen_corner_right_made: data.fetch("FIFTEEN_CORNER_RIGHT_MADE", nil),
-         fifteen_corner_right_attempt: data.fetch("FIFTEEN_CORNER_RIGHT_ATTEMPT", nil),
-         fifteen_corner_right_pct: data.fetch("FIFTEEN_CORNER_RIGHT_PCT", nil)}
+        {fifteen_corner_left_made: data["FIFTEEN_CORNER_LEFT_MADE"],
+         fifteen_corner_left_attempt: data["FIFTEEN_CORNER_LEFT_ATTEMPT"],
+         fifteen_corner_left_pct: data["FIFTEEN_CORNER_LEFT_PCT"],
+         fifteen_corner_right_made: data["FIFTEEN_CORNER_RIGHT_MADE"],
+         fifteen_corner_right_attempt: data["FIFTEEN_CORNER_RIGHT_ATTEMPT"],
+         fifteen_corner_right_pct: data["FIFTEEN_CORNER_RIGHT_PCT"]}
       end
 
       # Extracts break shot attributes from data
@@ -140,12 +141,12 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] break shot attributes
       def self.breaks(data)
-        {fifteen_break_left_made: data.fetch("FIFTEEN_BREAK_LEFT_MADE", nil),
-         fifteen_break_left_attempt: data.fetch("FIFTEEN_BREAK_LEFT_ATTEMPT", nil),
-         fifteen_break_left_pct: data.fetch("FIFTEEN_BREAK_LEFT_PCT", nil),
-         fifteen_break_right_made: data.fetch("FIFTEEN_BREAK_RIGHT_MADE", nil),
-         fifteen_break_right_attempt: data.fetch("FIFTEEN_BREAK_RIGHT_ATTEMPT", nil),
-         fifteen_break_right_pct: data.fetch("FIFTEEN_BREAK_RIGHT_PCT", nil)}
+        {fifteen_break_left_made: data["FIFTEEN_BREAK_LEFT_MADE"],
+         fifteen_break_left_attempt: data["FIFTEEN_BREAK_LEFT_ATTEMPT"],
+         fifteen_break_left_pct: data["FIFTEEN_BREAK_LEFT_PCT"],
+         fifteen_break_right_made: data["FIFTEEN_BREAK_RIGHT_MADE"],
+         fifteen_break_right_attempt: data["FIFTEEN_BREAK_RIGHT_ATTEMPT"],
+         fifteen_break_right_pct: data["FIFTEEN_BREAK_RIGHT_PCT"]}
       end
 
       # Extracts top key shot attributes from data
@@ -153,12 +154,13 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] top key shot attributes
       def self.top(data)
-        {fifteen_top_key_made: data.fetch("FIFTEEN_TOP_KEY_MADE", nil),
-         fifteen_top_key_attempt: data.fetch("FIFTEEN_TOP_KEY_ATTEMPT", nil),
-         fifteen_top_key_pct: data.fetch("FIFTEEN_TOP_KEY_PCT", nil)}
+        {fifteen_top_key_made: data["FIFTEEN_TOP_KEY_MADE"],
+         fifteen_top_key_attempt: data["FIFTEEN_TOP_KEY_ATTEMPT"],
+         fifteen_top_key_pct: data["FIFTEEN_TOP_KEY_PCT"]}
       end
     end
 
+    # Extracts college range shot attributes
     # @api private
     module CollegeRange
       # Extracts corner shot attributes from data
@@ -166,12 +168,12 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] corner shot attributes
       def self.corners(data)
-        {college_corner_left_made: data.fetch("COLLEGE_CORNER_LEFT_MADE", nil),
-         college_corner_left_attempt: data.fetch("COLLEGE_CORNER_LEFT_ATTEMPT", nil),
-         college_corner_left_pct: data.fetch("COLLEGE_CORNER_LEFT_PCT", nil),
-         college_corner_right_made: data.fetch("COLLEGE_CORNER_RIGHT_MADE", nil),
-         college_corner_right_attempt: data.fetch("COLLEGE_CORNER_RIGHT_ATTEMPT", nil),
-         college_corner_right_pct: data.fetch("COLLEGE_CORNER_RIGHT_PCT", nil)}
+        {college_corner_left_made: data["COLLEGE_CORNER_LEFT_MADE"],
+         college_corner_left_attempt: data["COLLEGE_CORNER_LEFT_ATTEMPT"],
+         college_corner_left_pct: data["COLLEGE_CORNER_LEFT_PCT"],
+         college_corner_right_made: data["COLLEGE_CORNER_RIGHT_MADE"],
+         college_corner_right_attempt: data["COLLEGE_CORNER_RIGHT_ATTEMPT"],
+         college_corner_right_pct: data["COLLEGE_CORNER_RIGHT_PCT"]}
       end
 
       # Extracts break shot attributes from data
@@ -179,12 +181,12 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] break shot attributes
       def self.breaks(data)
-        {college_break_left_made: data.fetch("COLLEGE_BREAK_LEFT_MADE", nil),
-         college_break_left_attempt: data.fetch("COLLEGE_BREAK_LEFT_ATTEMPT", nil),
-         college_break_left_pct: data.fetch("COLLEGE_BREAK_LEFT_PCT", nil),
-         college_break_right_made: data.fetch("COLLEGE_BREAK_RIGHT_MADE", nil),
-         college_break_right_attempt: data.fetch("COLLEGE_BREAK_RIGHT_ATTEMPT", nil),
-         college_break_right_pct: data.fetch("COLLEGE_BREAK_RIGHT_PCT", nil)}
+        {college_break_left_made: data["COLLEGE_BREAK_LEFT_MADE"],
+         college_break_left_attempt: data["COLLEGE_BREAK_LEFT_ATTEMPT"],
+         college_break_left_pct: data["COLLEGE_BREAK_LEFT_PCT"],
+         college_break_right_made: data["COLLEGE_BREAK_RIGHT_MADE"],
+         college_break_right_attempt: data["COLLEGE_BREAK_RIGHT_ATTEMPT"],
+         college_break_right_pct: data["COLLEGE_BREAK_RIGHT_PCT"]}
       end
 
       # Extracts top key shot attributes from data
@@ -192,12 +194,13 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] top key shot attributes
       def self.top(data)
-        {college_top_key_made: data.fetch("COLLEGE_TOP_KEY_MADE", nil),
-         college_top_key_attempt: data.fetch("COLLEGE_TOP_KEY_ATTEMPT", nil),
-         college_top_key_pct: data.fetch("COLLEGE_TOP_KEY_PCT", nil)}
+        {college_top_key_made: data["COLLEGE_TOP_KEY_MADE"],
+         college_top_key_attempt: data["COLLEGE_TOP_KEY_ATTEMPT"],
+         college_top_key_pct: data["COLLEGE_TOP_KEY_PCT"]}
       end
     end
 
+    # Extracts NBA range shot attributes
     # @api private
     module NbaRange
       # Extracts corner shot attributes from data
@@ -205,12 +208,12 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] corner shot attributes
       def self.corners(data)
-        {nba_corner_left_made: data.fetch("NBA_CORNER_LEFT_MADE", nil),
-         nba_corner_left_attempt: data.fetch("NBA_CORNER_LEFT_ATTEMPT", nil),
-         nba_corner_left_pct: data.fetch("NBA_CORNER_LEFT_PCT", nil),
-         nba_corner_right_made: data.fetch("NBA_CORNER_RIGHT_MADE", nil),
-         nba_corner_right_attempt: data.fetch("NBA_CORNER_RIGHT_ATTEMPT", nil),
-         nba_corner_right_pct: data.fetch("NBA_CORNER_RIGHT_PCT", nil)}
+        {nba_corner_left_made: data["NBA_CORNER_LEFT_MADE"],
+         nba_corner_left_attempt: data["NBA_CORNER_LEFT_ATTEMPT"],
+         nba_corner_left_pct: data["NBA_CORNER_LEFT_PCT"],
+         nba_corner_right_made: data["NBA_CORNER_RIGHT_MADE"],
+         nba_corner_right_attempt: data["NBA_CORNER_RIGHT_ATTEMPT"],
+         nba_corner_right_pct: data["NBA_CORNER_RIGHT_PCT"]}
       end
 
       # Extracts break shot attributes from data
@@ -218,12 +221,12 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] break shot attributes
       def self.breaks(data)
-        {nba_break_left_made: data.fetch("NBA_BREAK_LEFT_MADE", nil),
-         nba_break_left_attempt: data.fetch("NBA_BREAK_LEFT_ATTEMPT", nil),
-         nba_break_left_pct: data.fetch("NBA_BREAK_LEFT_PCT", nil),
-         nba_break_right_made: data.fetch("NBA_BREAK_RIGHT_MADE", nil),
-         nba_break_right_attempt: data.fetch("NBA_BREAK_RIGHT_ATTEMPT", nil),
-         nba_break_right_pct: data.fetch("NBA_BREAK_RIGHT_PCT", nil)}
+        {nba_break_left_made: data["NBA_BREAK_LEFT_MADE"],
+         nba_break_left_attempt: data["NBA_BREAK_LEFT_ATTEMPT"],
+         nba_break_left_pct: data["NBA_BREAK_LEFT_PCT"],
+         nba_break_right_made: data["NBA_BREAK_RIGHT_MADE"],
+         nba_break_right_attempt: data["NBA_BREAK_RIGHT_ATTEMPT"],
+         nba_break_right_pct: data["NBA_BREAK_RIGHT_PCT"]}
       end
 
       # Extracts top key shot attributes from data
@@ -231,9 +234,9 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] top key shot attributes
       def self.top(data)
-        {nba_top_key_made: data.fetch("NBA_TOP_KEY_MADE", nil),
-         nba_top_key_attempt: data.fetch("NBA_TOP_KEY_ATTEMPT", nil),
-         nba_top_key_pct: data.fetch("NBA_TOP_KEY_PCT", nil)}
+        {nba_top_key_made: data["NBA_TOP_KEY_MADE"],
+         nba_top_key_attempt: data["NBA_TOP_KEY_ATTEMPT"],
+         nba_top_key_pct: data["NBA_TOP_KEY_PCT"]}
       end
     end
   end

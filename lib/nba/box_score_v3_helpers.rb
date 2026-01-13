@@ -6,23 +6,23 @@ module NBA
     # @api private
     # @return [Hash] player identity attributes
     def self.player_identity(player, game_id)
-      {game_id: game_id, team_id: player.fetch("teamId", nil),
-       team_abbreviation: player.fetch("teamTricode", nil),
-       team_city: player.fetch("teamCity", nil),
-       player_id: player.fetch("personId", nil),
+      {game_id: game_id, team_id: player["teamId"],
+       team_abbreviation: player["teamTricode"],
+       team_city: player["teamCity"],
+       player_id: player["personId"],
        player_name: build_player_name(player),
-       start_position: player.fetch("position", nil),
-       comment: player.fetch("comment", nil)}
+       start_position: player["position"],
+       comment: player["comment"]}
     end
 
     # Extracts team identity attributes from V3 API format
     # @api private
     # @return [Hash] team identity attributes
     def self.team_identity(team, game_id)
-      {game_id: game_id, team_id: team.fetch("teamId", nil),
-       team_name: team.fetch("teamName", nil),
-       team_abbreviation: team.fetch("teamTricode", nil),
-       team_city: team.fetch("teamCity", nil)}
+      {game_id: game_id, team_id: team["teamId"],
+       team_name: team["teamName"],
+       team_abbreviation: team["teamTricode"],
+       team_city: team["teamCity"]}
     end
 
     # Builds player full name from first and family name
@@ -41,7 +41,7 @@ module NBA
     # @param box_score_key [String] key to access box score data
     # @return [Array, nil] array of player data or nil if not found
     def self.extract_players(data, box_score_key)
-      box_score = data.fetch(box_score_key, nil)
+      box_score = data[box_score_key]
       return unless box_score
 
       home = box_score.dig("homeTeam", "players") || []
@@ -55,10 +55,10 @@ module NBA
     # @param box_score_key [String] key to access box score data
     # @return [Array, nil] array of team data or nil if not found
     def self.extract_teams(data, box_score_key)
-      box_score = data.fetch(box_score_key, nil)
+      box_score = data[box_score_key]
       return unless box_score
 
-      [box_score.fetch("homeTeam", nil), box_score.fetch("awayTeam", nil)].compact
+      [box_score["homeTeam"], box_score["awayTeam"]].compact
     end
 
     # Extracts shooting statistics from V3 API format
@@ -73,9 +73,9 @@ module NBA
     # @param stats [Hash] statistics data from V3 API
     # @return [Hash] field goal statistics
     def self.field_goal_stats(stats)
-      {fgm: stats.fetch("fieldGoalsMade", nil), fga: stats.fetch("fieldGoalsAttempted", nil),
-       fg_pct: stats.fetch("fieldGoalsPercentage", nil), fg3m: stats.fetch("threePointersMade", nil),
-       fg3a: stats.fetch("threePointersAttempted", nil), fg3_pct: stats.fetch("threePointersPercentage", nil)}
+      {fgm: stats["fieldGoalsMade"], fga: stats["fieldGoalsAttempted"],
+       fg_pct: stats["fieldGoalsPercentage"], fg3m: stats["threePointersMade"],
+       fg3a: stats["threePointersAttempted"], fg3_pct: stats["threePointersPercentage"]}
     end
 
     # Extracts free throw statistics from V3 API format
@@ -83,8 +83,8 @@ module NBA
     # @param stats [Hash] statistics data from V3 API
     # @return [Hash] free throw statistics
     def self.free_throw_stats(stats)
-      {ftm: stats.fetch("freeThrowsMade", nil), fta: stats.fetch("freeThrowsAttempted", nil),
-       ft_pct: stats.fetch("freeThrowsPercentage", nil)}
+      {ftm: stats["freeThrowsMade"], fta: stats["freeThrowsAttempted"],
+       ft_pct: stats["freeThrowsPercentage"]}
     end
 
     # Extracts counting statistics from V3 API format
@@ -99,8 +99,8 @@ module NBA
     # @param stats [Hash] statistics data from V3 API
     # @return [Hash] rebound and assist statistics
     def self.rebound_stats(stats)
-      {oreb: stats.fetch("reboundsOffensive", nil), dreb: stats.fetch("reboundsDefensive", nil),
-       reb: stats.fetch("reboundsTotal", nil), ast: stats.fetch("assists", nil)}
+      {oreb: stats["reboundsOffensive"], dreb: stats["reboundsDefensive"],
+       reb: stats["reboundsTotal"], ast: stats["assists"]}
     end
 
     # Extracts other counting statistics from V3 API format
@@ -108,37 +108,37 @@ module NBA
     # @param stats [Hash] statistics data from V3 API
     # @return [Hash] steals, blocks, turnovers, fouls, points, plus/minus
     def self.other_counting_stats(stats)
-      {stl: stats.fetch("steals", nil), blk: stats.fetch("blocks", nil),
-       tov: stats.fetch("turnovers", nil), pf: stats.fetch("foulsPersonal", nil),
-       pts: stats.fetch("points", nil), plus_minus: stats.fetch("plusMinusPoints", nil)}
+      {stl: stats["steals"], blk: stats["blocks"],
+       tov: stats["turnovers"], pf: stats["foulsPersonal"],
+       pts: stats["points"], plus_minus: stats["plusMinusPoints"]}
     end
 
     # Extracts advanced rating statistics from V3 API format
     # @api private
     # @return [Hash] rating statistics
     def self.advanced_rating_stats(stats)
-      {e_off_rating: stats.fetch("estimatedOffensiveRating", nil), off_rating: stats.fetch("offensiveRating", nil),
-       e_def_rating: stats.fetch("estimatedDefensiveRating", nil), def_rating: stats.fetch("defensiveRating", nil),
-       e_net_rating: stats.fetch("estimatedNetRating", nil), net_rating: stats.fetch("netRating", nil)}
+      {e_off_rating: stats["estimatedOffensiveRating"], off_rating: stats["offensiveRating"],
+       e_def_rating: stats["estimatedDefensiveRating"], def_rating: stats["defensiveRating"],
+       e_net_rating: stats["estimatedNetRating"], net_rating: stats["netRating"]}
     end
 
     # Extracts advanced efficiency statistics from V3 API format
     # @api private
     # @return [Hash] efficiency statistics
     def self.advanced_efficiency_stats(stats)
-      {ast_pct: stats.fetch("assistPercentage", nil), ast_tov: stats.fetch("assistToTurnover", nil),
-       ast_ratio: stats.fetch("assistRatio", nil), oreb_pct: stats.fetch("reboundsOffensivePercentage", nil),
-       dreb_pct: stats.fetch("reboundsDefensivePercentage", nil), reb_pct: stats.fetch("reboundsPercentage", nil),
-       tov_pct: stats.fetch("turnoverPercentage", nil), efg_pct: stats.fetch("effectiveFieldGoalPercentage", nil),
-       ts_pct: stats.fetch("trueShootingPercentage", nil), pie: stats.fetch("playerImpactEstimate", nil)}
+      {ast_pct: stats["assistPercentage"], ast_tov: stats["assistToTurnover"],
+       ast_ratio: stats["assistRatio"], oreb_pct: stats["reboundsOffensivePercentage"],
+       dreb_pct: stats["reboundsDefensivePercentage"], reb_pct: stats["reboundsPercentage"],
+       tov_pct: stats["turnoverPercentage"], efg_pct: stats["effectiveFieldGoalPercentage"],
+       ts_pct: stats["trueShootingPercentage"], pie: stats["playerImpactEstimate"]}
     end
 
     # Extracts advanced tempo statistics from V3 API format
     # @api private
     # @return [Hash] tempo statistics
     def self.advanced_tempo_stats(stats)
-      {e_pace: stats.fetch("estimatedPace", nil), pace: stats.fetch("pace", nil),
-       pace_per40: stats.fetch("pacePer40", nil), poss: stats.fetch("possessions", nil)}
+      {e_pace: stats["estimatedPace"], pace: stats["pace"],
+       pace_per40: stats["pacePer40"], poss: stats["possessions"]}
     end
   end
 end

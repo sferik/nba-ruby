@@ -64,8 +64,8 @@ module NBA
       result_set = find_result_set(data)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       stats = rows.map { |row| build_year_stat(headers, row) }
@@ -77,10 +77,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(TEAM_STATS) }
+      result_sets.find { |rs| rs["name"].eql?(TEAM_STATS) }
     end
     private_class_method :find_result_set
 
@@ -105,8 +105,8 @@ module NBA
     # @api private
     # @return [Hash] identity attributes
     def self.identity_attributes(data)
-      {team_id: data.fetch("TEAM_ID", nil), team_city: data.fetch("TEAM_CITY", nil),
-       team_name: data.fetch("TEAM_NAME", nil), year: data.fetch("YEAR", nil), gp: data.fetch("GP", nil)}
+      {team_id: data["TEAM_ID"], team_city: data["TEAM_CITY"],
+       team_name: data["TEAM_NAME"], year: data["YEAR"], gp: data["GP"]}
     end
     private_class_method :identity_attributes
 
@@ -114,10 +114,10 @@ module NBA
     # @api private
     # @return [Hash] record attributes
     def self.record_attributes(data)
-      {wins: data.fetch("WINS", nil), losses: data.fetch("LOSSES", nil), win_pct: data.fetch("WIN_PCT", nil),
-       conf_rank: data.fetch("CONF_RANK", nil), div_rank: data.fetch("DIV_RANK", nil),
-       po_wins: data.fetch("PO_WINS", nil), po_losses: data.fetch("PO_LOSSES", nil),
-       nba_finals_appearance: data.fetch("NBA_FINALS_APPEARANCE", nil)}
+      {wins: data["WINS"], losses: data["LOSSES"], win_pct: data["WIN_PCT"],
+       conf_rank: data["CONF_RANK"], div_rank: data["DIV_RANK"],
+       po_wins: data["PO_WINS"], po_losses: data["PO_LOSSES"],
+       nba_finals_appearance: data["NBA_FINALS_APPEARANCE"]}
     end
     private_class_method :record_attributes
 
@@ -125,9 +125,9 @@ module NBA
     # @api private
     # @return [Hash] shooting attributes
     def self.shooting_attributes(data)
-      {fgm: data.fetch("FGM", nil), fga: data.fetch("FGA", nil), fg_pct: data.fetch("FG_PCT", nil),
-       fg3m: data.fetch("FG3M", nil), fg3a: data.fetch("FG3A", nil), fg3_pct: data.fetch("FG3_PCT", nil),
-       ftm: data.fetch("FTM", nil), fta: data.fetch("FTA", nil), ft_pct: data.fetch("FT_PCT", nil)}
+      {fgm: data["FGM"], fga: data["FGA"], fg_pct: data["FG_PCT"],
+       fg3m: data["FG3M"], fg3a: data["FG3A"], fg3_pct: data["FG3_PCT"],
+       ftm: data["FTM"], fta: data["FTA"], ft_pct: data["FT_PCT"]}
     end
     private_class_method :shooting_attributes
 
@@ -135,9 +135,9 @@ module NBA
     # @api private
     # @return [Hash] counting attributes
     def self.counting_attributes(data)
-      {oreb: data.fetch("OREB", nil), dreb: data.fetch("DREB", nil), reb: data.fetch("REB", nil),
-       ast: data.fetch("AST", nil), pf: data.fetch("PF", nil), stl: data.fetch("STL", nil),
-       tov: data.fetch("TOV", nil), blk: data.fetch("BLK", nil), pts: data.fetch("PTS", nil), pts_rank: data.fetch("PTS_RANK", nil)}
+      {oreb: data["OREB"], dreb: data["DREB"], reb: data["REB"],
+       ast: data["AST"], pf: data["PF"], stl: data["STL"],
+       tov: data["TOV"], blk: data["BLK"], pts: data["PTS"], pts_rank: data["PTS_RANK"]}
     end
     private_class_method :counting_attributes
 

@@ -88,8 +88,8 @@ module NBA
     # @api private
     # @return [Hash]
     def self.identity_info(data)
-      {id: data.fetch("PERSON_ID", nil), last_name: data.fetch("PLAYER_LAST_NAME", nil),
-       first_name: data.fetch("PLAYER_FIRST_NAME", nil), slug: data.fetch("PLAYER_SLUG", nil)}
+      {id: data["PERSON_ID"], last_name: data["PLAYER_LAST_NAME"],
+       first_name: data["PLAYER_FIRST_NAME"], slug: data["PLAYER_SLUG"]}
     end
     private_class_method :identity_info
 
@@ -97,9 +97,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.team_info(data)
-      {team_id: data.fetch("TEAM_ID", nil), team_slug: data.fetch("TEAM_SLUG", nil),
-       team_city: data.fetch("TEAM_CITY", nil), team_name: data.fetch("TEAM_NAME", nil),
-       team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil)}
+      {team_id: data["TEAM_ID"], team_slug: data["TEAM_SLUG"],
+       team_city: data["TEAM_CITY"], team_name: data["TEAM_NAME"],
+       team_abbreviation: data["TEAM_ABBREVIATION"]}
     end
     private_class_method :team_info
 
@@ -107,9 +107,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.physical_info(data)
-      {jersey_number: data.fetch("JERSEY_NUMBER", nil), position: data.fetch("POSITION", nil),
-       height: data.fetch("HEIGHT", nil), weight: data.fetch("WEIGHT", nil),
-       college: data.fetch("COLLEGE", nil), country: data.fetch("COUNTRY", nil)}
+      {jersey_number: data["JERSEY_NUMBER"], position: data["POSITION"],
+       height: data["HEIGHT"], weight: data["WEIGHT"],
+       college: data["COLLEGE"], country: data["COUNTRY"]}
     end
     private_class_method :physical_info
 
@@ -117,8 +117,8 @@ module NBA
     # @api private
     # @return [Hash]
     def self.draft_info(data)
-      {draft_year: data.fetch("DRAFT_YEAR", nil), draft_round: data.fetch("DRAFT_ROUND", nil),
-       draft_number: data.fetch("DRAFT_NUMBER", nil), roster_status: data.fetch("ROSTER_STATUS", nil)}
+      {draft_year: data["DRAFT_YEAR"], draft_round: data["DRAFT_ROUND"],
+       draft_number: data["DRAFT_NUMBER"], roster_status: data["ROSTER_STATUS"]}
     end
     private_class_method :draft_info
 
@@ -126,9 +126,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.stats_info(data)
-      {pts: data.fetch("PTS", nil), reb: data.fetch("REB", nil), ast: data.fetch("AST", nil),
-       stats_timeframe: data.fetch("STATS_TIMEFRAME", nil), from_year: data.fetch("FROM_YEAR", nil),
-       to_year: data.fetch("TO_YEAR", nil), is_defunct: data.fetch("IS_DEFUNCT", nil)}
+      {pts: data["PTS"], reb: data["REB"], ast: data["AST"],
+       stats_timeframe: data["STATS_TIMEFRAME"], from_year: data["FROM_YEAR"],
+       to_year: data["TO_YEAR"], is_defunct: data["IS_DEFUNCT"]}
     end
     private_class_method :stats_info
   end

@@ -54,7 +54,7 @@ module NBA
     # @param data [Hash] parsed JSON response
     # @return [Array, nil] array of matchup data or nil if not found
     def self.extract_matchups(data)
-      box_score = data.fetch(BOX_SCORE_KEY, nil)
+      box_score = data[BOX_SCORE_KEY]
       return unless box_score
 
       home = box_score.dig("homeTeam", "players") || []
@@ -76,9 +76,9 @@ module NBA
     # @api private
     # @return [Hash] team identity attributes
     def self.team_identity(matchup)
-      {team_id: matchup.fetch("teamId", nil), team_city: matchup.fetch("teamCity", nil),
-       team_name: matchup.fetch("teamName", nil), team_tricode: matchup.fetch("teamTricode", nil),
-       team_slug: matchup.fetch("teamSlug", nil)}
+      {team_id: matchup["teamId"], team_city: matchup["teamCity"],
+       team_name: matchup["teamName"], team_tricode: matchup["teamTricode"],
+       team_slug: matchup["teamSlug"]}
     end
     private_class_method :team_identity
 
@@ -94,9 +94,9 @@ module NBA
     # @api private
     # @return [Hash] offensive player identity attributes
     def self.offensive_player_identity(matchup)
-      {person_id_off: matchup.fetch("personIdOff", nil), first_name_off: matchup.fetch("firstNameOff", nil),
-       family_name_off: matchup.fetch("familyNameOff", nil), name_i_off: matchup.fetch("nameIOff", nil),
-       player_slug_off: matchup.fetch("playerSlugOff", nil), jersey_num_off: matchup.fetch("jerseyNumOff", nil)}
+      {person_id_off: matchup["personIdOff"], first_name_off: matchup["firstNameOff"],
+       family_name_off: matchup["familyNameOff"], name_i_off: matchup["nameIOff"],
+       player_slug_off: matchup["playerSlugOff"], jersey_num_off: matchup["jerseyNumOff"]}
     end
     private_class_method :offensive_player_identity
 
@@ -104,10 +104,10 @@ module NBA
     # @api private
     # @return [Hash] defensive player identity attributes
     def self.defensive_player_identity(matchup)
-      {person_id_def: matchup.fetch("personIdDef", nil), first_name_def: matchup.fetch("firstNameDef", nil),
-       family_name_def: matchup.fetch("familyNameDef", nil), name_i_def: matchup.fetch("nameIDef", nil),
-       player_slug_def: matchup.fetch("playerSlugDef", nil), position_def: matchup.fetch("positionDef", nil),
-       comment_def: matchup.fetch("commentDef", nil), jersey_num_def: matchup.fetch("jerseyNumDef", nil)}
+      {person_id_def: matchup["personIdDef"], first_name_def: matchup["firstNameDef"],
+       family_name_def: matchup["familyNameDef"], name_i_def: matchup["nameIDef"],
+       player_slug_def: matchup["playerSlugDef"], position_def: matchup["positionDef"],
+       comment_def: matchup["commentDef"], jersey_num_def: matchup["jerseyNumDef"]}
     end
     private_class_method :defensive_player_identity
 
@@ -123,11 +123,11 @@ module NBA
     # @api private
     # @return [Hash] matchup time statistics
     def self.matchup_time_stats(matchup)
-      {matchup_minutes: matchup.fetch("matchupMinutes", nil), matchup_minutes_sort: matchup.fetch("matchupMinutesSort", nil),
-       partial_possessions: matchup.fetch("partialPossessions", nil),
-       percentage_defender_total_time: matchup.fetch("percentageDefenderTotalTime", nil),
-       percentage_offensive_total_time: matchup.fetch("percentageOffensiveTotalTime", nil),
-       percentage_total_time_both_on: matchup.fetch("percentageTotalTimeBothOn", nil), switches_on: matchup.fetch("switchesOn", nil)}
+      {matchup_minutes: matchup["matchupMinutes"], matchup_minutes_sort: matchup["matchupMinutesSort"],
+       partial_possessions: matchup["partialPossessions"],
+       percentage_defender_total_time: matchup["percentageDefenderTotalTime"],
+       percentage_offensive_total_time: matchup["percentageOffensiveTotalTime"],
+       percentage_total_time_both_on: matchup["percentageTotalTimeBothOn"], switches_on: matchup["switchesOn"]}
     end
     private_class_method :matchup_time_stats
 
@@ -135,9 +135,9 @@ module NBA
     # @api private
     # @return [Hash] matchup counting statistics
     def self.matchup_counting_stats(matchup)
-      {player_points: matchup.fetch("playerPoints", nil), team_points: matchup.fetch("teamPoints", nil),
-       matchup_assists: matchup.fetch("matchupAssists", nil), matchup_potential_assists: matchup.fetch("matchupPotentialAssists", nil),
-       matchup_turnovers: matchup.fetch("matchupTurnovers", nil), matchup_blocks: matchup.fetch("matchupBlocks", nil)}
+      {player_points: matchup["playerPoints"], team_points: matchup["teamPoints"],
+       matchup_assists: matchup["matchupAssists"], matchup_potential_assists: matchup["matchupPotentialAssists"],
+       matchup_turnovers: matchup["matchupTurnovers"], matchup_blocks: matchup["matchupBlocks"]}
     end
     private_class_method :matchup_counting_stats
 
@@ -153,9 +153,9 @@ module NBA
     # @api private
     # @return [Hash] field goal statistics
     def self.fg_stats(data)
-      {matchup_field_goals_made: data.fetch("matchupFieldGoalsMade", nil),
-       matchup_field_goals_attempted: data.fetch("matchupFieldGoalsAttempted", nil),
-       matchup_field_goals_percentage: data.fetch("matchupFieldGoalsPercentage", nil)}
+      {matchup_field_goals_made: data["matchupFieldGoalsMade"],
+       matchup_field_goals_attempted: data["matchupFieldGoalsAttempted"],
+       matchup_field_goals_percentage: data["matchupFieldGoalsPercentage"]}
     end
     private_class_method :fg_stats
 
@@ -163,9 +163,9 @@ module NBA
     # @api private
     # @return [Hash] three-pointer statistics
     def self.three_pt_stats(data)
-      {matchup_three_pointers_made: data.fetch("matchupThreePointersMade", nil),
-       matchup_three_pointers_attempted: data.fetch("matchupThreePointersAttempted", nil),
-       matchup_three_pointers_percentage: data.fetch("matchupThreePointersPercentage", nil)}
+      {matchup_three_pointers_made: data["matchupThreePointersMade"],
+       matchup_three_pointers_attempted: data["matchupThreePointersAttempted"],
+       matchup_three_pointers_percentage: data["matchupThreePointersPercentage"]}
     end
     private_class_method :three_pt_stats
 
@@ -173,11 +173,11 @@ module NBA
     # @api private
     # @return [Hash] help defense and free throw statistics
     def self.help_and_ft_stats(data)
-      {help_blocks: data.fetch("helpBlocks", nil), help_field_goals_made: data.fetch("helpFieldGoalsMade", nil),
-       help_field_goals_attempted: data.fetch("helpFieldGoalsAttempted", nil),
-       help_field_goals_percentage: data.fetch("helpFieldGoalsPercentage", nil),
-       matchup_free_throws_made: data.fetch("matchupFreeThrowsMade", nil),
-       matchup_free_throws_attempted: data.fetch("matchupFreeThrowsAttempted", nil), shooting_fouls: data.fetch("shootingFouls", nil)}
+      {help_blocks: data["helpBlocks"], help_field_goals_made: data["helpFieldGoalsMade"],
+       help_field_goals_attempted: data["helpFieldGoalsAttempted"],
+       help_field_goals_percentage: data["helpFieldGoalsPercentage"],
+       matchup_free_throws_made: data["matchupFreeThrowsMade"],
+       matchup_free_throws_attempted: data["matchupFreeThrowsAttempted"], shooting_fouls: data["shootingFouls"]}
     end
     private_class_method :help_and_ft_stats
   end

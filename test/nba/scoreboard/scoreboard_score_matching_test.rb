@@ -47,9 +47,9 @@ module NBA
       {name: "GameHeader", headers: game_header_headers, rowSet: [game1_row, game2_row]}
     end
 
-    def game1_row = ["GAME1", "2024-10-22", Team::GSW, 3, Team::LAL, "Chase Center"]
+    def game1_row = ["GAME1", "2024-10-22", Team::GSW, 3, "Final", Team::LAL, "Chase Center"]
 
-    def game2_row = ["GAME2", "2024-10-22", Team::BOS, 3, Team::GSW, "TD Garden"]
+    def game2_row = ["GAME2", "2024-10-22", Team::BOS, 3, "Final", Team::GSW, "TD Garden"]
 
     def multi_game_scores
       {name: "LineScore", headers: %w[GAME_ID TEAM_ID PTS],
@@ -65,7 +65,7 @@ module NBA
     end
 
     def scheduled_game_header
-      {name: "GameHeader", headers: game_header_headers, rowSet: [["0022400001", "2024-10-22", Team::GSW, 1, Team::LAL, "Chase Center"]]}
+      {name: "GameHeader", headers: game_header_headers, rowSet: [["0022400001", "2024-10-22", Team::GSW, 1, "7:30 pm ET", Team::LAL, "Chase Center"]]}
     end
 
     def nil_scores
@@ -76,6 +76,6 @@ module NBA
       {name: "LineScore", headers: %w[GAME_ID TEAM_ID], rowSet: [["0022400001", Team::GSW], ["0022400001", Team::LAL]]}
     end
 
-    def game_header_headers = %w[GAME_ID GAME_DATE_EST HOME_TEAM_ID GAME_STATUS_ID VISITOR_TEAM_ID ARENA_NAME]
+    def game_header_headers = %w[GAME_ID GAME_DATE_EST HOME_TEAM_ID GAME_STATUS_ID GAME_STATUS_TEXT VISITOR_TEAM_ID ARENA_NAME]
   end
 end

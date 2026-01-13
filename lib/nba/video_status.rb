@@ -45,8 +45,8 @@ module NBA
       result_set = find_result_set(data)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       entries = rows.map { |row| build_entry(headers, row) }
@@ -58,10 +58,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(RESULTS) }
+      result_sets.find { |rs| rs["name"].eql?(RESULTS) }
     end
     private_class_method :find_result_set
 
@@ -86,8 +86,8 @@ module NBA
     # @api private
     # @return [Hash] the game attributes
     def self.game_attributes(data)
-      {game_id: data.fetch("GAME_ID", nil), game_date: data.fetch("GAME_DATE", nil),
-       game_status: data.fetch("GAME_STATUS", nil), game_status_text: data.fetch("GAME_STATUS_TEXT", nil)}
+      {game_id: data["GAME_ID"], game_date: data["GAME_DATE"],
+       game_status: data["GAME_STATUS"], game_status_text: data["GAME_STATUS_TEXT"]}
     end
     private_class_method :game_attributes
 
@@ -103,9 +103,9 @@ module NBA
     # @api private
     # @return [Hash] the visitor team attributes
     def self.visitor_team_attributes(data)
-      {visitor_team_id: data.fetch("VISITOR_TEAM_ID", nil), visitor_team_city: data.fetch("VISITOR_TEAM_CITY", nil),
-       visitor_team_name: data.fetch("VISITOR_TEAM_NAME", nil),
-       visitor_team_abbreviation: data.fetch("VISITOR_TEAM_ABBREVIATION", nil)}
+      {visitor_team_id: data["VISITOR_TEAM_ID"], visitor_team_city: data["VISITOR_TEAM_CITY"],
+       visitor_team_name: data["VISITOR_TEAM_NAME"],
+       visitor_team_abbreviation: data["VISITOR_TEAM_ABBREVIATION"]}
     end
     private_class_method :visitor_team_attributes
 
@@ -113,8 +113,8 @@ module NBA
     # @api private
     # @return [Hash] the home team attributes
     def self.home_team_attributes(data)
-      {home_team_id: data.fetch("HOME_TEAM_ID", nil), home_team_city: data.fetch("HOME_TEAM_CITY", nil),
-       home_team_name: data.fetch("HOME_TEAM_NAME", nil), home_team_abbreviation: data.fetch("HOME_TEAM_ABBREVIATION", nil)}
+      {home_team_id: data["HOME_TEAM_ID"], home_team_city: data["HOME_TEAM_CITY"],
+       home_team_name: data["HOME_TEAM_NAME"], home_team_abbreviation: data["HOME_TEAM_ABBREVIATION"]}
     end
     private_class_method :home_team_attributes
 
@@ -122,7 +122,7 @@ module NBA
     # @api private
     # @return [Hash] the availability attributes
     def self.availability_attributes(data)
-      {is_available: data.fetch("IS_AVAILABLE", nil), pt_xyz_available: data.fetch("PT_XYZ_AVAILABLE", nil)}
+      {is_available: data["IS_AVAILABLE"], pt_xyz_available: data["PT_XYZ_AVAILABLE"]}
     end
     private_class_method :availability_attributes
   end

@@ -1,0 +1,19 @@
+# Stub for Thor gem
+class Thor
+  def self.exit_on_failure?: () -> bool
+  def self.desc: (String usage, String description) -> void
+  def self.method_option: (Symbol name, **untyped options) -> void
+  def self.class_option: (Symbol name, **untyped options) -> void
+  def self.map: (untyped mappings) -> void
+  def self.start: (Array[String] args) -> void
+  def self.remove_command: (Symbol name) -> void
+
+  def options: () -> Hash[Symbol, untyped]
+  def say: (?String? message, ?Symbol? color) -> void
+end
+
+# Stub for Date::Error
+class Date
+  class Error < ArgumentError
+  end
+end

@@ -166,10 +166,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash or nil if not found
     def self.find_result_set(data, result_set_name)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(result_set_name) }
+      result_sets.find { |rs| rs["name"].eql?(result_set_name) }
     end
     private_class_method :find_result_set
 
@@ -180,8 +180,8 @@ module NBA
     def self.build_collection(result_set)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       Collection.new(rows.map { |row| build_rebound_stat(headers.zip(row).to_h) })
@@ -202,8 +202,8 @@ module NBA
     # @api private
     # @return [Hash] the identity information hash
     def self.identity_info(data)
-      {player_id: data.fetch("PLAYER_ID", nil), player_name_last_first: data.fetch("PLAYER_NAME_LAST_FIRST", nil),
-       sort_order: data.fetch("SORT_ORDER", nil), g: data.fetch("G", nil)}
+      {player_id: data["PLAYER_ID"], player_name_last_first: data["PLAYER_NAME_LAST_FIRST"],
+       sort_order: data["SORT_ORDER"], g: data["G"]}
     end
     private_class_method :identity_info
 
@@ -212,9 +212,9 @@ module NBA
     # @api private
     # @return [Hash] the range information hash
     def self.range_info(data)
-      {reb_num_contesting_range: data.fetch("REB_NUM_CONTESTING_RANGE", nil),
-       overall: data.fetch("OVERALL", nil), reb_dist_range: data.fetch("REB_DIST_RANGE", nil),
-       shot_dist_range: data.fetch("SHOT_DIST_RANGE", nil), shot_type_range: data.fetch("SHOT_TYPE_RANGE", nil)}
+      {reb_num_contesting_range: data["REB_NUM_CONTESTING_RANGE"],
+       overall: data["OVERALL"], reb_dist_range: data["REB_DIST_RANGE"],
+       shot_dist_range: data["SHOT_DIST_RANGE"], shot_type_range: data["SHOT_TYPE_RANGE"]}
     end
     private_class_method :range_info
 
@@ -223,12 +223,12 @@ module NBA
     # @api private
     # @return [Hash] the rebound information hash
     def self.rebound_info(data)
-      {reb_frequency: data.fetch("REB_FREQUENCY", nil), oreb: data.fetch("OREB", nil),
-       dreb: data.fetch("DREB", nil), reb: data.fetch("REB", nil),
-       c_oreb: data.fetch("C_OREB", nil), c_dreb: data.fetch("C_DREB", nil),
-       c_reb: data.fetch("C_REB", nil), c_reb_pct: data.fetch("C_REB_PCT", nil),
-       uc_oreb: data.fetch("UC_OREB", nil), uc_dreb: data.fetch("UC_DREB", nil),
-       uc_reb: data.fetch("UC_REB", nil), uc_reb_pct: data.fetch("UC_REB_PCT", nil)}
+      {reb_frequency: data["REB_FREQUENCY"], oreb: data["OREB"],
+       dreb: data["DREB"], reb: data["REB"],
+       c_oreb: data["C_OREB"], c_dreb: data["C_DREB"],
+       c_reb: data["C_REB"], c_reb_pct: data["C_REB_PCT"],
+       uc_oreb: data["UC_OREB"], uc_dreb: data["UC_DREB"],
+       uc_reb: data["UC_REB"], uc_reb_pct: data["UC_REB_PCT"]}
     end
     private_class_method :rebound_info
   end

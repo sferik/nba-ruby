@@ -86,7 +86,7 @@ module NBA
     # @param data [Hash] the parsed JSON
     # @return [Hash, nil] the result set
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
       result_sets.find { |rs| rs.fetch("name").eql?(PLAYERS_ON_COURT) }
@@ -98,8 +98,8 @@ module NBA
     # @param result_set [Hash] the result set
     # @return [Collection] collection of player on court stats
     def self.build_stats(result_set)
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       stats = rows.map { |row| build_stat(headers, row) }

@@ -102,10 +102,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash or nil if not found
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(LEAGUE_DASH_PT_TEAM_DEFEND) }
+      result_sets.find { |rs| rs["name"].eql?(LEAGUE_DASH_PT_TEAM_DEFEND) }
     end
     private_class_method :find_result_set
 
@@ -116,8 +116,8 @@ module NBA
     def self.build_stats(result_set)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       Collection.new(rows.map { |row| build_stat(headers.zip(row).to_h) })
@@ -138,9 +138,9 @@ module NBA
     # @api private
     # @return [Hash] the identity information hash
     def self.identity_info(data)
-      {team_id: data.fetch("TEAM_ID", nil), team_name: data.fetch("TEAM_NAME", nil),
-       team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil),
-       gp: data.fetch("GP", nil), g: data.fetch("G", nil)}
+      {team_id: data["TEAM_ID"], team_name: data["TEAM_NAME"],
+       team_abbreviation: data["TEAM_ABBREVIATION"],
+       gp: data["GP"], g: data["G"]}
     end
     private_class_method :identity_info
 
@@ -149,9 +149,9 @@ module NBA
     # @api private
     # @return [Hash] the defensive statistics hash
     def self.defensive_info(data)
-      {freq: data.fetch("FREQ", nil), d_fgm: data.fetch("D_FGM", nil), d_fga: data.fetch("D_FGA", nil),
-       d_fg_pct: data.fetch("D_FG_PCT", nil), normal_fg_pct: data.fetch("NORMAL_FG_PCT", nil),
-       pct_plusminus: data.fetch("PCT_PLUSMINUS", nil)}
+      {freq: data["FREQ"], d_fgm: data["D_FGM"], d_fga: data["D_FGA"],
+       d_fg_pct: data["D_FG_PCT"], normal_fg_pct: data["NORMAL_FG_PCT"],
+       pct_plusminus: data["PCT_PLUSMINUS"]}
     end
     private_class_method :defensive_info
   end

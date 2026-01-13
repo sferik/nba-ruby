@@ -57,7 +57,7 @@ module NBA
       result_set = find_result_set(data, TEAM_BACKGROUND)
       return unless result_set
 
-      headers = result_set.fetch("headers", nil)
+      headers = result_set["headers"]
       row = result_set.dig("rowSet", 0)
       return unless headers && row
 
@@ -75,8 +75,8 @@ module NBA
       result_set = find_result_set(data, TEAM_HISTORY)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       records = rows.map { |row| build_historical_record(headers, row) }
@@ -88,10 +88,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash
     def self.find_result_set(data, name)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(name) }
+      result_sets.find { |rs| rs["name"].eql?(name) }
     end
     private_class_method :find_result_set
 

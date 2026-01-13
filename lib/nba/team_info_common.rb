@@ -95,7 +95,7 @@ module NBA
       result_set = find_result_set(data, TEAM_INFO_COMMON)
       return unless result_set
 
-      headers = result_set.fetch("headers", nil)
+      headers = result_set["headers"]
       row = result_set.dig("rowSet", 0)
       return unless headers && row
 
@@ -114,7 +114,7 @@ module NBA
       result_set = find_result_set(data, TEAM_SEASON_RANKS)
       return unless result_set
 
-      headers = result_set.fetch("headers", nil)
+      headers = result_set["headers"]
       row = result_set.dig("rowSet", 0)
       return unless headers && row
 
@@ -133,7 +133,7 @@ module NBA
       result_set = find_result_set(data, AVAILABLE_SEASONS)
       return Collection.new unless result_set
 
-      rows = result_set.fetch("rowSet", nil)
+      rows = result_set["rowSet"]
       return Collection.new unless rows
 
       Collection.new(rows.map(&:first))
@@ -145,10 +145,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash or nil if not found
     def self.find_result_set(data, result_set_name)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(result_set_name) }
+      result_sets.find { |rs| rs["name"].eql?(result_set_name) }
     end
     private_class_method :find_result_set
 

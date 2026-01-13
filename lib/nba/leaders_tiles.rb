@@ -80,10 +80,10 @@ module NBA
     # @param data [Hash] the row data
     # @return [Hash] tile attributes
     def self.tile_attributes(data)
-      {rank: data.fetch("RANK", nil), team_id: data.fetch("TEAM_ID", nil),
-       team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil),
-       team_name: data.fetch("TEAM_NAME", nil), pts: data.fetch("PTS", nil),
-       season_year: data.fetch("SEASON_YEAR", nil)}
+      {rank: data["RANK"], team_id: data["TEAM_ID"],
+       team_abbreviation: data["TEAM_ABBREVIATION"],
+       team_name: data["TEAM_NAME"], pts: data["PTS"],
+       season_year: data["SEASON_YEAR"]}
     end
     private_class_method :tile_attributes
   end

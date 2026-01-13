@@ -86,7 +86,7 @@ module NBA
     # @param name [String] the result set name
     # @return [Hash, nil] the result set
     def self.find_result_set(data, name)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
       result_sets.find { |rs| rs.fetch("name").eql?(name) }
@@ -99,8 +99,8 @@ module NBA
     # @param game_id [String] the game ID
     # @return [Collection] collection of player stats
     def self.build_player_stats(result_set, game_id)
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       stats = rows.map { |row| build_player_stat(headers, row, game_id) }
@@ -114,8 +114,8 @@ module NBA
     # @param game_id [String] the game ID
     # @return [Collection] collection of team stats
     def self.build_team_stats(result_set, game_id)
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       stats = rows.map { |row| build_team_stat(headers, row, game_id) }

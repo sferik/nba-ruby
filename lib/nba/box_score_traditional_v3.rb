@@ -125,7 +125,7 @@ module NBA
     # @api private
     # @return [Array, nil] array of starter/bench data or nil
     def self.extract_starter_bench(data)
-      box_score = data.fetch(BOX_SCORE_KEY, nil)
+      box_score = data[BOX_SCORE_KEY]
       return unless box_score
 
       stats = []
@@ -156,7 +156,7 @@ module NBA
       stats = player.fetch("statistics", {})
       BoxScorePlayerStat.new(
         **BoxScoreV3Helpers.player_identity(player, game_id),
-        min: stats.fetch("minutes", nil),
+        min: stats["minutes"],
         **BoxScoreV3Helpers.shooting_stats(stats),
         **BoxScoreV3Helpers.counting_stats(stats)
       )
@@ -170,7 +170,7 @@ module NBA
       stats = team.fetch("statistics", {})
       BoxScoreTeamStat.new(
         **BoxScoreV3Helpers.team_identity(team, game_id),
-        min: stats.fetch("minutes", nil),
+        min: stats["minutes"],
         **BoxScoreV3Helpers.shooting_stats(stats),
         **BoxScoreV3Helpers.counting_stats(stats)
       )
@@ -185,7 +185,7 @@ module NBA
       stats = data.fetch(:stats)
       BoxScoreStarterBenchStat.new(
         **BoxScoreV3Helpers.team_identity(team, game_id),
-        starters_bench: data.fetch(:group), min: stats.fetch("minutes", nil),
+        starters_bench: data.fetch(:group), min: stats["minutes"],
         **BoxScoreV3Helpers.shooting_stats(stats),
         **BoxScoreV3Helpers.counting_stats(stats)
       )

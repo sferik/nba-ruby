@@ -133,8 +133,8 @@ module NBA
       result_set = find_result_set(data)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       stats = rows.map { |row| build_play_type_stat(headers, row, play_type, type_grouping) }
@@ -147,10 +147,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(SYNERGY_PLAY_TYPE) }
+      result_sets.find { |rs| rs["name"].eql?(SYNERGY_PLAY_TYPE) }
     end
     private_class_method :find_result_set
 
@@ -180,9 +180,9 @@ module NBA
     # @api private
     # @return [Hash] identity attributes
     def self.identity_attributes(data, play_type, type_grouping)
-      {player_id: data.fetch("PLAYER_ID", nil), player_name: data.fetch("PLAYER_NAME", nil),
-       team_id: data.fetch("TEAM_ID", nil), team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil),
-       play_type: play_type, type_grouping: type_grouping, gp: data.fetch("GP", nil)}
+      {player_id: data["PLAYER_ID"], player_name: data["PLAYER_NAME"],
+       team_id: data["TEAM_ID"], team_abbreviation: data["TEAM_ABBREVIATION"],
+       play_type: play_type, type_grouping: type_grouping, gp: data["GP"]}
     end
     private_class_method :identity_attributes
 
@@ -191,8 +191,8 @@ module NBA
     # @api private
     # @return [Hash] possession attributes
     def self.possession_attributes(data)
-      {poss: data.fetch("POSS", nil), poss_pct: data.fetch("POSS_PCT", nil),
-       pts: data.fetch("PTS", nil), pts_pct: data.fetch("PTS_PCT", nil)}
+      {poss: data["POSS"], poss_pct: data["POSS_PCT"],
+       pts: data["PTS"], pts_pct: data["PTS_PCT"]}
     end
     private_class_method :possession_attributes
 
@@ -201,10 +201,10 @@ module NBA
     # @api private
     # @return [Hash] efficiency attributes
     def self.efficiency_attributes(data)
-      {fgm: data.fetch("FGM", nil), fga: data.fetch("FGA", nil), fg_pct: data.fetch("FG_PCT", nil),
-       efg_pct: data.fetch("EFG_PCT", nil), ft_poss_pct: data.fetch("FT_POSS_PCT", nil),
-       tov_poss_pct: data.fetch("TOV_POSS_PCT", nil), sf_poss_pct: data.fetch("SF_POSS_PCT", nil),
-       ppp: data.fetch("PPP", nil), percentile: data.fetch("PERCENTILE", nil)}
+      {fgm: data["FGM"], fga: data["FGA"], fg_pct: data["FG_PCT"],
+       efg_pct: data["EFG_PCT"], ft_poss_pct: data["FT_POSS_PCT"],
+       tov_poss_pct: data["TOV_POSS_PCT"], sf_poss_pct: data["SF_POSS_PCT"],
+       ppp: data["PPP"], percentile: data["PERCENTILE"]}
     end
     private_class_method :efficiency_attributes
   end

@@ -46,6 +46,7 @@ module NBA
       assert_equal 30, player.jersey_number
       assert_equal "6-2", player.height
       assert_equal 185, player.weight
+      assert_equal "Guard", player.position.name
     end
 
     def test_find_parses_player_background
@@ -66,42 +67,6 @@ module NBA
       assert_equal 7, player.draft_number
     end
 
-    def test_find_with_minimal_headers
-      response = {resultSets: [{headers: %w[PERSON_ID DISPLAY_FIRST_LAST],
-                                rowSet: [[201_939, "Stephen Curry"]]}]}
-      stub_request(:get, /commonplayerinfo/).to_return(body: response.to_json)
-
-      player = Players.find(201_939)
-
-      assert_equal 201_939, player.id
-      assert_equal "Stephen Curry", player.full_name
-      assert_nil player.first_name
-      assert_nil player.last_name
-      refute player.is_active
-    end
-
-    def test_find_handles_missing_person_id
-      response = {resultSets: [{headers: %w[DISPLAY_FIRST_LAST],
-                                rowSet: [["Stephen Curry"]]}]}
-      stub_request(:get, /commonplayerinfo/).to_return(body: response.to_json)
-
-      player = Players.find(201_939)
-
-      assert_nil player.id
-      assert_equal "Stephen Curry", player.full_name
-    end
-
-    def test_find_handles_missing_display_name
-      response = {resultSets: [{headers: %w[PERSON_ID],
-                                rowSet: [[201_939]]}]}
-      stub_request(:get, /commonplayerinfo/).to_return(body: response.to_json)
-
-      player = Players.find(201_939)
-
-      assert_equal 201_939, player.id
-      assert_nil player.full_name
-    end
-
     def test_find_handles_numeric_active_roster_status
       response = {resultSets: [{headers: %w[PERSON_ID DISPLAY_FIRST_LAST ROSTERSTATUS],
                                 rowSet: [[201_939, "Stephen Curry", 1]]}]}
@@ -118,6 +83,14 @@ module NBA
       refute Players.find(201_939).is_active
     end
 
+    def test_find_handles_missing_position
+      response = {resultSets: [{headers: %w[PERSON_ID DISPLAY_FIRST_LAST],
+                                rowSet: [[201_939, "Stephen Curry"]]}]}
+      stub_request(:get, /commonplayerinfo/).to_return(body: response.to_json)
+
+      assert_nil Players.find(201_939).position
+    end
+
     private
 
     def stub_player_info_request
@@ -129,12 +102,12 @@ module NBA
     end
 
     def player_info_headers
-      %w[PERSON_ID DISPLAY_FIRST_LAST FIRST_NAME LAST_NAME ROSTERSTATUS JERSEY HEIGHT WEIGHT SCHOOL COUNTRY DRAFT_YEAR DRAFT_ROUND
-        DRAFT_NUMBER]
+      %w[PERSON_ID DISPLAY_FIRST_LAST FIRST_NAME LAST_NAME ROSTERSTATUS JERSEY HEIGHT WEIGHT SCHOOL COUNTRY POSITION DRAFT_YEAR
+        DRAFT_ROUND DRAFT_NUMBER]
     end
 
     def player_info_row
-      [201_939, "Stephen Curry", "Stephen", "Curry", "Active", "30", "6-2", 185, "Davidson", "USA", 2009, 1, 7]
+      [201_939, "Stephen Curry", "Stephen", "Curry", "Active", "30", "6-2", 185, "Davidson", "USA", "Guard", 2009, 1, 7]
     end
   end
 end

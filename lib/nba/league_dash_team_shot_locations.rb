@@ -82,10 +82,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash or nil if not found
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(SHOT_LOCATIONS) }
+      result_sets.find { |rs| rs["name"].eql?(SHOT_LOCATIONS) }
     end
     private_class_method :find_result_set
 
@@ -97,7 +97,7 @@ module NBA
       return Collection.new unless result_set
 
       headers = build_headers(result_set)
-      rows = result_set.fetch("rowSet", nil)
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       Collection.new(rows.map { |row| build_stat(headers.zip(row).to_h) })
@@ -109,10 +109,10 @@ module NBA
     # @api private
     # @return [Array<String>, nil] the flattened headers
     def self.build_headers(result_set)
-      headers = result_set.fetch("headers", nil)
+      headers = result_set["headers"]
       return unless headers
 
-      headers.flat_map { |h| h.fetch("columnNames", nil) }
+      headers.flat_map { |h| h["columnNames"] }
     end
     private_class_method :build_headers
 
@@ -132,7 +132,7 @@ module NBA
     # @api private
     # @return [Hash] the identity information hash
     def self.identity_info(data)
-      {team_id: data.fetch("TEAM_ID", nil), team_name: data.fetch("TEAM_NAME", nil)}
+      {team_id: data["TEAM_ID"], team_name: data["TEAM_NAME"]}
     end
     private_class_method :identity_info
 
@@ -141,9 +141,9 @@ module NBA
     # @api private
     # @return [Hash] the restricted area information hash
     def self.restricted_area_info(data)
-      {restricted_area_fgm: data.fetch("Restricted Area FGM", nil),
-       restricted_area_fga: data.fetch("Restricted Area FGA", nil),
-       restricted_area_fg_pct: data.fetch("Restricted Area FG_PCT", nil)}
+      {restricted_area_fgm: data["Restricted Area FGM"],
+       restricted_area_fga: data["Restricted Area FGA"],
+       restricted_area_fg_pct: data["Restricted Area FG_PCT"]}
     end
     private_class_method :restricted_area_info
 
@@ -152,9 +152,9 @@ module NBA
     # @api private
     # @return [Hash] the paint information hash
     def self.paint_info(data)
-      {in_the_paint_non_ra_fgm: data.fetch("In The Paint (Non-RA) FGM", nil),
-       in_the_paint_non_ra_fga: data.fetch("In The Paint (Non-RA) FGA", nil),
-       in_the_paint_non_ra_fg_pct: data.fetch("In The Paint (Non-RA) FG_PCT", nil)}
+      {in_the_paint_non_ra_fgm: data["In The Paint (Non-RA) FGM"],
+       in_the_paint_non_ra_fga: data["In The Paint (Non-RA) FGA"],
+       in_the_paint_non_ra_fg_pct: data["In The Paint (Non-RA) FG_PCT"]}
     end
     private_class_method :paint_info
 
@@ -163,8 +163,8 @@ module NBA
     # @api private
     # @return [Hash] the mid-range information hash
     def self.mid_range_info(data)
-      {mid_range_fgm: data.fetch("Mid-Range FGM", nil), mid_range_fga: data.fetch("Mid-Range FGA", nil),
-       mid_range_fg_pct: data.fetch("Mid-Range FG_PCT", nil)}
+      {mid_range_fgm: data["Mid-Range FGM"], mid_range_fga: data["Mid-Range FGA"],
+       mid_range_fg_pct: data["Mid-Range FG_PCT"]}
     end
     private_class_method :mid_range_info
 
@@ -173,14 +173,14 @@ module NBA
     # @api private
     # @return [Hash] the corner 3 information hash
     def self.corner_3_info(data)
-      {left_corner_3_fgm: data.fetch("Left Corner 3 FGM", nil),
-       left_corner_3_fga: data.fetch("Left Corner 3 FGA", nil),
-       left_corner_3_fg_pct: data.fetch("Left Corner 3 FG_PCT", nil),
-       right_corner_3_fgm: data.fetch("Right Corner 3 FGM", nil),
-       right_corner_3_fga: data.fetch("Right Corner 3 FGA", nil),
-       right_corner_3_fg_pct: data.fetch("Right Corner 3 FG_PCT", nil),
-       corner_3_fgm: data.fetch("Corner 3 FGM", nil), corner_3_fga: data.fetch("Corner 3 FGA", nil),
-       corner_3_fg_pct: data.fetch("Corner 3 FG_PCT", nil)}
+      {left_corner_3_fgm: data["Left Corner 3 FGM"],
+       left_corner_3_fga: data["Left Corner 3 FGA"],
+       left_corner_3_fg_pct: data["Left Corner 3 FG_PCT"],
+       right_corner_3_fgm: data["Right Corner 3 FGM"],
+       right_corner_3_fga: data["Right Corner 3 FGA"],
+       right_corner_3_fg_pct: data["Right Corner 3 FG_PCT"],
+       corner_3_fgm: data["Corner 3 FGM"], corner_3_fga: data["Corner 3 FGA"],
+       corner_3_fg_pct: data["Corner 3 FG_PCT"]}
     end
     private_class_method :corner_3_info
 
@@ -189,9 +189,9 @@ module NBA
     # @api private
     # @return [Hash] the above the break 3 information hash
     def self.above_break_3_info(data)
-      {above_the_break_3_fgm: data.fetch("Above the Break 3 FGM", nil),
-       above_the_break_3_fga: data.fetch("Above the Break 3 FGA", nil),
-       above_the_break_3_fg_pct: data.fetch("Above the Break 3 FG_PCT", nil)}
+      {above_the_break_3_fgm: data["Above the Break 3 FGM"],
+       above_the_break_3_fga: data["Above the Break 3 FGA"],
+       above_the_break_3_fg_pct: data["Above the Break 3 FG_PCT"]}
     end
     private_class_method :above_break_3_info
 
@@ -200,8 +200,8 @@ module NBA
     # @api private
     # @return [Hash] the backcourt information hash
     def self.backcourt_info(data)
-      {backcourt_fgm: data.fetch("Backcourt FGM", nil), backcourt_fga: data.fetch("Backcourt FGA", nil),
-       backcourt_fg_pct: data.fetch("Backcourt FG_PCT", nil)}
+      {backcourt_fgm: data["Backcourt FGM"], backcourt_fga: data["Backcourt FGA"],
+       backcourt_fg_pct: data["Backcourt FG_PCT"]}
     end
     private_class_method :backcourt_info
   end

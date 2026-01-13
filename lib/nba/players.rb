@@ -46,13 +46,13 @@ module NBA
     # @param data [Hash] the player row data
     # @return [Player] the player object
     def self.build_player_summary(data)
-      full_name = data.fetch("DISPLAY_FIRST_LAST", nil)
+      full_name = data["DISPLAY_FIRST_LAST"]
       Player.new(
-        id: data.fetch("PERSON_ID", nil),
+        id: data["PERSON_ID"],
         full_name: full_name,
         first_name: full_name&.split&.first,
         last_name: full_name&.split&.last,
-        is_active: [1, "Active"].include?(data.fetch("ROSTERSTATUS", nil))
+        is_active: [1, "Active"].include?(data["ROSTERSTATUS"])
       )
     end
     private_class_method :build_player_summary
@@ -69,9 +69,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.identity_info(data)
-      {id: data.fetch("PERSON_ID", nil), full_name: data.fetch("DISPLAY_FIRST_LAST", nil),
-       first_name: data.fetch("FIRST_NAME", nil), last_name: data.fetch("LAST_NAME", nil),
-       is_active: [1, "Active"].include?(data.fetch("ROSTERSTATUS", nil))}
+      {id: data["PERSON_ID"], full_name: data["DISPLAY_FIRST_LAST"],
+       first_name: data["FIRST_NAME"], last_name: data["LAST_NAME"],
+       is_active: [1, "Active"].include?(data["ROSTERSTATUS"])}
     end
     private_class_method :identity_info
 
@@ -79,17 +79,28 @@ module NBA
     # @api private
     # @return [Hash]
     def self.physical_info(data)
-      {jersey_number: Utils.parse_integer(data.fetch("JERSEY", nil)), height: data.fetch("HEIGHT", nil),
-       weight: Utils.parse_integer(data.fetch("WEIGHT", nil)), college: data.fetch("SCHOOL", nil), country: data.fetch("COUNTRY", nil)}
+      {jersey_number: Utils.parse_integer(data["JERSEY"]), height: data["HEIGHT"],
+       weight: Utils.parse_integer(data["WEIGHT"]), college: data["SCHOOL"],
+       country: data["COUNTRY"], position: build_position(data["POSITION"])}
     end
     private_class_method :physical_info
+
+    # Builds a position from name
+    # @api private
+    # @return [Position, nil]
+    def self.build_position(name)
+      return unless name
+
+      Position.new(name: name)
+    end
+    private_class_method :build_position
 
     # Extracts draft information from data
     # @api private
     # @return [Hash]
     def self.draft_info(data)
-      {draft_year: Utils.parse_integer(data.fetch("DRAFT_YEAR", nil)), draft_round: Utils.parse_integer(data.fetch("DRAFT_ROUND", nil)),
-       draft_number: Utils.parse_integer(data.fetch("DRAFT_NUMBER", nil))}
+      {draft_year: Utils.parse_integer(data["DRAFT_YEAR"]), draft_round: Utils.parse_integer(data["DRAFT_ROUND"]),
+       draft_number: Utils.parse_integer(data["DRAFT_NUMBER"])}
     end
     private_class_method :draft_info
   end

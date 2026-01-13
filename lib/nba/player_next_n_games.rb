@@ -42,8 +42,8 @@ module NBA
     # @api private
     # @return [Hash]
     def self.game_info(data)
-      {game_id: data.fetch("GAME_ID", nil), game_date: data.fetch("GAME_DATE", nil),
-       game_time: data.fetch("GAME_TIME", nil)}
+      {game_id: data["GAME_ID"], game_date: data["GAME_DATE"],
+       game_time: data["GAME_TIME"]}
     end
     private_class_method :game_info
 
@@ -52,12 +52,12 @@ module NBA
     # @api private
     # @return [Hash]
     def self.team_info(data)
-      {home_team_id: data.fetch("HOME_TEAM_ID", nil), visitor_team_id: data.fetch("VISITOR_TEAM_ID", nil),
-       home_team_name: data.fetch("HOME_TEAM_NAME", nil), visitor_team_name: data.fetch("VISITOR_TEAM_NAME", nil),
-       home_team_abbreviation: data.fetch("HOME_TEAM_ABBREVIATION", nil),
-       visitor_team_abbreviation: data.fetch("VISITOR_TEAM_ABBREVIATION", nil),
-       home_team_nickname: data.fetch("HOME_TEAM_NICKNAME", nil),
-       visitor_team_nickname: data.fetch("VISITOR_TEAM_NICKNAME", nil)}
+      {home_team_id: data["HOME_TEAM_ID"], visitor_team_id: data["VISITOR_TEAM_ID"],
+       home_team_name: data["HOME_TEAM_NAME"], visitor_team_name: data["VISITOR_TEAM_NAME"],
+       home_team_abbreviation: data["HOME_TEAM_ABBREVIATION"],
+       visitor_team_abbreviation: data["VISITOR_TEAM_ABBREVIATION"],
+       home_team_nickname: data["HOME_TEAM_NICKNAME"],
+       visitor_team_nickname: data["VISITOR_TEAM_NICKNAME"]}
     end
     private_class_method :team_info
   end

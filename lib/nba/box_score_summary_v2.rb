@@ -64,7 +64,7 @@ module NBA
     # @param name [String] the result set name
     # @return [Hash, nil] the result set
     def self.find_result_set(data, name)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
       result_sets.find { |rs| rs.fetch("name").eql?(name) }
@@ -98,7 +98,7 @@ module NBA
     # @param result_set [Hash] the result set
     # @return [Hash, nil] the first row as a hash
     def self.extract_first_row(result_set)
-      headers = result_set.fetch("headers", nil)
+      headers = result_set["headers"]
       row = result_set.dig("rowSet", 0)
       return unless headers && row
 
@@ -113,8 +113,8 @@ module NBA
     def self.extract_line_scores(line_scores)
       return [{}, {}] unless line_scores
 
-      headers = line_scores.fetch("headers", nil)
-      rows = line_scores.fetch("rowSet", nil)
+      headers = line_scores["headers"]
+      rows = line_scores["rowSet"]
       return [{}, {}] unless headers && rows && rows.size >= 2
 
       [headers.zip(rows.fetch(1)).to_h, headers.zip(rows.fetch(0)).to_h]
@@ -128,8 +128,8 @@ module NBA
     def self.extract_officials(officials)
       return [] unless officials
 
-      headers = officials.fetch("headers", nil)
-      rows = officials.fetch("rowSet", nil)
+      headers = officials["headers"]
+      rows = officials["rowSet"]
       return [] unless headers && rows
 
       first_name_idx = headers.index("FIRST_NAME")
@@ -147,7 +147,7 @@ module NBA
     def self.extract_other_stats(other_stats)
       return {} unless other_stats
 
-      headers = other_stats.fetch("headers", nil)
+      headers = other_stats["headers"]
       row = other_stats.dig("rowSet", 0)
       return {} unless headers && row
 
@@ -174,8 +174,8 @@ module NBA
     # @param data [Hash] the line score data
     # @return [Hash] home score attributes
     def self.home_score_attributes(data)
-      {home_pts_q1: data.fetch("PTS_QTR1", nil), home_pts_q2: data.fetch("PTS_QTR2", nil), home_pts_q3: data.fetch("PTS_QTR3", nil),
-       home_pts_q4: data.fetch("PTS_QTR4", nil), home_pts_ot: data.fetch("PTS_OT1", nil), home_pts: data.fetch("PTS", nil)}
+      {home_pts_q1: data["PTS_QTR1"], home_pts_q2: data["PTS_QTR2"], home_pts_q3: data["PTS_QTR3"],
+       home_pts_q4: data["PTS_QTR4"], home_pts_ot: data["PTS_OT1"], home_pts: data["PTS"]}
     end
     private_class_method :home_score_attributes
 
@@ -184,9 +184,9 @@ module NBA
     # @param data [Hash] the line score data
     # @return [Hash] visitor score attributes
     def self.visitor_score_attributes(data)
-      {visitor_pts_q1: data.fetch("PTS_QTR1", nil), visitor_pts_q2: data.fetch("PTS_QTR2", nil),
-       visitor_pts_q3: data.fetch("PTS_QTR3", nil), visitor_pts_q4: data.fetch("PTS_QTR4", nil),
-       visitor_pts_ot: data.fetch("PTS_OT1", nil), visitor_pts: data.fetch("PTS", nil)}
+      {visitor_pts_q1: data["PTS_QTR1"], visitor_pts_q2: data["PTS_QTR2"],
+       visitor_pts_q3: data["PTS_QTR3"], visitor_pts_q4: data["PTS_QTR4"],
+       visitor_pts_ot: data["PTS_OT1"], visitor_pts: data["PTS"]}
     end
     private_class_method :visitor_score_attributes
 
@@ -195,7 +195,7 @@ module NBA
     # @param data [Hash] the other stats data
     # @return [Hash] other stats attributes
     def self.other_attributes(data)
-      {lead_changes: data.fetch("LEAD_CHANGES", nil), times_tied: data.fetch("TIMES_TIED", nil), arena: data.fetch("ARENA", nil)}
+      {lead_changes: data["LEAD_CHANGES"], times_tied: data["TIMES_TIED"], arena: data["ARENA"]}
     end
     private_class_method :other_attributes
   end

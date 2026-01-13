@@ -74,9 +74,9 @@ module NBA
     # @param data [Hash] the row data
     # @return [Hash] game attributes
     def self.game_attributes(data)
-      {game_id: data.fetch("GAME_ID", nil), game_event_id: data.fetch("GAME_EVENT_ID", nil),
-       period: data.fetch("PERIOD", nil), minutes_remaining: data.fetch("MINUTES_REMAINING", nil),
-       seconds_remaining: data.fetch("SECONDS_REMAINING", nil)}
+      {game_id: data["GAME_ID"], game_event_id: data["GAME_EVENT_ID"],
+       period: data["PERIOD"], minutes_remaining: data["MINUTES_REMAINING"],
+       seconds_remaining: data["SECONDS_REMAINING"]}
     end
     private_class_method :game_attributes
 
@@ -85,8 +85,8 @@ module NBA
     # @param data [Hash] the row data
     # @return [Hash] player attributes
     def self.player_attributes(data)
-      {player_id: data.fetch("PLAYER_ID", nil), player_name: data.fetch("PLAYER_NAME", nil),
-       team_id: data.fetch("TEAM_ID", nil), team_name: data.fetch("TEAM_NAME", nil)}
+      {player_id: data["PLAYER_ID"], player_name: data["PLAYER_NAME"],
+       team_id: data["TEAM_ID"], team_name: data["TEAM_NAME"]}
     end
     private_class_method :player_attributes
 
@@ -95,14 +95,14 @@ module NBA
     # @param data [Hash] the row data
     # @return [Hash] shot info attributes
     def self.shot_info_attributes(data)
-      {action_type: data.fetch("ACTION_TYPE", nil), shot_type: data.fetch("SHOT_TYPE", nil),
-       shot_zone_basic: data.fetch("SHOT_ZONE_BASIC", nil),
-       shot_zone_area: data.fetch("SHOT_ZONE_AREA", nil),
-       shot_zone_range: data.fetch("SHOT_ZONE_RANGE", nil),
-       shot_distance: data.fetch("SHOT_DISTANCE", nil),
-       loc_x: data.fetch("LOC_X", nil), loc_y: data.fetch("LOC_Y", nil),
-       shot_attempted_flag: data.fetch("SHOT_ATTEMPTED_FLAG", nil),
-       shot_made_flag: data.fetch("SHOT_MADE_FLAG", nil)}
+      {action_type: data["ACTION_TYPE"], shot_type: data["SHOT_TYPE"],
+       shot_zone_basic: data["SHOT_ZONE_BASIC"],
+       shot_zone_area: data["SHOT_ZONE_AREA"],
+       shot_zone_range: data["SHOT_ZONE_RANGE"],
+       shot_distance: data["SHOT_DISTANCE"],
+       loc_x: data["LOC_X"], loc_y: data["LOC_Y"],
+       shot_attempted_flag: data["SHOT_ATTEMPTED_FLAG"],
+       shot_made_flag: data["SHOT_MADE_FLAG"]}
     end
     private_class_method :shot_info_attributes
   end

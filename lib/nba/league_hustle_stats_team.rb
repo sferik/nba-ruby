@@ -68,8 +68,8 @@ module NBA
       result_set = find_result_set(data)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       stats = rows.map { |row| build_team_stat(headers, row) }
@@ -83,10 +83,10 @@ module NBA
     # @param data [Hash] the parsed JSON data
     # @return [Hash, nil] the result set
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(HUSTLE_STATS_TEAM) }
+      result_sets.find { |rs| rs["name"].eql?(HUSTLE_STATS_TEAM) }
     end
     private_class_method :find_result_set
 
@@ -118,8 +118,8 @@ module NBA
     # @param data [Hash] the team stat data
     # @return [Hash] the identity attributes
     def self.identity_attributes(data)
-      {team_id: data.fetch("TEAM_ID", nil), team_name: data.fetch("TEAM_NAME", nil),
-       min: data.fetch("MIN", nil)}
+      {team_id: data["TEAM_ID"], team_name: data["TEAM_NAME"],
+       min: data["MIN"]}
     end
     private_class_method :identity_attributes
 
@@ -129,16 +129,16 @@ module NBA
     # @param data [Hash] the team stat data
     # @return [Hash] the hustle attributes
     def self.hustle_attributes(data)
-      {contested_shots: data.fetch("CONTESTED_SHOTS", nil),
-       contested_shots_2pt: data.fetch("CONTESTED_SHOTS_2PT", nil),
-       contested_shots_3pt: data.fetch("CONTESTED_SHOTS_3PT", nil),
-       deflections: data.fetch("DEFLECTIONS", nil), charges_drawn: data.fetch("CHARGES_DRAWN", nil),
-       screen_assists: data.fetch("SCREEN_ASSISTS", nil), screen_ast_pts: data.fetch("SCREEN_AST_PTS", nil),
-       off_loose_balls_recovered: data.fetch("OFF_LOOSE_BALLS_RECOVERED", nil),
-       def_loose_balls_recovered: data.fetch("DEF_LOOSE_BALLS_RECOVERED", nil),
-       loose_balls_recovered: data.fetch("LOOSE_BALLS_RECOVERED", nil),
-       pct_loose_balls_recovered_off: data.fetch("PCT_LOOSE_BALLS_RECOVERED_OFF", nil),
-       pct_loose_balls_recovered_def: data.fetch("PCT_LOOSE_BALLS_RECOVERED_DEF", nil)}
+      {contested_shots: data["CONTESTED_SHOTS"],
+       contested_shots_2pt: data["CONTESTED_SHOTS_2PT"],
+       contested_shots_3pt: data["CONTESTED_SHOTS_3PT"],
+       deflections: data["DEFLECTIONS"], charges_drawn: data["CHARGES_DRAWN"],
+       screen_assists: data["SCREEN_ASSISTS"], screen_ast_pts: data["SCREEN_AST_PTS"],
+       off_loose_balls_recovered: data["OFF_LOOSE_BALLS_RECOVERED"],
+       def_loose_balls_recovered: data["DEF_LOOSE_BALLS_RECOVERED"],
+       loose_balls_recovered: data["LOOSE_BALLS_RECOVERED"],
+       pct_loose_balls_recovered_off: data["PCT_LOOSE_BALLS_RECOVERED_OFF"],
+       pct_loose_balls_recovered_def: data["PCT_LOOSE_BALLS_RECOVERED_DEF"]}
     end
     private_class_method :hustle_attributes
 
@@ -148,9 +148,9 @@ module NBA
     # @param data [Hash] the team stat data
     # @return [Hash] the box out attributes
     def self.box_out_attributes(data)
-      {off_boxouts: data.fetch("OFF_BOXOUTS", nil), def_boxouts: data.fetch("DEF_BOXOUTS", nil),
-       box_outs: data.fetch("BOX_OUTS", nil),
-       pct_box_outs_off: data.fetch("PCT_BOX_OUTS_OFF", nil), pct_box_outs_def: data.fetch("PCT_BOX_OUTS_DEF", nil)}
+      {off_boxouts: data["OFF_BOXOUTS"], def_boxouts: data["DEF_BOXOUTS"],
+       box_outs: data["BOX_OUTS"],
+       pct_box_outs_off: data["PCT_BOX_OUTS_OFF"], pct_box_outs_def: data["PCT_BOX_OUTS_DEF"]}
     end
     private_class_method :box_out_attributes
   end

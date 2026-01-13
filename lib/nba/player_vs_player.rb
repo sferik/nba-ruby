@@ -97,10 +97,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash or nil if not found
     def self.find_result_set(data, result_set_name)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(result_set_name) }
+      result_sets.find { |rs| rs["name"].eql?(result_set_name) }
     end
     private_class_method :find_result_set
 
@@ -111,8 +111,8 @@ module NBA
     def self.build_collection(result_set)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       Collection.new(rows.map { |row| build_vs_player_stat(headers.zip(row).to_h) })
@@ -133,9 +133,9 @@ module NBA
     # @api private
     # @return [Hash] the identity information hash
     def self.identity_info(data)
-      {player_id: data.fetch("PLAYER_ID", nil), vs_player_id: data.fetch("VS_PLAYER_ID", nil),
-       court_status: data.fetch("COURT_STATUS", nil), gp: data.fetch("GP", nil),
-       min: data.fetch("MIN", nil)}
+      {player_id: data["PLAYER_ID"], vs_player_id: data["VS_PLAYER_ID"],
+       court_status: data["COURT_STATUS"], gp: data["GP"],
+       min: data["MIN"]}
     end
     private_class_method :identity_info
 
@@ -144,9 +144,9 @@ module NBA
     # @api private
     # @return [Hash] the stat information hash
     def self.stat_info(data)
-      {pts: data.fetch("PTS", nil), reb: data.fetch("REB", nil), ast: data.fetch("AST", nil),
-       stl: data.fetch("STL", nil), blk: data.fetch("BLK", nil), tov: data.fetch("TOV", nil),
-       fg_pct: data.fetch("FG_PCT", nil), plus_minus: data.fetch("PLUS_MINUS", nil)}
+      {pts: data["PTS"], reb: data["REB"], ast: data["AST"],
+       stl: data["STL"], blk: data["BLK"], tov: data["TOV"],
+       fg_pct: data["FG_PCT"], plus_minus: data["PLUS_MINUS"]}
     end
     private_class_method :stat_info
   end

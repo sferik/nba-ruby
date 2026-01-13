@@ -52,8 +52,8 @@ module NBA
       result_set = find_result_set(data, RESULTS)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       players = rows.map { |row| build_player(headers, row) }
@@ -68,10 +68,10 @@ module NBA
     # @param name [String] the result set name
     # @return [Hash, nil] the result set
     def self.find_result_set(data, name)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(name) }
+      result_sets.find { |rs| rs["name"].eql?(name) }
     end
     private_class_method :find_result_set
 
@@ -103,10 +103,10 @@ module NBA
     # @param data [Hash] the player data
     # @return [Hash] the identity attributes
     def self.identity_attributes(data)
-      {league_id: data.fetch("LEAGUE_ID", nil), team_id: data.fetch("TEAM_ID", nil),
-       team: data.fetch("TEAM", nil), person_id: data.fetch("PERSON_ID", nil),
-       player: data.fetch("PLAYER", nil), season_type: data.fetch("SEASON_TYPE", nil),
-       active_with_team: data.fetch("ACTIVE_WITH_TEAM", nil)}
+      {league_id: data["LEAGUE_ID"], team_id: data["TEAM_ID"],
+       team: data["TEAM"], person_id: data["PERSON_ID"],
+       player: data["PLAYER"], season_type: data["SEASON_TYPE"],
+       active_with_team: data["ACTIVE_WITH_TEAM"]}
     end
     private_class_method :identity_attributes
 
@@ -116,9 +116,9 @@ module NBA
     # @param data [Hash] the player data
     # @return [Hash] the stats attributes
     def self.stats_attributes(data)
-      {gp: data.fetch("GP", nil), ast: data.fetch("AST", nil), pf: data.fetch("PF", nil),
-       stl: data.fetch("STL", nil), tov: data.fetch("TOV", nil), blk: data.fetch("BLK", nil),
-       pts: data.fetch("PTS", nil)}
+      {gp: data["GP"], ast: data["AST"], pf: data["PF"],
+       stl: data["STL"], tov: data["TOV"], blk: data["BLK"],
+       pts: data["PTS"]}
     end
     private_class_method :stats_attributes
 
@@ -128,9 +128,9 @@ module NBA
     # @param data [Hash] the player data
     # @return [Hash] the shooting attributes
     def self.shooting_attributes(data)
-      {fgm: data.fetch("FGM", nil), fga: data.fetch("FGA", nil), fg_pct: data.fetch("FG_PCT", nil),
-       fg3m: data.fetch("FG3M", nil), fg3a: data.fetch("FG3A", nil), fg3_pct: data.fetch("FG3_PCT", nil),
-       ftm: data.fetch("FTM", nil), fta: data.fetch("FTA", nil), ft_pct: data.fetch("FT_PCT", nil)}
+      {fgm: data["FGM"], fga: data["FGA"], fg_pct: data["FG_PCT"],
+       fg3m: data["FG3M"], fg3a: data["FG3A"], fg3_pct: data["FG3_PCT"],
+       ftm: data["FTM"], fta: data["FTA"], ft_pct: data["FT_PCT"]}
     end
     private_class_method :shooting_attributes
 
@@ -140,7 +140,7 @@ module NBA
     # @param data [Hash] the player data
     # @return [Hash] the rebound attributes
     def self.rebound_attributes(data)
-      {oreb: data.fetch("OREB", nil), dreb: data.fetch("DREB", nil), reb: data.fetch("REB", nil)}
+      {oreb: data["OREB"], dreb: data["DREB"], reb: data["REB"]}
     end
     private_class_method :rebound_attributes
   end

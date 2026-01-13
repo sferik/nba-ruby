@@ -65,8 +65,8 @@ module NBA
       result_set = find_result_set(data)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       picks = rows.map { |row| build_draft_pick(headers, row) }
@@ -78,10 +78,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(DRAFT_HISTORY) }
+      result_sets.find { |rs| rs["name"].eql?(DRAFT_HISTORY) }
     end
     private_class_method :find_result_set
 
@@ -106,9 +106,9 @@ module NBA
     # @api private
     # @return [Hash] pick info attributes
     def self.pick_info_attributes(data)
-      {player_id: data.fetch("PERSON_ID", nil), season: data.fetch("SEASON", nil),
-       round_number: data.fetch("ROUND_NUMBER", nil), round_pick: data.fetch("ROUND_PICK", nil),
-       overall_pick: data.fetch("OVERALL_PICK", nil), draft_type: data.fetch("DRAFT_TYPE", nil)}
+      {player_id: data["PERSON_ID"], season: data["SEASON"],
+       round_number: data["ROUND_NUMBER"], round_pick: data["ROUND_PICK"],
+       overall_pick: data["OVERALL_PICK"], draft_type: data["DRAFT_TYPE"]}
     end
     private_class_method :pick_info_attributes
 
@@ -116,8 +116,8 @@ module NBA
     # @api private
     # @return [Hash] team attributes
     def self.team_attributes(data)
-      {team_id: data.fetch("TEAM_ID", nil), team_city: data.fetch("TEAM_CITY", nil),
-       team_name: data.fetch("TEAM_NAME", nil), team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil)}
+      {team_id: data["TEAM_ID"], team_city: data["TEAM_CITY"],
+       team_name: data["TEAM_NAME"], team_abbreviation: data["TEAM_ABBREVIATION"]}
     end
     private_class_method :team_attributes
 
@@ -125,9 +125,9 @@ module NBA
     # @api private
     # @return [Hash] player attributes
     def self.player_attributes(data)
-      {player_name: data.fetch("PLAYER_NAME", nil), position: data.fetch("POSITION", nil),
-       height: data.fetch("HEIGHT", nil), weight: data.fetch("WEIGHT", nil),
-       college: data.fetch("ORGANIZATION", nil), country: data.fetch("PLAYER_PROFILE_FLAG", nil)}
+      {player_name: data["PLAYER_NAME"], position: data["POSITION"],
+       height: data["HEIGHT"], weight: data["WEIGHT"],
+       college: data["ORGANIZATION"], country: data["PLAYER_PROFILE_FLAG"]}
     end
     private_class_method :player_attributes
 

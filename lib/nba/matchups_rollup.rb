@@ -67,14 +67,14 @@ module NBA
     # @param data [Hash] the row data
     # @return [Hash] matchup attributes
     def self.matchup_attributes(data)
-      {season_id: data.fetch("SEASON_ID", nil), position: data.fetch("POSITION", nil),
-       percent_of_time: data.fetch("PERCENT_OF_TIME", nil),
-       def_player_id: data.fetch("DEF_PLAYER_ID", nil),
-       def_player_name: data.fetch("DEF_PLAYER_NAME", nil), gp: data.fetch("GP", nil),
-       matchup_min: data.fetch("MATCHUP_MIN", nil),
-       partial_poss: data.fetch("PARTIAL_POSS", nil), player_pts: data.fetch("PLAYER_PTS", nil),
-       team_pts: data.fetch("TEAM_PTS", nil), matchup_fg_pct: data.fetch("MATCHUP_FG_PCT", nil),
-       matchup_fg3_pct: data.fetch("MATCHUP_FG3_PCT", nil)}
+      {season_id: data["SEASON_ID"], position: data["POSITION"],
+       percent_of_time: data["PERCENT_OF_TIME"],
+       def_player_id: data["DEF_PLAYER_ID"],
+       def_player_name: data["DEF_PLAYER_NAME"], gp: data["GP"],
+       matchup_min: data["MATCHUP_MIN"],
+       partial_poss: data["PARTIAL_POSS"], player_pts: data["PLAYER_PTS"],
+       team_pts: data["TEAM_PTS"], matchup_fg_pct: data["MATCHUP_FG_PCT"],
+       matchup_fg3_pct: data["MATCHUP_FG3_PCT"]}
     end
     private_class_method :matchup_attributes
   end

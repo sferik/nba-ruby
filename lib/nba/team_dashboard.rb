@@ -186,7 +186,7 @@ module NBA
       return Collection.new unless response
 
       data = JSON.parse(response)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return Collection.new unless result_sets
 
       all_stats = result_sets.flat_map { |rs| parse_result_set(rs, team_id) }
@@ -199,9 +199,9 @@ module NBA
     # @api private
     # @return [Array<TeamDashboardStat>] array of stats
     def self.parse_result_set(result_set, team_id)
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
-      group_set = result_set.fetch("name", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
+      group_set = result_set["name"]
       return [] unless headers && rows
 
       rows.map { |row| build_dashboard_stat(headers, row, group_set, team_id) }
@@ -235,8 +235,8 @@ module NBA
     # @api private
     # @return [Hash] identity attributes
     def self.identity_attributes(data, group_set, team_id)
-      {group_set: group_set, group_value: data.fetch("GROUP_VALUE", nil),
-       team_id: team_id, gp: data.fetch("GP", nil), min: data.fetch("MIN", nil)}
+      {group_set: group_set, group_value: data["GROUP_VALUE"],
+       team_id: team_id, gp: data["GP"], min: data["MIN"]}
     end
     private_class_method :identity_attributes
 
@@ -245,7 +245,7 @@ module NBA
     # @api private
     # @return [Hash] record attributes
     def self.record_attributes(data)
-      {w: data.fetch("W", nil), l: data.fetch("L", nil), w_pct: data.fetch("W_PCT", nil)}
+      {w: data["W"], l: data["L"], w_pct: data["W_PCT"]}
     end
     private_class_method :record_attributes
 
@@ -254,9 +254,9 @@ module NBA
     # @api private
     # @return [Hash] shooting attributes
     def self.shooting_attributes(data)
-      {fgm: data.fetch("FGM", nil), fga: data.fetch("FGA", nil), fg_pct: data.fetch("FG_PCT", nil),
-       fg3m: data.fetch("FG3M", nil), fg3a: data.fetch("FG3A", nil), fg3_pct: data.fetch("FG3_PCT", nil),
-       ftm: data.fetch("FTM", nil), fta: data.fetch("FTA", nil), ft_pct: data.fetch("FT_PCT", nil)}
+      {fgm: data["FGM"], fga: data["FGA"], fg_pct: data["FG_PCT"],
+       fg3m: data["FG3M"], fg3a: data["FG3A"], fg3_pct: data["FG3_PCT"],
+       ftm: data["FTM"], fta: data["FTA"], ft_pct: data["FT_PCT"]}
     end
     private_class_method :shooting_attributes
 
@@ -265,10 +265,10 @@ module NBA
     # @api private
     # @return [Hash] counting attributes
     def self.counting_attributes(data)
-      {oreb: data.fetch("OREB", nil), dreb: data.fetch("DREB", nil), reb: data.fetch("REB", nil),
-       ast: data.fetch("AST", nil), tov: data.fetch("TOV", nil), stl: data.fetch("STL", nil), blk: data.fetch("BLK", nil),
-       blka: data.fetch("BLKA", nil), pf: data.fetch("PF", nil), pfd: data.fetch("PFD", nil),
-       pts: data.fetch("PTS", nil), plus_minus: data.fetch("PLUS_MINUS", nil)}
+      {oreb: data["OREB"], dreb: data["DREB"], reb: data["REB"],
+       ast: data["AST"], tov: data["TOV"], stl: data["STL"], blk: data["BLK"],
+       blka: data["BLKA"], pf: data["PF"], pfd: data["PFD"],
+       pts: data["PTS"], plus_minus: data["PLUS_MINUS"]}
     end
     private_class_method :counting_attributes
   end

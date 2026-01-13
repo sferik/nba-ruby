@@ -105,10 +105,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash or nil if not found
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(LEAGUE_LINEUP_VIZ) }
+      result_sets.find { |rs| rs["name"].eql?(LEAGUE_LINEUP_VIZ) }
     end
     private_class_method :find_result_set
 
@@ -119,8 +119,8 @@ module NBA
     def self.build_stats(result_set)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       Collection.new(rows.map { |row| build_stat(headers.zip(row).to_h) })
@@ -142,8 +142,8 @@ module NBA
     # @api private
     # @return [Hash] the identity information hash
     def self.identity_info(data)
-      {group_id: data.fetch("GROUP_ID", nil), group_name: data.fetch("GROUP_NAME", nil),
-       team_id: data.fetch("TEAM_ID", nil), team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil)}
+      {group_id: data["GROUP_ID"], group_name: data["GROUP_NAME"],
+       team_id: data["TEAM_ID"], team_abbreviation: data["TEAM_ABBREVIATION"]}
     end
     private_class_method :identity_info
 
@@ -152,10 +152,10 @@ module NBA
     # @api private
     # @return [Hash] the rating information hash
     def self.rating_info(data)
-      {min: data.fetch("MIN", nil), off_rating: data.fetch("OFF_RATING", nil),
-       def_rating: data.fetch("DEF_RATING", nil), net_rating: data.fetch("NET_RATING", nil),
-       pace: data.fetch("PACE", nil), ts_pct: data.fetch("TS_PCT", nil),
-       fta_rate: data.fetch("FTA_RATE", nil), tm_ast_pct: data.fetch("TM_AST_PCT", nil)}
+      {min: data["MIN"], off_rating: data["OFF_RATING"],
+       def_rating: data["DEF_RATING"], net_rating: data["NET_RATING"],
+       pace: data["PACE"], ts_pct: data["TS_PCT"],
+       fta_rate: data["FTA_RATE"], tm_ast_pct: data["TM_AST_PCT"]}
     end
     private_class_method :rating_info
 
@@ -164,10 +164,10 @@ module NBA
     # @api private
     # @return [Hash] the shooting information hash
     def self.shooting_info(data)
-      {pct_fga_2pt: data.fetch("PCT_FGA_2PT", nil), pct_fga_3pt: data.fetch("PCT_FGA_3PT", nil),
-       pct_pts_2pt_mr: data.fetch("PCT_PTS_2PT_MR", nil), pct_pts_fb: data.fetch("PCT_PTS_FB", nil),
-       pct_pts_ft: data.fetch("PCT_PTS_FT", nil), pct_pts_paint: data.fetch("PCT_PTS_PAINT", nil),
-       pct_ast_fgm: data.fetch("PCT_AST_FGM", nil), pct_uast_fgm: data.fetch("PCT_UAST_FGM", nil)}
+      {pct_fga_2pt: data["PCT_FGA_2PT"], pct_fga_3pt: data["PCT_FGA_3PT"],
+       pct_pts_2pt_mr: data["PCT_PTS_2PT_MR"], pct_pts_fb: data["PCT_PTS_FB"],
+       pct_pts_ft: data["PCT_PTS_FT"], pct_pts_paint: data["PCT_PTS_PAINT"],
+       pct_ast_fgm: data["PCT_AST_FGM"], pct_uast_fgm: data["PCT_UAST_FGM"]}
     end
     private_class_method :shooting_info
 
@@ -176,8 +176,8 @@ module NBA
     # @api private
     # @return [Hash] the opponent stats information hash
     def self.opponent_info(data)
-      {opp_fg3_pct: data.fetch("OPP_FG3_PCT", nil), opp_efg_pct: data.fetch("OPP_EFG_PCT", nil),
-       opp_fta_rate: data.fetch("OPP_FTA_RATE", nil), opp_tov_pct: data.fetch("OPP_TOV_PCT", nil)}
+      {opp_fg3_pct: data["OPP_FG3_PCT"], opp_efg_pct: data["OPP_EFG_PCT"],
+       opp_fta_rate: data["OPP_FTA_RATE"], opp_tov_pct: data["OPP_TOV_PCT"]}
     end
     private_class_method :opponent_info
   end

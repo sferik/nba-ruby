@@ -83,10 +83,10 @@ module NBA
     def self.extract_result_set(response)
       return unless response
 
-      result_set = JSON.parse(response).fetch("resultSet", nil)
+      result_set = JSON.parse(response)["resultSet"]
       return unless result_set
 
-      [result_set.fetch("headers", nil), result_set.fetch("rowSet", nil)]
+      [result_set["headers"], result_set["rowSet"]]
     end
     private_class_method :extract_result_set
 
@@ -94,7 +94,7 @@ module NBA
     # @api private
     # @return [Leader]
     def self.build_leader(data, category)
-      Leader.new(**leader_identity(data), category: category, rank: data.fetch("RANK", nil), value: data.fetch(category, nil))
+      Leader.new(**leader_identity(data), category: category, rank: data["RANK"], value: data[category])
     end
     private_class_method :build_leader
 
@@ -102,8 +102,8 @@ module NBA
     # @api private
     # @return [Hash]
     def self.leader_identity(data)
-      {player_id: data.fetch("PLAYER_ID", nil), player_name: data.fetch("PLAYER", nil),
-       team_id: data.fetch("TEAM_ID", nil), team_abbreviation: data.fetch("TEAM", nil)}
+      {player_id: data["PLAYER_ID"], player_name: data["PLAYER"],
+       team_id: data["TEAM_ID"], team_abbreviation: data["TEAM"]}
     end
     private_class_method :leader_identity
   end

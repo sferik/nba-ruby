@@ -31,7 +31,7 @@ module NBA
     def self.parse_response(response, game_id)
       return unless response
 
-      box_score = JSON.parse(response).fetch(BOX_SCORE_SUMMARY, nil)
+      box_score = JSON.parse(response)[BOX_SCORE_SUMMARY]
       build_summary(box_score, game_id) if box_score
     end
     private_class_method :parse_response
@@ -52,11 +52,11 @@ module NBA
     # @api private
     # @return [Hash] game attributes
     def self.game_attributes(data, game_id)
-      {game_id: game_id, game_code: data.fetch("gameCode", nil), game_status: data.fetch("gameStatus", nil),
-       game_status_text: data.fetch("gameStatusText", nil), period: data.fetch("period", nil),
-       game_clock: data.fetch("gameClock", nil), game_time_utc: data.fetch("gameTimeUTC", nil),
-       game_et: data.fetch("gameEt", nil), duration: data.fetch("duration", nil),
-       attendance: data.fetch("attendance", nil), sellout: data.fetch("sellout", nil)}
+      {game_id: game_id, game_code: data["gameCode"], game_status: data["gameStatus"],
+       game_status_text: data["gameStatusText"], period: data["period"],
+       game_clock: data["gameClock"], game_time_utc: data["gameTimeUTC"],
+       game_et: data["gameEt"], duration: data["duration"],
+       attendance: data["attendance"], sellout: data["sellout"]}
     end
     private_class_method :game_attributes
 
@@ -65,9 +65,9 @@ module NBA
     # @return [Hash] arena attributes
     def self.arena_attributes(data)
       arena = data.fetch("arena", {})
-      {arena_id: arena.fetch("arenaId", nil), arena_name: arena.fetch("arenaName", nil),
-       arena_city: arena.fetch("arenaCity", nil), arena_state: arena.fetch("arenaState", nil),
-       arena_country: arena.fetch("arenaCountry", nil), arena_timezone: arena.fetch("arenaTimezone", nil)}
+      {arena_id: arena["arenaId"], arena_name: arena["arenaName"],
+       arena_city: arena["arenaCity"], arena_state: arena["arenaState"],
+       arena_country: arena["arenaCountry"], arena_timezone: arena["arenaTimezone"]}
     end
     private_class_method :arena_attributes
 
@@ -76,10 +76,10 @@ module NBA
     # @return [Hash] team attributes
     def self.team_attributes(data, team_key, prefix)
       team = data.fetch(team_key, {})
-      {"#{prefix}_team_id": team.fetch("teamId", nil), "#{prefix}_team_name": team.fetch("teamName", nil),
-       "#{prefix}_team_city": team.fetch("teamCity", nil), "#{prefix}_team_tricode": team.fetch("teamTricode", nil),
-       "#{prefix}_team_slug": team.fetch("teamSlug", nil), "#{prefix}_team_wins": team.fetch("teamWins", nil),
-       "#{prefix}_team_losses": team.fetch("teamLosses", nil), "#{prefix}_pts": team.fetch("score", nil),
+      {"#{prefix}_team_id": team["teamId"], "#{prefix}_team_name": team["teamName"],
+       "#{prefix}_team_city": team["teamCity"], "#{prefix}_team_tricode": team["teamTricode"],
+       "#{prefix}_team_slug": team["teamSlug"], "#{prefix}_team_wins": team["teamWins"],
+       "#{prefix}_team_losses": team["teamLosses"], "#{prefix}_pts": team["score"],
        "#{prefix}_pts_q1": extract_period_score(team, 1), "#{prefix}_pts_q2": extract_period_score(team, 2),
        "#{prefix}_pts_q3": extract_period_score(team, 3), "#{prefix}_pts_q4": extract_period_score(team, 4)}
     end
@@ -89,11 +89,11 @@ module NBA
     # @api private
     # @return [Integer, nil] period score
     def self.extract_period_score(team, period)
-      periods = team.fetch("periods", nil)
+      periods = team["periods"]
       return unless periods
 
-      period_data = periods.find { |p| p.fetch("period", nil).eql?(period) }
-      period_data&.fetch("score", nil)
+      period_data = periods.find { |p| p["period"].eql?(period) }
+      period_data&.[]("score")
     end
     private_class_method :extract_period_score
 
@@ -101,8 +101,8 @@ module NBA
     # @api private
     # @return [Hash] other stats attributes
     def self.other_stats_attributes(data)
-      {lead_changes: data.fetch("leadChanges", nil), times_tied: data.fetch("timesTied", nil),
-       largest_lead: data.fetch("largestLead", nil)}
+      {lead_changes: data["leadChanges"], times_tied: data["timesTied"],
+       largest_lead: data["largestLead"]}
     end
     private_class_method :other_stats_attributes
 
@@ -110,7 +110,7 @@ module NBA
     # @api private
     # @return [Array<String>] official names
     def self.extract_officials(data)
-      officials = data.fetch("officials", nil)
+      officials = data["officials"]
       return [] unless officials
 
       officials.filter_map { |o| "#{o.fetch("firstName")} #{o.fetch("familyName")}" if o["firstName"] && o["familyName"] }

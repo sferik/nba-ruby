@@ -87,9 +87,9 @@ module NBA
     # @param stat_category [Symbol] the stat category name
     # @return [Hash] stat attributes
     def self.stat_attributes(data, stat_category)
-      {rank: data.fetch("RANK", nil), team_id: data.fetch("TEAM_ID", nil),
-       team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil),
-       team_name: data.fetch("TEAM_NAME", nil),
+      {rank: data["RANK"], team_id: data["TEAM_ID"],
+       team_abbreviation: data["TEAM_ABBREVIATION"],
+       team_name: data["TEAM_NAME"],
        value: extract_value(data), stat_name: stat_category}
     end
     private_class_method :stat_attributes

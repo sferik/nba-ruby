@@ -14,6 +14,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "equalizer", "~> 0.0.11"
   spec.add_dependency "shale", "~> 1.2"
+  spec.add_dependency "thor", "~> 1.3"
 
   spec.metadata = {
     "allowed_push_host" => "https://rubygems.org",
@@ -28,6 +29,7 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir[
     "bin/*",
+    "exe/*",
     "lib/**/*.rb",
     "sig/*.rbs",
     "*.md",

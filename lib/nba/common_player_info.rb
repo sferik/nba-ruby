@@ -37,7 +37,7 @@ module NBA
       result_set = find_result_set(data)
       return unless result_set
 
-      headers = result_set.fetch("headers", nil)
+      headers = result_set["headers"]
       row = result_set.dig("rowSet", 0)
       return unless headers && row
 
@@ -50,10 +50,10 @@ module NBA
     # @param data [Hash] the parsed JSON data
     # @return [Hash, nil] the result set
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(COMMON_PLAYER_INFO) }
+      result_sets.find { |rs| rs["name"].eql?(COMMON_PLAYER_INFO) }
     end
     private_class_method :find_result_set
 
@@ -82,10 +82,10 @@ module NBA
     # @param data [Hash] the raw data
     # @return [Hash] identity attributes
     def self.identity_attributes(data)
-      {player_id: data.fetch("PERSON_ID", nil), first_name: data.fetch("FIRST_NAME", nil), last_name: data.fetch("LAST_NAME", nil),
-       display_name: data.fetch("DISPLAY_FIRST_LAST", nil), birthdate: data.fetch("BIRTHDATE", nil), school: data.fetch("SCHOOL", nil),
-       country: data.fetch("COUNTRY", nil), from_year: data.fetch("FROM_YEAR", nil), to_year: data.fetch("TO_YEAR", nil),
-       greatest_75_flag: data.fetch("GREATEST_75_FLAG", nil)}
+      {player_id: data["PERSON_ID"], first_name: data["FIRST_NAME"], last_name: data["LAST_NAME"],
+       display_name: data["DISPLAY_FIRST_LAST"], birthdate: data["BIRTHDATE"], school: data["SCHOOL"],
+       country: data["COUNTRY"], from_year: data["FROM_YEAR"], to_year: data["TO_YEAR"],
+       greatest_75_flag: data["GREATEST_75_FLAG"]}
     end
     private_class_method :identity_attributes
 
@@ -94,8 +94,8 @@ module NBA
     # @param data [Hash] the raw data
     # @return [Hash] physical attributes
     def self.physical_attributes(data)
-      {height: data.fetch("HEIGHT", nil), weight: data.fetch("WEIGHT", nil), season_exp: data.fetch("SEASON_EXP", nil),
-       jersey: data.fetch("JERSEY", nil), position: data.fetch("POSITION", nil)}
+      {height: data["HEIGHT"], weight: data["WEIGHT"], season_exp: data["SEASON_EXP"],
+       jersey: data["JERSEY"], position: data["POSITION"]}
     end
     private_class_method :physical_attributes
 
@@ -104,8 +104,8 @@ module NBA
     # @param data [Hash] the raw data
     # @return [Hash] team attributes
     def self.team_attributes(data)
-      {team_id: data.fetch("TEAM_ID", nil), team_name: data.fetch("TEAM_NAME", nil),
-       team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil), team_city: data.fetch("TEAM_CITY", nil)}
+      {team_id: data["TEAM_ID"], team_name: data["TEAM_NAME"],
+       team_abbreviation: data["TEAM_ABBREVIATION"], team_city: data["TEAM_CITY"]}
     end
     private_class_method :team_attributes
 
@@ -114,8 +114,8 @@ module NBA
     # @param data [Hash] the raw data
     # @return [Hash] draft attributes
     def self.draft_attributes(data)
-      {draft_year: parse_draft_value(data.fetch("DRAFT_YEAR", nil)), draft_round: parse_draft_value(data.fetch("DRAFT_ROUND", nil)),
-       draft_number: parse_draft_value(data.fetch("DRAFT_NUMBER", nil))}
+      {draft_year: parse_draft_value(data["DRAFT_YEAR"]), draft_round: parse_draft_value(data["DRAFT_ROUND"]),
+       draft_number: parse_draft_value(data["DRAFT_NUMBER"])}
     end
     private_class_method :draft_attributes
 

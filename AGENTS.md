@@ -18,14 +18,15 @@ bundle exec rake           # Run all quality checks
 
 ### Running Mutant for Individual Classes
 
-Always run mutant on individual classes during development rather than the full suite:
+Always run mutant on individual classes during development rather than the full
+suite. The full mutant suite takes approximately 30 minutes to complete, so
+instead execute more targeted mutant runs on classes you add or modify to
+achieve 100% coverage.
 
 ```bash
 bundle exec mutant run --include lib --require nba --use minitest 'NBA::ClassName'
 bundle exec mutant run --include lib --require nba --use minitest 'NBA::ClassName#method_name'
 ```
-
-Only run the full mutant suite (`bundle exec rake mutant`) at the end, after all individual classes pass.
 
 ## Reference Libraries
 
@@ -50,6 +51,12 @@ codebase and follow the same patterns exactly. Look at:
 - How data models are structured
 - How tests are organized
 - How documentation is written
+
+### One Class Per File
+
+Each Ruby file should contain exactly one class or module. This applies to both
+library code in `lib/` and test files in `test/`. When a test file has shared
+helper classes or modules, extract them to a separate `*_test_helper.rb` file.
 
 ### Parameter Naming
 
@@ -348,3 +355,8 @@ All of these must pass before merging:
 - `rake mutant` - 100% mutation coverage (no surviving mutants)
 - `rake steep` - No type errors
 - `rake yardstick` - 100% documentation coverage
+
+## Plan Mode
+
+- Make the plan extremely concise. Sacrifice grammar for the sake of concision.
+- At the end of each plan, give me a list of unresolved questions to answer, if any.

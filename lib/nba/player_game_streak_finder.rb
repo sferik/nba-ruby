@@ -89,7 +89,7 @@ module NBA
     # @api private
     # @return [Hash] the player information hash
     def self.player_info(data)
-      {player_name: data.fetch("PLAYER_NAME_LAST_FIRST", nil), player_id: data.fetch("PLAYER_ID", nil)}
+      {player_name: data["PLAYER_NAME_LAST_FIRST"], player_id: data["PLAYER_ID"]}
     end
     private_class_method :player_info
 
@@ -98,10 +98,10 @@ module NBA
     # @api private
     # @return [Hash] the streak information hash
     def self.streak_info(data)
-      {game_streak: data.fetch("GAMESTREAK", nil), start_date: data.fetch("STARTDATE", nil),
-       end_date: data.fetch("ENDDATE", nil), active_streak: data.fetch("ACTIVESTREAK", nil),
-       num_seasons: data.fetch("NUMSEASONS", nil), last_season: data.fetch("LASTSEASON", nil),
-       first_season: data.fetch("FIRSTSEASON", nil)}
+      {game_streak: data["GAMESTREAK"], start_date: data["STARTDATE"],
+       end_date: data["ENDDATE"], active_streak: data["ACTIVESTREAK"],
+       num_seasons: data["NUMSEASONS"], last_season: data["LASTSEASON"],
+       first_season: data["FIRSTSEASON"]}
     end
     private_class_method :streak_info
   end

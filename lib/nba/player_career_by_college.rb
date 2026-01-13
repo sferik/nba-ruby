@@ -58,8 +58,8 @@ module NBA
     # @api private
     # @return [Hash]
     def self.identity_info(data)
-      {player_id: data.fetch("PLAYER_ID", nil), player_name: data.fetch("PLAYER_NAME", nil),
-       college: data.fetch("COLLEGE", nil), gp: data.fetch("GP", nil), min: data.fetch("MIN", nil)}
+      {player_id: data["PLAYER_ID"], player_name: data["PLAYER_NAME"],
+       college: data["COLLEGE"], gp: data["GP"], min: data["MIN"]}
     end
     private_class_method :identity_info
 
@@ -67,9 +67,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.shooting_stats(data)
-      {fgm: data.fetch("FGM", nil), fga: data.fetch("FGA", nil), fg_pct: data.fetch("FG_PCT", nil),
-       fg3m: data.fetch("FG3M", nil), fg3a: data.fetch("FG3A", nil), fg3_pct: data.fetch("FG3_PCT", nil),
-       ftm: data.fetch("FTM", nil), fta: data.fetch("FTA", nil), ft_pct: data.fetch("FT_PCT", nil)}
+      {fgm: data["FGM"], fga: data["FGA"], fg_pct: data["FG_PCT"],
+       fg3m: data["FG3M"], fg3a: data["FG3A"], fg3_pct: data["FG3_PCT"],
+       ftm: data["FTM"], fta: data["FTA"], ft_pct: data["FT_PCT"]}
     end
     private_class_method :shooting_stats
 
@@ -77,9 +77,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.counting_stats(data)
-      {oreb: data.fetch("OREB", nil), dreb: data.fetch("DREB", nil), reb: data.fetch("REB", nil),
-       ast: data.fetch("AST", nil), stl: data.fetch("STL", nil), blk: data.fetch("BLK", nil),
-       tov: data.fetch("TOV", nil), pf: data.fetch("PF", nil), pts: data.fetch("PTS", nil)}
+      {oreb: data["OREB"], dreb: data["DREB"], reb: data["REB"],
+       ast: data["AST"], stl: data["STL"], blk: data["BLK"],
+       tov: data["TOV"], pf: data["PF"], pts: data["PTS"]}
     end
     private_class_method :counting_stats
   end

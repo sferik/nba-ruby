@@ -93,10 +93,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash or nil if not found
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(LEAGUE_DASH_PT_STATS) }
+      result_sets.find { |rs| rs["name"].eql?(LEAGUE_DASH_PT_STATS) }
     end
     private_class_method :find_result_set
 
@@ -107,8 +107,8 @@ module NBA
     def self.build_stats(result_set)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       Collection.new(rows.map { |row| build_stat(headers.zip(row).to_h) })
@@ -129,11 +129,11 @@ module NBA
     # @api private
     # @return [Hash] the identity information hash
     def self.identity_info(data)
-      {player_id: data.fetch("PLAYER_ID", nil), player_name: data.fetch("PLAYER_NAME", nil),
-       team_id: data.fetch("TEAM_ID", nil), team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil),
-       team_name: data.fetch("TEAM_NAME", nil), age: data.fetch("AGE", nil),
-       gp: data.fetch("GP", nil), w: data.fetch("W", nil), l: data.fetch("L", nil),
-       min: data.fetch("MIN", nil)}
+      {player_id: data["PLAYER_ID"], player_name: data["PLAYER_NAME"],
+       team_id: data["TEAM_ID"], team_abbreviation: data["TEAM_ABBREVIATION"],
+       team_name: data["TEAM_NAME"], age: data["AGE"],
+       gp: data["GP"], w: data["W"], l: data["L"],
+       min: data["MIN"]}
     end
     private_class_method :identity_info
 
@@ -142,10 +142,10 @@ module NBA
     # @api private
     # @return [Hash] the speed and distance statistics hash
     def self.speed_info(data)
-      {dist_feet: data.fetch("DIST_FEET", nil), dist_miles: data.fetch("DIST_MILES", nil),
-       dist_miles_off: data.fetch("DIST_MILES_OFF", nil), dist_miles_def: data.fetch("DIST_MILES_DEF", nil),
-       avg_speed: data.fetch("AVG_SPEED", nil), avg_speed_off: data.fetch("AVG_SPEED_OFF", nil),
-       avg_speed_def: data.fetch("AVG_SPEED_DEF", nil)}
+      {dist_feet: data["DIST_FEET"], dist_miles: data["DIST_MILES"],
+       dist_miles_off: data["DIST_MILES_OFF"], dist_miles_def: data["DIST_MILES_DEF"],
+       avg_speed: data["AVG_SPEED"], avg_speed_off: data["AVG_SPEED_OFF"],
+       avg_speed_def: data["AVG_SPEED_DEF"]}
     end
     private_class_method :speed_info
   end

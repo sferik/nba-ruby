@@ -36,10 +36,10 @@ module NBA
       return Collection.new if response.nil? || response.empty?
 
       data = JSON.parse(response)
-      scoreboard = data.fetch("scoreboard", nil)
+      scoreboard = data["scoreboard"]
       return Collection.new unless scoreboard
 
-      game_data = scoreboard.fetch("games", nil)
+      game_data = scoreboard["games"]
       return Collection.new unless game_data
 
       games = game_data.map { |game_info| build_game(game_info) }
@@ -64,14 +64,14 @@ module NBA
     # @return [Hash] the game attributes
     def self.game_attributes(info)
       {
-        id: info.fetch("gameId", nil),
-        date: info.fetch("gameTimeUTC", nil),
-        status: game_status(info.fetch("gameStatus", nil)),
+        id: info["gameId"],
+        date: info["gameTimeUTC"],
+        status: game_status(info["gameStatus"]),
         home_team: find_team(info.dig("homeTeam", "teamId")),
         away_team: find_team(info.dig("awayTeam", "teamId")),
         home_score: info.dig("homeTeam", "score"),
         away_score: info.dig("awayTeam", "score"),
-        arena: info.fetch("arenaName", nil)
+        arena: info["arenaName"]
       }
     end
     private_class_method :game_attributes

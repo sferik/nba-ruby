@@ -39,8 +39,8 @@ module NBA
       result_set = find_result_set(data)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       points = rows.map { |row| build_win_prob_point(headers, row, game_id) }
@@ -53,10 +53,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(WIN_PROB_PBP) }
+      result_sets.find { |rs| rs["name"].eql?(WIN_PROB_PBP) }
     end
     private_class_method :find_result_set
 
@@ -86,9 +86,9 @@ module NBA
     # @api private
     # @return [Hash] event attributes
     def self.event_attributes(data, game_id)
-      {game_id: game_id, event_num: data.fetch("EVENT_NUM", nil),
-       period: data.fetch("PERIOD", nil), seconds_remaining: data.fetch("SECONDS_REMAINING", nil),
-       location: data.fetch("LOCATION", nil)}
+      {game_id: game_id, event_num: data["EVENT_NUM"],
+       period: data["PERIOD"], seconds_remaining: data["SECONDS_REMAINING"],
+       location: data["LOCATION"]}
     end
     private_class_method :event_attributes
 
@@ -97,9 +97,9 @@ module NBA
     # @api private
     # @return [Hash] score attributes
     def self.score_attributes(data)
-      {home_pct: data.fetch("HOME_PCT", nil), visitor_pct: data.fetch("VISITOR_PCT", nil),
-       home_pts: data.fetch("HOME_PTS", nil), visitor_pts: data.fetch("VISITOR_PTS", nil),
-       home_score_by: data.fetch("HOME_SCORE_BY", nil), visitor_score_by: data.fetch("VISITOR_SCORE_BY", nil)}
+      {home_pct: data["HOME_PCT"], visitor_pct: data["VISITOR_PCT"],
+       home_pts: data["HOME_PTS"], visitor_pts: data["VISITOR_PTS"],
+       home_score_by: data["HOME_SCORE_BY"], visitor_score_by: data["VISITOR_SCORE_BY"]}
     end
     private_class_method :score_attributes
 
@@ -108,9 +108,9 @@ module NBA
     # @api private
     # @return [Hash] description attributes
     def self.description_attributes(data)
-      {home_description: data.fetch("HOME_DESCRIPTION", nil),
-       neutral_description: data.fetch("NEUTRAL_DESCRIPTION", nil),
-       visitor_description: data.fetch("VISITOR_DESCRIPTION", nil)}
+      {home_description: data["HOME_DESCRIPTION"],
+       neutral_description: data["NEUTRAL_DESCRIPTION"],
+       visitor_description: data["VISITOR_DESCRIPTION"]}
     end
     private_class_method :description_attributes
   end

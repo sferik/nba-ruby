@@ -39,7 +39,7 @@ module NBA
       result_set = find_result_set(data, RESULTS)
       return unless result_set
 
-      headers = result_set.fetch("headers", nil)
+      headers = result_set["headers"]
       row = result_set.dig("rowSet", 0)
       return unless headers && row
 
@@ -54,10 +54,10 @@ module NBA
     # @param name [String] the result set name
     # @return [Hash, nil] the result set
     def self.find_result_set(data, name)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(name) }
+      result_sets.find { |rs| rs["name"].eql?(name) }
     end
     private_class_method :find_result_set
 

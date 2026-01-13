@@ -74,8 +74,8 @@ module NBA
       result_set = find_result_set(data, GAME_BY_GAME_STATS)
       return unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return unless headers && rows
 
       games = rows.map { |row| build_game(headers, row) }
@@ -92,7 +92,7 @@ module NBA
       result_set = find_result_set(data, TOTAL_PLAYER_STATS)
       return unless result_set
 
-      headers = result_set.fetch("headers", nil)
+      headers = result_set["headers"]
       row = result_set.dig("rowSet", 0)
       return unless headers && row
 
@@ -107,10 +107,10 @@ module NBA
     # @param name [String] the result set name
     # @return [Hash, nil] the result set
     def self.find_result_set(data, name)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(name) }
+      result_sets.find { |rs| rs["name"].eql?(name) }
     end
     private_class_method :find_result_set
 
@@ -165,12 +165,12 @@ module NBA
       # @return [Hash] identity attributes
       def self.identity(data)
         {
-          game_id: data.fetch("GAME_ID", nil),
-          matchup: data.fetch("MATCHUP", nil),
-          game_date: data.fetch("GAME_DATE", nil),
-          vs_team_id: data.fetch("VS_TEAM_ID", nil),
-          vs_team_city: data.fetch("VS_TEAM_CITY", nil),
-          vs_team_name: data.fetch("VS_TEAM_NAME", nil)
+          game_id: data["GAME_ID"],
+          matchup: data["MATCHUP"],
+          game_date: data["GAME_DATE"],
+          vs_team_id: data["VS_TEAM_ID"],
+          vs_team_city: data["VS_TEAM_CITY"],
+          vs_team_name: data["VS_TEAM_NAME"]
         }
       end
 
@@ -187,7 +187,7 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] time attributes
       def self.time(data)
-        {min: data.fetch("MIN", nil), sec: data.fetch("SEC", nil)}
+        {min: data["MIN"], sec: data["SEC"]}
       end
 
       # Extracts shooting attributes from data
@@ -196,9 +196,9 @@ module NBA
       # @return [Hash] shooting attributes
       def self.shooting(data)
         {
-          fgm: data.fetch("FGM", nil), fga: data.fetch("FGA", nil), fg_pct: data.fetch("FG_PCT", nil),
-          fg3m: data.fetch("FG3M", nil), fg3a: data.fetch("FG3A", nil), fg3_pct: data.fetch("FG3_PCT", nil),
-          ftm: data.fetch("FTM", nil), fta: data.fetch("FTA", nil), ft_pct: data.fetch("FT_PCT", nil)
+          fgm: data["FGM"], fga: data["FGA"], fg_pct: data["FG_PCT"],
+          fg3m: data["FG3M"], fg3a: data["FG3A"], fg3_pct: data["FG3_PCT"],
+          ftm: data["FTM"], fta: data["FTA"], ft_pct: data["FT_PCT"]
         }
       end
 
@@ -207,7 +207,7 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] rebound attributes
       def self.rebounds(data)
-        {oreb: data.fetch("OREB", nil), dreb: data.fetch("DREB", nil), reb: data.fetch("REB", nil)}
+        {oreb: data["OREB"], dreb: data["DREB"], reb: data["REB"]}
       end
 
       # Extracts other stat attributes from data
@@ -216,8 +216,8 @@ module NBA
       # @return [Hash] other stat attributes
       def self.other(data)
         {
-          ast: data.fetch("AST", nil), pf: data.fetch("PF", nil), stl: data.fetch("STL", nil),
-          tov: data.fetch("TOV", nil), blk: data.fetch("BLK", nil), pts: data.fetch("PTS", nil)
+          ast: data["AST"], pf: data["PF"], stl: data["STL"],
+          tov: data["TOV"], blk: data["BLK"], pts: data["PTS"]
         }
       end
     end
@@ -239,10 +239,10 @@ module NBA
       # @return [Hash] identity attributes
       def self.identity(data)
         {
-          player_id: data.fetch("PLAYER_ID", nil), player_name: data.fetch("PLAYER_NAME", nil),
-          jersey_num: data.fetch("JERSEY_NUM", nil), season: data.fetch("SEASON", nil),
-          gp: data.fetch("GP", nil), gs: data.fetch("GS", nil),
-          actual_minutes: data.fetch("ACTUAL_MINUTES", nil), actual_seconds: data.fetch("ACTUAL_SECONDS", nil)
+          player_id: data["PLAYER_ID"], player_name: data["PLAYER_NAME"],
+          jersey_num: data["JERSEY_NUM"], season: data["SEASON"],
+          gp: data["GP"], gs: data["GS"],
+          actual_minutes: data["ACTUAL_MINUTES"], actual_seconds: data["ACTUAL_SECONDS"]
         }
       end
 
@@ -260,9 +260,9 @@ module NBA
       # @return [Hash] shooting attributes
       def self.shooting(data)
         {
-          fgm: data.fetch("FGM", nil), fga: data.fetch("FGA", nil), fg_pct: data.fetch("FG_PCT", nil),
-          fg3m: data.fetch("FG3M", nil), fg3a: data.fetch("FG3A", nil), fg3_pct: data.fetch("FG3_PCT", nil),
-          ftm: data.fetch("FTM", nil), fta: data.fetch("FTA", nil), ft_pct: data.fetch("FT_PCT", nil)
+          fgm: data["FGM"], fga: data["FGA"], fg_pct: data["FG_PCT"],
+          fg3m: data["FG3M"], fg3a: data["FG3A"], fg3_pct: data["FG3_PCT"],
+          ftm: data["FTM"], fta: data["FTA"], ft_pct: data["FT_PCT"]
         }
       end
 
@@ -272,9 +272,9 @@ module NBA
       # @return [Hash] rebound and other stat attributes
       def self.rebounds_and_other(data)
         {
-          oreb: data.fetch("OREB", nil), dreb: data.fetch("DREB", nil), tot_reb: data.fetch("TOT_REB", nil),
-          ast: data.fetch("AST", nil), pf: data.fetch("PF", nil), stl: data.fetch("STL", nil),
-          tov: data.fetch("TOV", nil), blk: data.fetch("BLK", nil), pts: data.fetch("PTS", nil)
+          oreb: data["OREB"], dreb: data["DREB"], tot_reb: data["TOT_REB"],
+          ast: data["AST"], pf: data["PF"], stl: data["STL"],
+          tov: data["TOV"], blk: data["BLK"], pts: data["PTS"]
         }
       end
 
@@ -291,7 +291,7 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] average time attributes
       def self.avg_time(data)
-        {avg_min: data.fetch("AVG_MIN", nil), avg_sec: data.fetch("AVG_SEC", nil)}
+        {avg_min: data["AVG_MIN"], avg_sec: data["AVG_SEC"]}
       end
 
       # Extracts average shooting attributes from data
@@ -300,10 +300,10 @@ module NBA
       # @return [Hash] average shooting attributes
       def self.avg_shooting(data)
         {
-          avg_fgm: data.fetch("AVG_FGM", nil), avg_fga: data.fetch("AVG_FGA", nil),
-          avg_fg3m: data.fetch("AVG_FG3M", nil), avg_fg3a: data.fetch("AVG_FG3A", nil),
-          avg_ftm: data.fetch("AVG_FTM", nil), avg_fta: data.fetch("AVG_FTA", nil),
-          avg_oreb: data.fetch("AVG_OREB", nil), avg_dreb: data.fetch("AVG_DREB", nil)
+          avg_fgm: data["AVG_FGM"], avg_fga: data["AVG_FGA"],
+          avg_fg3m: data["AVG_FG3M"], avg_fg3a: data["AVG_FG3A"],
+          avg_ftm: data["AVG_FTM"], avg_fta: data["AVG_FTA"],
+          avg_oreb: data["AVG_OREB"], avg_dreb: data["AVG_DREB"]
         }
       end
 
@@ -313,10 +313,10 @@ module NBA
       # @return [Hash] average other stat attributes
       def self.avg_other(data)
         {
-          avg_tot_reb: data.fetch("AVG_TOT_REB", nil), avg_ast: data.fetch("AVG_AST", nil),
-          avg_pf: data.fetch("AVG_PF", nil), avg_stl: data.fetch("AVG_STL", nil),
-          avg_tov: data.fetch("AVG_TOV", nil), avg_blk: data.fetch("AVG_BLK", nil),
-          avg_pts: data.fetch("AVG_PTS", nil)
+          avg_tot_reb: data["AVG_TOT_REB"], avg_ast: data["AVG_AST"],
+          avg_pf: data["AVG_PF"], avg_stl: data["AVG_STL"],
+          avg_tov: data["AVG_TOV"], avg_blk: data["AVG_BLK"],
+          avg_pts: data["AVG_PTS"]
         }
       end
 
@@ -334,11 +334,11 @@ module NBA
       # @return [Hash] maximum shooting attributes
       def self.max_shooting(data)
         {
-          max_min: data.fetch("MAX_MIN", nil), max_fgm: data.fetch("MAX_FGM", nil),
-          max_fga: data.fetch("MAX_FGA", nil), max_fg3m: data.fetch("MAX_FG3M", nil),
-          max_fg3a: data.fetch("MAX_FG3A", nil), max_ftm: data.fetch("MAX_FTM", nil),
-          max_fta: data.fetch("MAX_FTA", nil), max_oreb: data.fetch("MAX_OREB", nil),
-          max_dreb: data.fetch("MAX_DREB", nil), max_reb: data.fetch("MAX_REB", nil)
+          max_min: data["MAX_MIN"], max_fgm: data["MAX_FGM"],
+          max_fga: data["MAX_FGA"], max_fg3m: data["MAX_FG3M"],
+          max_fg3a: data["MAX_FG3A"], max_ftm: data["MAX_FTM"],
+          max_fta: data["MAX_FTA"], max_oreb: data["MAX_OREB"],
+          max_dreb: data["MAX_DREB"], max_reb: data["MAX_REB"]
         }
       end
 
@@ -348,9 +348,9 @@ module NBA
       # @return [Hash] maximum other stat attributes
       def self.max_other(data)
         {
-          max_ast: data.fetch("MAX_AST", nil), max_pf: data.fetch("MAX_PF", nil),
-          max_stl: data.fetch("MAX_STL", nil), max_tov: data.fetch("MAX_TOV", nil),
-          max_blk: data.fetch("MAX_BLK", nil), max_pts: data.fetch("MAX_PTS", nil)
+          max_ast: data["MAX_AST"], max_pf: data["MAX_PF"],
+          max_stl: data["MAX_STL"], max_tov: data["MAX_TOV"],
+          max_blk: data["MAX_BLK"], max_pts: data["MAX_PTS"]
         }
       end
     end

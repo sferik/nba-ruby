@@ -63,9 +63,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.player_identity(data)
-      {game_id: data.fetch("GAME_ID", nil), team_id: data.fetch("TEAM_ID", nil), team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil),
-       team_city: data.fetch("TEAM_CITY", nil), player_id: data.fetch("PLAYER_ID", nil), player_name: data.fetch("PLAYER_NAME", nil),
-       start_position: data.fetch("START_POSITION", nil), comment: data.fetch("COMMENT", nil), min: data.fetch("MIN", nil)}
+      {game_id: data["GAME_ID"], team_id: data["TEAM_ID"], team_abbreviation: data["TEAM_ABBREVIATION"],
+       team_city: data["TEAM_CITY"], player_id: data["PLAYER_ID"], player_name: data["PLAYER_NAME"],
+       start_position: data["START_POSITION"], comment: data["COMMENT"], min: data["MIN"]}
     end
     private_class_method :player_identity
 
@@ -73,8 +73,8 @@ module NBA
     # @api private
     # @return [Hash]
     def self.team_identity(data)
-      {game_id: data.fetch("GAME_ID", nil), team_id: data.fetch("TEAM_ID", nil), team_name: data.fetch("TEAM_NAME", nil),
-       team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil), team_city: data.fetch("TEAM_CITY", nil), min: data.fetch("MIN", nil)}
+      {game_id: data["GAME_ID"], team_id: data["TEAM_ID"], team_name: data["TEAM_NAME"],
+       team_abbreviation: data["TEAM_ABBREVIATION"], team_city: data["TEAM_CITY"], min: data["MIN"]}
     end
     private_class_method :team_identity
 
@@ -82,9 +82,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.shooting_usage(data)
-      {usg_pct: data.fetch("USG_PCT", nil), pct_fgm: data.fetch("PCT_FGM", nil), pct_fga: data.fetch("PCT_FGA", nil),
-       pct_fg3m: data.fetch("PCT_FG3M", nil), pct_fg3a: data.fetch("PCT_FG3A", nil),
-       pct_ftm: data.fetch("PCT_FTM", nil), pct_fta: data.fetch("PCT_FTA", nil)}
+      {usg_pct: data["USG_PCT"], pct_fgm: data["PCT_FGM"], pct_fga: data["PCT_FGA"],
+       pct_fg3m: data["PCT_FG3M"], pct_fg3a: data["PCT_FG3A"],
+       pct_ftm: data["PCT_FTM"], pct_fta: data["PCT_FTA"]}
     end
     private_class_method :shooting_usage
 
@@ -92,10 +92,10 @@ module NBA
     # @api private
     # @return [Hash]
     def self.other_usage(data)
-      {pct_oreb: data.fetch("PCT_OREB", nil), pct_dreb: data.fetch("PCT_DREB", nil), pct_reb: data.fetch("PCT_REB", nil),
-       pct_ast: data.fetch("PCT_AST", nil), pct_tov: data.fetch("PCT_TOV", nil), pct_stl: data.fetch("PCT_STL", nil),
-       pct_blk: data.fetch("PCT_BLK", nil), pct_blka: data.fetch("PCT_BLKA", nil),
-       pct_pf: data.fetch("PCT_PF", nil), pct_pfd: data.fetch("PCT_PFD", nil), pct_pts: data.fetch("PCT_PTS", nil)}
+      {pct_oreb: data["PCT_OREB"], pct_dreb: data["PCT_DREB"], pct_reb: data["PCT_REB"],
+       pct_ast: data["PCT_AST"], pct_tov: data["PCT_TOV"], pct_stl: data["PCT_STL"],
+       pct_blk: data["PCT_BLK"], pct_blka: data["PCT_BLKA"],
+       pct_pf: data["PCT_PF"], pct_pfd: data["PCT_PFD"], pct_pts: data["PCT_PTS"]}
     end
     private_class_method :other_usage
   end

@@ -132,7 +132,7 @@ module NBA
     # @param name [String] the result set name
     # @return [Hash, nil] the result set
     def self.find_result_set(data, name)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
       result_sets.find { |rs| rs.fetch("name").eql?(name) }
@@ -146,8 +146,8 @@ module NBA
     # @param limit [Integer] the limit
     # @return [Collection] collection of leaders
     def self.build_leaders(result_set, category, limit)
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       leaders = rows.take(limit).map.with_index(1) do |row, rank|

@@ -94,7 +94,7 @@ module NBA
       stats = player.fetch("statistics", {})
       BoxScoreMiscPlayerStat.new(
         **BoxScoreV3Helpers.player_identity(player, game_id),
-        min: stats.fetch("minutes", nil),
+        min: stats["minutes"],
         **misc_stats(stats)
       )
     end
@@ -107,7 +107,7 @@ module NBA
       stats = team.fetch("statistics", {})
       BoxScoreMiscTeamStat.new(
         **BoxScoreV3Helpers.team_identity(team, game_id),
-        min: stats.fetch("minutes", nil),
+        min: stats["minutes"],
         **misc_stats(stats)
       )
     end
@@ -126,10 +126,10 @@ module NBA
     # @return [Hash] points statistics
     def self.points_stats(stats)
       {
-        pts_off_tov: stats.fetch("pointsOffTurnovers", nil),
-        pts_2nd_chance: stats.fetch("pointsSecondChance", nil),
-        pts_fb: stats.fetch("pointsFastBreak", nil),
-        pts_paint: stats.fetch("pointsPaint", nil)
+        pts_off_tov: stats["pointsOffTurnovers"],
+        pts_2nd_chance: stats["pointsSecondChance"],
+        pts_fb: stats["pointsFastBreak"],
+        pts_paint: stats["pointsPaint"]
       }
     end
     private_class_method :points_stats
@@ -139,10 +139,10 @@ module NBA
     # @return [Hash] opponent statistics
     def self.opponent_stats(stats)
       {
-        opp_pts_off_tov: stats.fetch("oppPointsOffTurnovers", nil),
-        opp_pts_2nd_chance: stats.fetch("oppPointsSecondChance", nil),
-        opp_pts_fb: stats.fetch("oppPointsFastBreak", nil),
-        opp_pts_paint: stats.fetch("oppPointsPaint", nil)
+        opp_pts_off_tov: stats["oppPointsOffTurnovers"],
+        opp_pts_2nd_chance: stats["oppPointsSecondChance"],
+        opp_pts_fb: stats["oppPointsFastBreak"],
+        opp_pts_paint: stats["oppPointsPaint"]
       }
     end
     private_class_method :opponent_stats
@@ -152,10 +152,10 @@ module NBA
     # @return [Hash] block and foul statistics
     def self.block_foul_stats(stats)
       {
-        blk: stats.fetch("blocks", nil),
-        blka: stats.fetch("blocksAgainst", nil),
-        pf: stats.fetch("foulsPersonal", nil),
-        pfd: stats.fetch("foulsDrawn", nil)
+        blk: stats["blocks"],
+        blka: stats["blocksAgainst"],
+        pf: stats["foulsPersonal"],
+        pfd: stats["foulsDrawn"]
       }
     end
     private_class_method :block_foul_stats

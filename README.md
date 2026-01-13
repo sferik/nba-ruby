@@ -27,6 +27,66 @@ Or add it to your Gemfile:
 gem "nba"
 ```
 
+## Command-Line Interface
+
+The gem includes an `nba` command-line tool for quick access to NBA data.
+
+### Available Commands
+
+```bash
+# Display help
+nba help
+
+# Get today's games
+nba games
+
+# Get games for a specific date
+nba games -d 20240315
+nba games -d yesterday
+
+# Search for teams
+nba teams Lakers
+nba teams Warriors -r  # Include roster
+
+# Search for players
+nba player Curry
+nba player "LeBron James"
+
+# Display standings
+nba standings
+nba standings -c West
+nba standings -s 2023
+
+# Display league leaders
+nba leaders
+nba leaders REB
+nba leaders AST -l 5
+nba leaders -s 2022
+
+# Display team schedule
+nba schedule Warriors
+nba schedule LAL -s 2024
+
+# Display team roster
+nba roster Warriors
+nba roster GSW -s 2023
+```
+
+### Command Options
+
+| Command    | Option           | Description                           |
+|------------|------------------|---------------------------------------|
+| games      | -d, --date       | Date (YYYYMMDD, 'today', 'yesterday') |
+| teams      | -n, --name       | Team name to search (required)        |
+| teams      | -r, --roster     | Include roster information            |
+| standings  | -c, --conference | Filter by conference (East/West)      |
+| standings  | -s, --season     | Season year (e.g., 2024)              |
+| leaders    | -c, --category   | Stat category (PTS, REB, AST, etc.)   |
+| leaders    | -s, --season     | Season year                           |
+| leaders    | -l, --limit      | Number of leaders (default: 10)       |
+| schedule   | -s, --season     | Season year                           |
+| roster     | -s, --season     | Season year                           |
+
 ## Usage
 
 ### Teams
@@ -117,7 +177,7 @@ end
 # 4. Kyrie Irving: 0.889 FT%
 # 5. Kevin Durant: 0.889 FT%
 
-# Other categories
+# Available categories
 NBA::Leaders::PTS # Points
 NBA::Leaders::REB # Rebounds
 NBA::Leaders::AST # Assists
@@ -139,11 +199,6 @@ end
 # 3. Karl Malone: 36928 points
 # 4. Kobe Bryant: 33643 points
 # 5. Michael Jordan: 32292 points
-
-# Get all-time assists leaders
-NBA::AllTimeLeaders.find(category: NBA::AllTimeLeaders::AST, limit: 3).each do |leader|
-  puts "#{leader.rank}. #{leader.player_name}: #{leader.value} assists"
-end
 
 # Available categories
 NBA::AllTimeLeaders::PTS # Points
@@ -377,8 +432,6 @@ summary.visitor_team.full_name # => "Los Angeles Lakers"
 ### Schedule
 
 ```ruby
-require "date"
-
 # Get Warriors schedule for 2025-2026
 schedule = NBA::Schedule.by_team(team: NBA::Team::GSW, season: 2025)
 schedule.size # => 101

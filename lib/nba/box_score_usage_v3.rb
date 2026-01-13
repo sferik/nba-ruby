@@ -94,7 +94,7 @@ module NBA
       stats = player.fetch("statistics", {})
       BoxScoreUsagePlayerStat.new(
         **BoxScoreV3Helpers.player_identity(player, game_id),
-        min: stats.fetch("minutes", nil),
+        min: stats["minutes"],
         **usage_stats(stats)
       )
     end
@@ -107,7 +107,7 @@ module NBA
       stats = team.fetch("statistics", {})
       BoxScoreUsageTeamStat.new(
         **BoxScoreV3Helpers.team_identity(team, game_id),
-        min: stats.fetch("minutes", nil),
+        min: stats["minutes"],
         **usage_stats(stats)
       )
     end
@@ -126,13 +126,13 @@ module NBA
     # @return [Hash] core usage statistics
     def self.core_usage(stats)
       {
-        usg_pct: stats.fetch("usagePercentage", nil),
-        pct_fgm: stats.fetch("percentageFieldGoalsMade", nil),
-        pct_fga: stats.fetch("percentageFieldGoalsAttempted", nil),
-        pct_fg3m: stats.fetch("percentageThreePointersMade", nil),
-        pct_fg3a: stats.fetch("percentageThreePointersAttempted", nil),
-        pct_ftm: stats.fetch("percentageFreeThrowsMade", nil),
-        pct_fta: stats.fetch("percentageFreeThrowsAttempted", nil)
+        usg_pct: stats["usagePercentage"],
+        pct_fgm: stats["percentageFieldGoalsMade"],
+        pct_fga: stats["percentageFieldGoalsAttempted"],
+        pct_fg3m: stats["percentageThreePointersMade"],
+        pct_fg3a: stats["percentageThreePointersAttempted"],
+        pct_ftm: stats["percentageFreeThrowsMade"],
+        pct_fta: stats["percentageFreeThrowsAttempted"]
       }
     end
     private_class_method :core_usage
@@ -142,11 +142,11 @@ module NBA
     # @return [Hash] shooting usage statistics
     def self.shooting_usage(stats)
       {
-        pct_oreb: stats.fetch("percentageReboundsOffensive", nil),
-        pct_dreb: stats.fetch("percentageReboundsDefensive", nil),
-        pct_reb: stats.fetch("percentageReboundsTotal", nil),
-        pct_ast: stats.fetch("percentageAssists", nil),
-        pct_tov: stats.fetch("percentageTurnovers", nil)
+        pct_oreb: stats["percentageReboundsOffensive"],
+        pct_dreb: stats["percentageReboundsDefensive"],
+        pct_reb: stats["percentageReboundsTotal"],
+        pct_ast: stats["percentageAssists"],
+        pct_tov: stats["percentageTurnovers"]
       }
     end
     private_class_method :shooting_usage
@@ -156,12 +156,12 @@ module NBA
     # @return [Hash] other usage statistics
     def self.other_usage(stats)
       {
-        pct_stl: stats.fetch("percentageSteals", nil),
-        pct_blk: stats.fetch("percentageBlocks", nil),
-        pct_blka: stats.fetch("percentageBlocksAgainst", nil),
-        pct_pf: stats.fetch("percentageFoulsPersonal", nil),
-        pct_pfd: stats.fetch("percentageFoulsDrawn", nil),
-        pct_pts: stats.fetch("percentagePoints", nil)
+        pct_stl: stats["percentageSteals"],
+        pct_blk: stats["percentageBlocks"],
+        pct_blka: stats["percentageBlocksAgainst"],
+        pct_pf: stats["percentageFoulsPersonal"],
+        pct_pfd: stats["percentageFoulsDrawn"],
+        pct_pts: stats["percentagePoints"]
       }
     end
     private_class_method :other_usage

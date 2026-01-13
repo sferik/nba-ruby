@@ -36,7 +36,7 @@ module NBA
       return Collection.new if response.nil? || response.empty?
 
       data = JSON.parse(response)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return Collection.new unless result_sets
 
       matchups = []
@@ -57,8 +57,8 @@ module NBA
       result_set = result_sets.find { |rs| rs.fetch("name").eql?(name) }
       return [] unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return [] unless headers && rows
 
       rows.map { |row| build_matchup(headers.zip(row).to_h, conference) }
@@ -83,15 +83,15 @@ module NBA
     # @param conference [String] the conference name
     # @return [Hash] matchup attributes
     def self.matchup_attributes(data, conference)
-      {conference: conference, high_seed_rank: data.fetch("HIGH_SEED_RANK", nil),
-       high_seed_team: data.fetch("HIGH_SEED_TEAM", nil),
-       high_seed_team_id: data.fetch("HIGH_SEED_TEAM_ID", nil),
-       low_seed_rank: data.fetch("LOW_SEED_RANK", nil),
-       low_seed_team: data.fetch("LOW_SEED_TEAM", nil),
-       low_seed_team_id: data.fetch("LOW_SEED_TEAM_ID", nil),
-       high_seed_series_wins: data.fetch("HIGH_SEED_SERIES_W", nil),
-       low_seed_series_wins: data.fetch("LOW_SEED_SERIES_W", nil),
-       series_status: data.fetch("SERIES_STATUS", nil)}
+      {conference: conference, high_seed_rank: data["HIGH_SEED_RANK"],
+       high_seed_team: data["HIGH_SEED_TEAM"],
+       high_seed_team_id: data["HIGH_SEED_TEAM_ID"],
+       low_seed_rank: data["LOW_SEED_RANK"],
+       low_seed_team: data["LOW_SEED_TEAM"],
+       low_seed_team_id: data["LOW_SEED_TEAM_ID"],
+       high_seed_series_wins: data["HIGH_SEED_SERIES_W"],
+       low_seed_series_wins: data["LOW_SEED_SERIES_W"],
+       series_status: data["SERIES_STATUS"]}
     end
     private_class_method :matchup_attributes
   end

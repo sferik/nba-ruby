@@ -57,8 +57,8 @@ module NBA
       result_set = find_result_set(data)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       stats = rows.map { |row| build_shot_stat(headers, row) }
@@ -71,10 +71,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(LEAGUE_WIDE) }
+      result_sets.find { |rs| rs["name"].eql?(LEAGUE_WIDE) }
     end
     private_class_method :find_result_set
 
@@ -93,9 +93,9 @@ module NBA
     # @api private
     # @return [Hash] shot stat attributes
     def self.shot_stat_attributes(data)
-      {grid_type: data.fetch("GRID_TYPE", nil), shot_zone_basic: data.fetch("SHOT_ZONE_BASIC", nil),
-       shot_zone_area: data.fetch("SHOT_ZONE_AREA", nil), shot_zone_range: data.fetch("SHOT_ZONE_RANGE", nil),
-       fga: data.fetch("FGA", nil), fgm: data.fetch("FGM", nil), fg_pct: data.fetch("FG_PCT", nil)}
+      {grid_type: data["GRID_TYPE"], shot_zone_basic: data["SHOT_ZONE_BASIC"],
+       shot_zone_area: data["SHOT_ZONE_AREA"], shot_zone_range: data["SHOT_ZONE_RANGE"],
+       fga: data["FGA"], fgm: data["FGM"], fg_pct: data["FG_PCT"]}
     end
     private_class_method :shot_stat_attributes
   end

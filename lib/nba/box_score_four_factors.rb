@@ -63,9 +63,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.player_identity(data)
-      {game_id: data.fetch("GAME_ID", nil), team_id: data.fetch("TEAM_ID", nil), team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil),
-       team_city: data.fetch("TEAM_CITY", nil), player_id: data.fetch("PLAYER_ID", nil), player_name: data.fetch("PLAYER_NAME", nil),
-       start_position: data.fetch("START_POSITION", nil), comment: data.fetch("COMMENT", nil), min: data.fetch("MIN", nil)}
+      {game_id: data["GAME_ID"], team_id: data["TEAM_ID"], team_abbreviation: data["TEAM_ABBREVIATION"],
+       team_city: data["TEAM_CITY"], player_id: data["PLAYER_ID"], player_name: data["PLAYER_NAME"],
+       start_position: data["START_POSITION"], comment: data["COMMENT"], min: data["MIN"]}
     end
     private_class_method :player_identity
 
@@ -73,8 +73,8 @@ module NBA
     # @api private
     # @return [Hash]
     def self.team_identity(data)
-      {game_id: data.fetch("GAME_ID", nil), team_id: data.fetch("TEAM_ID", nil), team_name: data.fetch("TEAM_NAME", nil),
-       team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil), team_city: data.fetch("TEAM_CITY", nil), min: data.fetch("MIN", nil)}
+      {game_id: data["GAME_ID"], team_id: data["TEAM_ID"], team_name: data["TEAM_NAME"],
+       team_abbreviation: data["TEAM_ABBREVIATION"], team_city: data["TEAM_CITY"], min: data["MIN"]}
     end
     private_class_method :team_identity
 
@@ -82,9 +82,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.four_factors(data)
-      {efg_pct: data.fetch("EFG_PCT", nil), fta_rate: data.fetch("FTA_RATE", nil), tov_pct: data.fetch("TM_TOV_PCT", nil),
-       oreb_pct: data.fetch("OREB_PCT", nil), opp_efg_pct: data.fetch("OPP_EFG_PCT", nil), opp_fta_rate: data.fetch("OPP_FTA_RATE", nil),
-       opp_tov_pct: data.fetch("OPP_TOV_PCT", nil), opp_oreb_pct: data.fetch("OPP_OREB_PCT", nil)}
+      {efg_pct: data["EFG_PCT"], fta_rate: data["FTA_RATE"], tov_pct: data["TM_TOV_PCT"],
+       oreb_pct: data["OREB_PCT"], opp_efg_pct: data["OPP_EFG_PCT"], opp_fta_rate: data["OPP_FTA_RATE"],
+       opp_tov_pct: data["OPP_TOV_PCT"], opp_oreb_pct: data["OPP_OREB_PCT"]}
     end
     private_class_method :four_factors
   end

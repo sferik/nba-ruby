@@ -94,7 +94,7 @@ module NBA
       stats = player.fetch("statistics", {})
       BoxScoreScoringPlayerStat.new(
         **BoxScoreV3Helpers.player_identity(player, game_id),
-        min: stats.fetch("minutes", nil),
+        min: stats["minutes"],
         **scoring_stats(stats)
       )
     end
@@ -107,7 +107,7 @@ module NBA
       stats = team.fetch("statistics", {})
       BoxScoreScoringTeamStat.new(
         **BoxScoreV3Helpers.team_identity(team, game_id),
-        min: stats.fetch("minutes", nil),
+        min: stats["minutes"],
         **scoring_stats(stats)
       )
     end
@@ -133,11 +133,11 @@ module NBA
     # @api private
     # @return [Hash] attempt distribution statistics
     def self.attempt_distribution(stats)
-      {pct_fga_2pt: stats.fetch("percentageFieldGoalsAttempted2pt", nil),
-       pct_fga_3pt: stats.fetch("percentageFieldGoalsAttempted3pt", nil),
-       pct_pts_2pt: stats.fetch("percentagePoints2pt", nil),
-       pct_pts_2pt_mr: stats.fetch("percentagePointsMidrange2pt", nil),
-       pct_pts_3pt: stats.fetch("percentagePoints3pt", nil)}
+      {pct_fga_2pt: stats["percentageFieldGoalsAttempted2pt"],
+       pct_fga_3pt: stats["percentageFieldGoalsAttempted3pt"],
+       pct_pts_2pt: stats["percentagePoints2pt"],
+       pct_pts_2pt_mr: stats["percentagePointsMidrange2pt"],
+       pct_pts_3pt: stats["percentagePoints3pt"]}
     end
     private_class_method :attempt_distribution
 
@@ -145,10 +145,10 @@ module NBA
     # @api private
     # @return [Hash] points distribution statistics
     def self.points_distribution(stats)
-      {pct_pts_fb: stats.fetch("percentagePointsFastBreak", nil),
-       pct_pts_ft: stats.fetch("percentagePointsFreeThrow", nil),
-       pct_pts_off_tov: stats.fetch("percentagePointsOffTurnovers", nil),
-       pct_pts_paint: stats.fetch("percentagePointsPaint", nil)}
+      {pct_pts_fb: stats["percentagePointsFastBreak"],
+       pct_pts_ft: stats["percentagePointsFreeThrow"],
+       pct_pts_off_tov: stats["percentagePointsOffTurnovers"],
+       pct_pts_paint: stats["percentagePointsPaint"]}
     end
     private_class_method :points_distribution
 
@@ -157,12 +157,12 @@ module NBA
     # @return [Hash] assist distribution statistics
     def self.assist_distribution(stats)
       {
-        pct_ast_2pm: stats.fetch("percentageAssisted2pt", nil),
-        pct_uast_2pm: stats.fetch("percentageUnassisted2pt", nil),
-        pct_ast_3pm: stats.fetch("percentageAssisted3pt", nil),
-        pct_uast_3pm: stats.fetch("percentageUnassisted3pt", nil),
-        pct_ast_fgm: stats.fetch("percentageAssistedFieldGoals", nil),
-        pct_uast_fgm: stats.fetch("percentageUnassistedFieldGoals", nil)
+        pct_ast_2pm: stats["percentageAssisted2pt"],
+        pct_uast_2pm: stats["percentageUnassisted2pt"],
+        pct_ast_3pm: stats["percentageAssisted3pt"],
+        pct_uast_3pm: stats["percentageUnassisted3pt"],
+        pct_ast_fgm: stats["percentageAssistedFieldGoals"],
+        pct_uast_fgm: stats["percentageUnassistedFieldGoals"]
       }
     end
     private_class_method :assist_distribution

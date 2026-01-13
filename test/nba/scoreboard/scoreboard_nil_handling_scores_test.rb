@@ -92,8 +92,8 @@ module NBA
     def game_header_data = {name: "GameHeader", headers: game_headers, rowSet: [game_row]}
     def line_score_data = {name: "LineScore", headers: score_headers, rowSet: line_score_rows}
     def score_headers = %w[GAME_ID TEAM_ID PTS]
-    def game_headers = %w[GAME_ID GAME_DATE_EST HOME_TEAM_ID GAME_STATUS_ID VISITOR_TEAM_ID ARENA_NAME]
-    def game_row = ["0022400001", "2024-10-22", Team::GSW, 3, Team::LAL, "Chase Center"]
+    def game_headers = %w[GAME_ID GAME_DATE_EST HOME_TEAM_ID GAME_STATUS_ID GAME_STATUS_TEXT VISITOR_TEAM_ID ARENA_NAME]
+    def game_row = ["0022400001", "2024-10-22", Team::GSW, 3, "Final", Team::LAL, "Chase Center"]
     def line_score_rows = [["0022400001", Team::GSW, 112], ["0022400001", Team::LAL, 108]]
   end
 end

@@ -75,10 +75,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash or nil if not found
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(LEAGUE_DASH_PLAYER_BIO_STATS) }
+      result_sets.find { |rs| rs["name"].eql?(LEAGUE_DASH_PLAYER_BIO_STATS) }
     end
     private_class_method :find_result_set
 
@@ -89,8 +89,8 @@ module NBA
     def self.build_stats(result_set)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       Collection.new(rows.map { |row| build_stat(headers.zip(row).to_h) })
@@ -112,9 +112,9 @@ module NBA
     # @api private
     # @return [Hash] the identity information hash
     def self.identity_info(data)
-      {player_id: data.fetch("PLAYER_ID", nil), player_name: data.fetch("PLAYER_NAME", nil),
-       team_id: data.fetch("TEAM_ID", nil), team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil),
-       age: data.fetch("AGE", nil)}
+      {player_id: data["PLAYER_ID"], player_name: data["PLAYER_NAME"],
+       team_id: data["TEAM_ID"], team_abbreviation: data["TEAM_ABBREVIATION"],
+       age: data["AGE"]}
     end
     private_class_method :identity_info
 
@@ -123,10 +123,10 @@ module NBA
     # @api private
     # @return [Hash] the physical information hash
     def self.physical_info(data)
-      {player_height: data.fetch("PLAYER_HEIGHT", nil),
-       player_height_inches: data.fetch("PLAYER_HEIGHT_INCHES", nil),
-       player_weight: data.fetch("PLAYER_WEIGHT", nil), college: data.fetch("COLLEGE", nil),
-       country: data.fetch("COUNTRY", nil)}
+      {player_height: data["PLAYER_HEIGHT"],
+       player_height_inches: data["PLAYER_HEIGHT_INCHES"],
+       player_weight: data["PLAYER_WEIGHT"], college: data["COLLEGE"],
+       country: data["COUNTRY"]}
     end
     private_class_method :physical_info
 
@@ -135,8 +135,8 @@ module NBA
     # @api private
     # @return [Hash] the draft information hash
     def self.draft_info(data)
-      {draft_year: data.fetch("DRAFT_YEAR", nil), draft_round: data.fetch("DRAFT_ROUND", nil),
-       draft_number: data.fetch("DRAFT_NUMBER", nil)}
+      {draft_year: data["DRAFT_YEAR"], draft_round: data["DRAFT_ROUND"],
+       draft_number: data["DRAFT_NUMBER"]}
     end
     private_class_method :draft_info
 
@@ -145,8 +145,8 @@ module NBA
     # @api private
     # @return [Hash] the stat information hash
     def self.stat_info(data)
-      {gp: data.fetch("GP", nil), pts: data.fetch("PTS", nil), reb: data.fetch("REB", nil),
-       ast: data.fetch("AST", nil)}
+      {gp: data["GP"], pts: data["PTS"], reb: data["REB"],
+       ast: data["AST"]}
     end
     private_class_method :stat_info
 
@@ -155,9 +155,9 @@ module NBA
     # @api private
     # @return [Hash] the advanced stat information hash
     def self.advanced_info(data)
-      {net_rating: data.fetch("NET_RATING", nil), oreb_pct: data.fetch("OREB_PCT", nil),
-       dreb_pct: data.fetch("DREB_PCT", nil), usg_pct: data.fetch("USG_PCT", nil),
-       ts_pct: data.fetch("TS_PCT", nil), ast_pct: data.fetch("AST_PCT", nil)}
+      {net_rating: data["NET_RATING"], oreb_pct: data["OREB_PCT"],
+       dreb_pct: data["DREB_PCT"], usg_pct: data["USG_PCT"],
+       ts_pct: data["TS_PCT"], ast_pct: data["AST_PCT"]}
     end
     private_class_method :advanced_info
   end

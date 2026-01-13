@@ -130,6 +130,76 @@ module NBA
 
     alias_method :active?, :is_active
 
+    # Returns whether the player is a point guard
+    #
+    # @api public
+    # @example
+    #   player.point_guard? #=> true
+    # @return [Boolean] true if the player is a point guard
+    def point_guard?
+      position_matches?("PG", "Point Guard")
+    end
+
+    # Returns whether the player is a shooting guard
+    #
+    # @api public
+    # @example
+    #   player.shooting_guard? #=> true
+    # @return [Boolean] true if the player is a shooting guard
+    def shooting_guard?
+      position_matches?("SG", "Shooting Guard")
+    end
+
+    # Returns whether the player is a guard
+    #
+    # @api public
+    # @example
+    #   player.guard? #=> true
+    # @return [Boolean] true if the player is a guard (point guard or shooting guard)
+    def guard?
+      point_guard? || shooting_guard? || position_matches?("G", "Guard")
+    end
+
+    # Returns whether the player is a small forward
+    #
+    # @api public
+    # @example
+    #   player.small_forward? #=> true
+    # @return [Boolean] true if the player is a small forward
+    def small_forward?
+      position_matches?("SF", "Small Forward")
+    end
+
+    # Returns whether the player is a power forward
+    #
+    # @api public
+    # @example
+    #   player.power_forward? #=> true
+    # @return [Boolean] true if the player is a power forward
+    def power_forward?
+      position_matches?("PF", "Power Forward")
+    end
+
+    # Returns whether the player is a forward
+    #
+    # @api public
+    # @example
+    #   player.forward? #=> true
+    # @return [Boolean] true if the player is a forward (small forward or power forward)
+    def forward?
+      small_forward? || power_forward? || position_matches?("F", "Forward")
+    end
+
+    # Returns whether the player is a center
+    #
+    # @api public
+    # @example
+    #   player.center? #=> true
+    # @return [Boolean] true if the player is a center
+    def center?
+      position_matches?("C", "Center")
+    end
+
     json do
       map "id", to: :id
       map "person_id", to: :id
@@ -159,6 +229,18 @@ module NBA
       map "draft_number", to: :draft_number
       map "draftNumber", to: :draft_number
       map "team", to: :team
+    end
+
+    private
+
+    # Returns whether the player's position matches the given abbreviation or name
+    #
+    # @api private
+    # @return [Boolean]
+    def position_matches?(abbreviation, name)
+      return false unless position
+
+      position.abbreviation.eql?(abbreviation) || position.name.eql?(name)
     end
   end
 end

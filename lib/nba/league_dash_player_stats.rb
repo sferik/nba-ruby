@@ -77,8 +77,8 @@ module NBA
       result_set = find_result_set(data)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       season_id = Utils.format_season(season)
@@ -93,10 +93,10 @@ module NBA
     # @param data [Hash] the parsed JSON data
     # @return [Hash, nil] the result set
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(LEAGUE_DASH_PLAYER_STATS) }
+      result_sets.find { |rs| rs["name"].eql?(LEAGUE_DASH_PLAYER_STATS) }
     end
     private_class_method :find_result_set
 
@@ -131,10 +131,10 @@ module NBA
     # @param season_id [String] the season ID
     # @return [Hash] the identity attributes
     def self.identity_attributes(data, season_id)
-      {player_id: data.fetch("PLAYER_ID", nil), player_name: data.fetch("PLAYER_NAME", nil),
-       team_id: data.fetch("TEAM_ID", nil), team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil),
-       age: data.fetch("AGE", nil), gp: data.fetch("GP", nil), w: data.fetch("W", nil), l: data.fetch("L", nil),
-       w_pct: data.fetch("W_PCT", nil), min: data.fetch("MIN", nil), season_id: season_id}
+      {player_id: data["PLAYER_ID"], player_name: data["PLAYER_NAME"],
+       team_id: data["TEAM_ID"], team_abbreviation: data["TEAM_ABBREVIATION"],
+       age: data["AGE"], gp: data["GP"], w: data["W"], l: data["L"],
+       w_pct: data["W_PCT"], min: data["MIN"], season_id: season_id}
     end
     private_class_method :identity_attributes
 
@@ -144,9 +144,9 @@ module NBA
     # @param data [Hash] the player stat data
     # @return [Hash] the shooting attributes
     def self.shooting_attributes(data)
-      {fgm: data.fetch("FGM", nil), fga: data.fetch("FGA", nil), fg_pct: data.fetch("FG_PCT", nil),
-       fg3m: data.fetch("FG3M", nil), fg3a: data.fetch("FG3A", nil), fg3_pct: data.fetch("FG3_PCT", nil),
-       ftm: data.fetch("FTM", nil), fta: data.fetch("FTA", nil), ft_pct: data.fetch("FT_PCT", nil)}
+      {fgm: data["FGM"], fga: data["FGA"], fg_pct: data["FG_PCT"],
+       fg3m: data["FG3M"], fg3a: data["FG3A"], fg3_pct: data["FG3_PCT"],
+       ftm: data["FTM"], fta: data["FTA"], ft_pct: data["FT_PCT"]}
     end
     private_class_method :shooting_attributes
 
@@ -156,9 +156,9 @@ module NBA
     # @param data [Hash] the player stat data
     # @return [Hash] the counting stats attributes
     def self.counting_attributes(data)
-      {oreb: data.fetch("OREB", nil), dreb: data.fetch("DREB", nil), reb: data.fetch("REB", nil),
-       ast: data.fetch("AST", nil), tov: data.fetch("TOV", nil), stl: data.fetch("STL", nil), blk: data.fetch("BLK", nil),
-       blka: data.fetch("BLKA", nil), pf: data.fetch("PF", nil), pfd: data.fetch("PFD", nil), pts: data.fetch("PTS", nil)}
+      {oreb: data["OREB"], dreb: data["DREB"], reb: data["REB"],
+       ast: data["AST"], tov: data["TOV"], stl: data["STL"], blk: data["BLK"],
+       blka: data["BLKA"], pf: data["PF"], pfd: data["PFD"], pts: data["PTS"]}
     end
     private_class_method :counting_attributes
 
@@ -168,8 +168,8 @@ module NBA
     # @param data [Hash] the player stat data
     # @return [Hash] the advanced attributes
     def self.advanced_attributes(data)
-      {plus_minus: data.fetch("PLUS_MINUS", nil), nba_fantasy_pts: data.fetch("NBA_FANTASY_PTS", nil),
-       dd2: data.fetch("DD2", nil), td3: data.fetch("TD3", nil)}
+      {plus_minus: data["PLUS_MINUS"], nba_fantasy_pts: data["NBA_FANTASY_PTS"],
+       dd2: data["DD2"], td3: data["TD3"]}
     end
     private_class_method :advanced_attributes
   end

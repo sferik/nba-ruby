@@ -97,10 +97,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash or nil if not found
     def self.find_result_set(data, result_set_name)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(result_set_name) }
+      result_sets.find { |rs| rs["name"].eql?(result_set_name) }
     end
     private_class_method :find_result_set
 
@@ -111,8 +111,8 @@ module NBA
     def self.build_collection(result_set)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       Collection.new(rows.map { |row| build_pass_stat(headers.zip(row).to_h) })
@@ -133,9 +133,9 @@ module NBA
     # @api private
     # @return [Hash] the identity information hash
     def self.identity_info(data)
-      {player_id: data.fetch("PLAYER_ID", nil), player_name_last_first: data.fetch("PLAYER_NAME_LAST_FIRST", nil),
-       team_id: data.fetch("TEAM_ID", nil), team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil),
-       pass_teammate_player_id: data.fetch("PASS_TEAMMATE_PLAYER_ID", nil)}
+      {player_id: data["PLAYER_ID"], player_name_last_first: data["PLAYER_NAME_LAST_FIRST"],
+       team_id: data["TEAM_ID"], team_abbreviation: data["TEAM_ABBREVIATION"],
+       pass_teammate_player_id: data["PASS_TEAMMATE_PLAYER_ID"]}
     end
     private_class_method :identity_info
 
@@ -144,9 +144,9 @@ module NBA
     # @api private
     # @return [Hash] the pass information hash
     def self.pass_info(data)
-      {pass_to: data.fetch("PASS_TO", nil), gp: data.fetch("GP", nil), g: data.fetch("G", nil),
-       pass_type: data.fetch("PASS_TYPE", nil), frequency: data.fetch("FREQUENCY", nil),
-       pass: data.fetch("PASS", nil), ast: data.fetch("AST", nil)}
+      {pass_to: data["PASS_TO"], gp: data["GP"], g: data["G"],
+       pass_type: data["PASS_TYPE"], frequency: data["FREQUENCY"],
+       pass: data["PASS"], ast: data["AST"]}
     end
     private_class_method :pass_info
 
@@ -155,9 +155,9 @@ module NBA
     # @api private
     # @return [Hash] the shooting information hash
     def self.shooting_info(data)
-      {fgm: data.fetch("FGM", nil), fga: data.fetch("FGA", nil), fg_pct: data.fetch("FG_PCT", nil),
-       fg2m: data.fetch("FG2M", nil), fg2a: data.fetch("FG2A", nil), fg2_pct: data.fetch("FG2_PCT", nil),
-       fg3m: data.fetch("FG3M", nil), fg3a: data.fetch("FG3A", nil), fg3_pct: data.fetch("FG3_PCT", nil)}
+      {fgm: data["FGM"], fga: data["FGA"], fg_pct: data["FG_PCT"],
+       fg2m: data["FG2M"], fg2a: data["FG2A"], fg2_pct: data["FG2_PCT"],
+       fg3m: data["FG3M"], fg3a: data["FG3A"], fg3_pct: data["FG3_PCT"]}
     end
     private_class_method :shooting_info
   end

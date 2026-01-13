@@ -45,8 +45,8 @@ module NBA
       result_set = find_result_set(data)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       results = rows.map { |row| build_result(headers, row) }
@@ -58,10 +58,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(RESULTS) }
+      result_sets.find { |rs| rs["name"].eql?(RESULTS) }
     end
     private_class_method :find_result_set
 
@@ -90,9 +90,9 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] player attributes
       def self.player(data)
-        {temp_player_id: data.fetch("TEMP_PLAYER_ID", nil), player_id: data.fetch("PLAYER_ID", nil),
-         first_name: data.fetch("FIRST_NAME", nil), last_name: data.fetch("LAST_NAME", nil),
-         player_name: data.fetch("PLAYER_NAME", nil), position: data.fetch("POSITION", nil)}
+        {temp_player_id: data["TEMP_PLAYER_ID"], player_id: data["PLAYER_ID"],
+         first_name: data["FIRST_NAME"], last_name: data["LAST_NAME"],
+         player_name: data["PLAYER_NAME"], position: data["POSITION"]}
       end
 
       # Extracts drill result attributes from data
@@ -100,12 +100,12 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] drill result attributes
       def self.drills(data)
-        {standing_vertical_leap: data.fetch("STANDING_VERTICAL_LEAP", nil),
-         max_vertical_leap: data.fetch("MAX_VERTICAL_LEAP", nil),
-         lane_agility_time: data.fetch("LANE_AGILITY_TIME", nil),
-         modified_lane_agility_time: data.fetch("MODIFIED_LANE_AGILITY_TIME", nil),
-         three_quarter_sprint: data.fetch("THREE_QUARTER_SPRINT", nil),
-         bench_press: data.fetch("BENCH_PRESS", nil)}
+        {standing_vertical_leap: data["STANDING_VERTICAL_LEAP"],
+         max_vertical_leap: data["MAX_VERTICAL_LEAP"],
+         lane_agility_time: data["LANE_AGILITY_TIME"],
+         modified_lane_agility_time: data["MODIFIED_LANE_AGILITY_TIME"],
+         three_quarter_sprint: data["THREE_QUARTER_SPRINT"],
+         bench_press: data["BENCH_PRESS"]}
       end
     end
   end

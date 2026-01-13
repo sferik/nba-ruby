@@ -100,10 +100,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash or nil if not found
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(SEASON_MATCHUPS) }
+      result_sets.find { |rs| rs["name"].eql?(SEASON_MATCHUPS) }
     end
     private_class_method :find_result_set
 
@@ -114,8 +114,8 @@ module NBA
     def self.build_stats(result_set)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       Collection.new(rows.map { |row| build_stat(headers.zip(row).to_h) })
@@ -137,9 +137,9 @@ module NBA
     # @api private
     # @return [Hash] the identity information hash
     def self.identity_info(data)
-      {season_id: data.fetch("SEASON_ID", nil), off_player_id: data.fetch("OFF_PLAYER_ID", nil),
-       off_player_name: data.fetch("OFF_PLAYER_NAME", nil), def_player_id: data.fetch("DEF_PLAYER_ID", nil),
-       def_player_name: data.fetch("DEF_PLAYER_NAME", nil), gp: data.fetch("GP", nil)}
+      {season_id: data["SEASON_ID"], off_player_id: data["OFF_PLAYER_ID"],
+       off_player_name: data["OFF_PLAYER_NAME"], def_player_id: data["DEF_PLAYER_ID"],
+       def_player_name: data["DEF_PLAYER_NAME"], gp: data["GP"]}
     end
     private_class_method :identity_info
 
@@ -148,10 +148,10 @@ module NBA
     # @api private
     # @return [Hash] the matchup statistics hash
     def self.matchup_stats(data)
-      {matchup_min: data.fetch("MATCHUP_MIN", nil), partial_poss: data.fetch("PARTIAL_POSS", nil),
-       player_pts: data.fetch("PLAYER_PTS", nil), team_pts: data.fetch("TEAM_PTS", nil),
-       matchup_ast: data.fetch("MATCHUP_AST", nil), matchup_tov: data.fetch("MATCHUP_TOV", nil),
-       matchup_blk: data.fetch("MATCHUP_BLK", nil)}
+      {matchup_min: data["MATCHUP_MIN"], partial_poss: data["PARTIAL_POSS"],
+       player_pts: data["PLAYER_PTS"], team_pts: data["TEAM_PTS"],
+       matchup_ast: data["MATCHUP_AST"], matchup_tov: data["MATCHUP_TOV"],
+       matchup_blk: data["MATCHUP_BLK"]}
     end
     private_class_method :matchup_stats
 
@@ -160,11 +160,11 @@ module NBA
     # @api private
     # @return [Hash] the shooting statistics hash
     def self.shooting_stats(data)
-      {matchup_fgm: data.fetch("MATCHUP_FGM", nil), matchup_fga: data.fetch("MATCHUP_FGA", nil),
-       matchup_fg_pct: data.fetch("MATCHUP_FG_PCT", nil), matchup_fg3m: data.fetch("MATCHUP_FG3M", nil),
-       matchup_fg3a: data.fetch("MATCHUP_FG3A", nil), matchup_fg3_pct: data.fetch("MATCHUP_FG3_PCT", nil),
-       matchup_ftm: data.fetch("MATCHUP_FTM", nil), matchup_fta: data.fetch("MATCHUP_FTA", nil),
-       sfl: data.fetch("SFL", nil)}
+      {matchup_fgm: data["MATCHUP_FGM"], matchup_fga: data["MATCHUP_FGA"],
+       matchup_fg_pct: data["MATCHUP_FG_PCT"], matchup_fg3m: data["MATCHUP_FG3M"],
+       matchup_fg3a: data["MATCHUP_FG3A"], matchup_fg3_pct: data["MATCHUP_FG3_PCT"],
+       matchup_ftm: data["MATCHUP_FTM"], matchup_fta: data["MATCHUP_FTA"],
+       sfl: data["SFL"]}
     end
     private_class_method :shooting_stats
 
@@ -173,8 +173,8 @@ module NBA
     # @api private
     # @return [Hash] the help defense statistics hash
     def self.help_stats(data)
-      {help_blk: data.fetch("HELP_BLK", nil), help_fgm: data.fetch("HELP_FGM", nil),
-       help_fga: data.fetch("HELP_FGA", nil), help_fg_pct: data.fetch("HELP_FG_PERC", nil)}
+      {help_blk: data["HELP_BLK"], help_fgm: data["HELP_FGM"],
+       help_fga: data["HELP_FGA"], help_fg_pct: data["HELP_FG_PERC"]}
     end
     private_class_method :help_stats
   end

@@ -45,8 +45,8 @@ module NBA
       result_set = find_result_set(data)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       picks = rows.map { |row| build_pick(headers, row) }
@@ -58,10 +58,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(RESULTS) }
+      result_sets.find { |rs| rs["name"].eql?(RESULTS) }
     end
     private_class_method :find_result_set
 
@@ -90,7 +90,7 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] player attributes
       def self.player(data)
-        {person_id: data.fetch("PERSON_ID", nil), player_name: data.fetch("PLAYER_NAME", nil)}
+        {person_id: data["PERSON_ID"], player_name: data["PLAYER_NAME"]}
       end
 
       # Extracts draft info attributes from data
@@ -98,8 +98,8 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] draft info attributes
       def self.draft_info(data)
-        {season: data.fetch("SEASON", nil), round_number: data.fetch("ROUND_NUMBER", nil),
-         round_pick: data.fetch("ROUND_PICK", nil), overall_pick: data.fetch("OVERALL_PICK", nil)}
+        {season: data["SEASON"], round_number: data["ROUND_NUMBER"],
+         round_pick: data["ROUND_PICK"], overall_pick: data["OVERALL_PICK"]}
       end
 
       # Extracts team attributes from data
@@ -107,9 +107,9 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] team attributes
       def self.team(data)
-        {team_id: data.fetch("TEAM_ID", nil), team_city: data.fetch("TEAM_CITY", nil),
-         team_name: data.fetch("TEAM_NAME", nil), team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil),
-         organization: data.fetch("ORGANIZATION", nil), organization_type: data.fetch("ORGANIZATION_TYPE", nil)}
+        {team_id: data["TEAM_ID"], team_city: data["TEAM_CITY"],
+         team_name: data["TEAM_NAME"], team_abbreviation: data["TEAM_ABBREVIATION"],
+         organization: data["ORGANIZATION"], organization_type: data["ORGANIZATION_TYPE"]}
       end
 
       # Extracts physical attributes from data
@@ -117,9 +117,9 @@ module NBA
       # @param data [Hash] the row data
       # @return [Hash] physical attributes
       def self.physical(data)
-        {height: data.fetch("HEIGHT", nil), weight: data.fetch("WEIGHT", nil),
-         position: data.fetch("POSITION", nil), jersey_number: data.fetch("JERSEY_NUMBER", nil),
-         birthdate: data.fetch("BIRTHDATE", nil), age: data.fetch("AGE", nil)}
+        {height: data["HEIGHT"], weight: data["WEIGHT"],
+         position: data["POSITION"], jersey_number: data["JERSEY_NUMBER"],
+         birthdate: data["BIRTHDATE"], age: data["AGE"]}
       end
     end
   end

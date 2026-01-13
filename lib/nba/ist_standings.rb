@@ -50,10 +50,10 @@ module NBA
     # @param data [Hash] the row data
     # @return [Hash] team attributes
     def self.team_attrs(data)
-      {season_id: data.fetch("SEASON_ID", nil), team_id: data.fetch("TEAM_ID", nil),
-       team_city: data.fetch("TEAM_CITY", nil), team_name: data.fetch("TEAM_NAME", nil),
-       team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil), team_slug: data.fetch("TEAM_SLUG", nil),
-       conference: data.fetch("CONFERENCE", nil), ist_group: data.fetch("IST_GROUP", nil)}
+      {season_id: data["SEASON_ID"], team_id: data["TEAM_ID"],
+       team_city: data["TEAM_CITY"], team_name: data["TEAM_NAME"],
+       team_abbreviation: data["TEAM_ABBREVIATION"], team_slug: data["TEAM_SLUG"],
+       conference: data["CONFERENCE"], ist_group: data["IST_GROUP"]}
     end
     private_class_method :team_attrs
 
@@ -62,9 +62,9 @@ module NBA
     # @param data [Hash] the row data
     # @return [Hash] record attributes
     def self.record_attrs(data)
-      {ist_group_rank: data.fetch("IST_GROUP_RANK", nil), wins: data.fetch("WINS", nil),
-       losses: data.fetch("LOSSES", nil), win_pct: data.fetch("WIN_PCT", nil),
-       clinch_indicator: data.fetch("CLINCH_INDICATOR", nil)}
+      {ist_group_rank: data["IST_GROUP_RANK"], wins: data["WINS"],
+       losses: data["LOSSES"], win_pct: data["WIN_PCT"],
+       clinch_indicator: data["CLINCH_INDICATOR"]}
     end
     private_class_method :record_attrs
 
@@ -73,8 +73,8 @@ module NBA
     # @param data [Hash] the row data
     # @return [Hash] point attributes
     def self.pts_attrs(data)
-      {pts_for: data.fetch("PTS_FOR", nil), pts_against: data.fetch("PTS_AGAINST", nil),
-       pts_diff: data.fetch("PTS_DIFF", nil)}
+      {pts_for: data["PTS_FOR"], pts_against: data["PTS_AGAINST"],
+       pts_diff: data["PTS_DIFF"]}
     end
     private_class_method :pts_attrs
   end

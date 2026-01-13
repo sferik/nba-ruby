@@ -57,8 +57,8 @@ module NBA
       result_set = find_result_set(data)
       return Collection.new unless result_set
 
-      headers = result_set.fetch("headers", nil)
-      rows = result_set.fetch("rowSet", nil)
+      headers = result_set["headers"]
+      rows = result_set["rowSet"]
       return Collection.new unless headers && rows
 
       entries = rows.map { |row| build_entry(headers, row) }
@@ -70,10 +70,10 @@ module NBA
     # @api private
     # @return [Hash, nil] the result set hash
     def self.find_result_set(data)
-      result_sets = data.fetch("resultSets", nil)
+      result_sets = data["resultSets"]
       return unless result_sets
 
-      result_sets.find { |rs| rs.fetch("name", nil).eql?(RESULTS) }
+      result_sets.find { |rs| rs["name"].eql?(RESULTS) }
     end
     private_class_method :find_result_set
 
@@ -98,7 +98,7 @@ module NBA
     # @api private
     # @return [Hash] the identifier attributes
     def self.identifier_attributes(data)
-      {uuid: data.fetch("UUID", nil), game_id: data.fetch("GAME_ID", nil), game_event_id: data.fetch("GAME_EVENT_ID", nil)}
+      {uuid: data["UUID"], game_id: data["GAME_ID"], game_event_id: data["GAME_EVENT_ID"]}
     end
     private_class_method :identifier_attributes
 
@@ -106,9 +106,9 @@ module NBA
     # @api private
     # @return [Hash] the video attributes
     def self.video_attributes(data)
-      {video_available: data.fetch("VIDEO_AVAILABLE", nil), video_url: data.fetch("VIDEO_URL", nil),
-       file_size: data.fetch("FILE_SIZE", nil), aspect_ratio: data.fetch("ASPECT_RATIO", nil),
-       video_duration: data.fetch("VIDEO_DURATION", nil), video_description: data.fetch("VIDEO_DESCRIPTION", nil)}
+      {video_available: data["VIDEO_AVAILABLE"], video_url: data["VIDEO_URL"],
+       file_size: data["FILE_SIZE"], aspect_ratio: data["ASPECT_RATIO"],
+       video_duration: data["VIDEO_DURATION"], video_description: data["VIDEO_DESCRIPTION"]}
     end
     private_class_method :video_attributes
   end

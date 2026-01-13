@@ -196,5 +196,35 @@ module NBA
     def final?
       game_status.eql?(3)
     end
+
+    # Returns the game status text (alias for CLI compatibility)
+    #
+    # @api public
+    # @example
+    #   game.status #=> "Q4 2:30"
+    # @return [String] the game status text
+    def status
+      game_status_text
+    end
+
+    # Returns the home team score (alias for CLI compatibility)
+    #
+    # @api public
+    # @example
+    #   game.home_score #=> 112
+    # @return [Integer] the home team score
+    def home_score
+      home_team_score
+    end
+
+    # Returns the away team score (alias for CLI compatibility)
+    #
+    # @api public
+    # @example
+    #   game.away_score #=> 108
+    # @return [Integer] the away team score
+    def away_score
+      away_team_score
+    end
   end
 end

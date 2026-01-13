@@ -90,5 +90,23 @@ module NBA
       assert_equal "LAL", game.away_team_tricode
       assert_equal 108, game.away_team_score
     end
+
+    def test_status_returns_game_status_text
+      game = LiveGame.new(game_status_text: "Q4 2:30")
+
+      assert_equal "Q4 2:30", game.status
+    end
+
+    def test_home_score_returns_home_team_score
+      game = LiveGame.new(home_team_score: 112)
+
+      assert_equal 112, game.home_score
+    end
+
+    def test_away_score_returns_away_team_score
+      game = LiveGame.new(away_team_score: 108)
+
+      assert_equal 108, game.away_score
+    end
   end
 end

@@ -63,9 +63,9 @@ module NBA
     # @api private
     # @return [Hash]
     def self.player_identity(data)
-      {game_id: data.fetch("GAME_ID", nil), team_id: data.fetch("TEAM_ID", nil), team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil),
-       team_city: data.fetch("TEAM_CITY", nil), player_id: data.fetch("PLAYER_ID", nil), player_name: data.fetch("PLAYER_NAME", nil),
-       start_position: data.fetch("START_POSITION", nil), comment: data.fetch("COMMENT", nil), min: data.fetch("MIN", nil)}
+      {game_id: data["GAME_ID"], team_id: data["TEAM_ID"], team_abbreviation: data["TEAM_ABBREVIATION"],
+       team_city: data["TEAM_CITY"], player_id: data["PLAYER_ID"], player_name: data["PLAYER_NAME"],
+       start_position: data["START_POSITION"], comment: data["COMMENT"], min: data["MIN"]}
     end
     private_class_method :player_identity
 
@@ -73,8 +73,8 @@ module NBA
     # @api private
     # @return [Hash]
     def self.team_identity(data)
-      {game_id: data.fetch("GAME_ID", nil), team_id: data.fetch("TEAM_ID", nil), team_name: data.fetch("TEAM_NAME", nil),
-       team_abbreviation: data.fetch("TEAM_ABBREVIATION", nil), team_city: data.fetch("TEAM_CITY", nil), min: data.fetch("MIN", nil)}
+      {game_id: data["GAME_ID"], team_id: data["TEAM_ID"], team_name: data["TEAM_NAME"],
+       team_abbreviation: data["TEAM_ABBREVIATION"], team_city: data["TEAM_CITY"], min: data["MIN"]}
     end
     private_class_method :team_identity
 
@@ -82,10 +82,10 @@ module NBA
     # @api private
     # @return [Hash]
     def self.scoring_stats(data)
-      {pts_off_tov: data.fetch("PTS_OFF_TOV", nil), pts_2nd_chance: data.fetch("PTS_2ND_CHANCE", nil),
-       pts_fb: data.fetch("PTS_FB", nil), pts_paint: data.fetch("PTS_PAINT", nil),
-       opp_pts_off_tov: data.fetch("OPP_PTS_OFF_TOV", nil), opp_pts_2nd_chance: data.fetch("OPP_PTS_2ND_CHANCE", nil),
-       opp_pts_fb: data.fetch("OPP_PTS_FB", nil), opp_pts_paint: data.fetch("OPP_PTS_PAINT", nil)}
+      {pts_off_tov: data["PTS_OFF_TOV"], pts_2nd_chance: data["PTS_2ND_CHANCE"],
+       pts_fb: data["PTS_FB"], pts_paint: data["PTS_PAINT"],
+       opp_pts_off_tov: data["OPP_PTS_OFF_TOV"], opp_pts_2nd_chance: data["OPP_PTS_2ND_CHANCE"],
+       opp_pts_fb: data["OPP_PTS_FB"], opp_pts_paint: data["OPP_PTS_PAINT"]}
     end
     private_class_method :scoring_stats
 
@@ -93,7 +93,7 @@ module NBA
     # @api private
     # @return [Hash]
     def self.defense_stats(data)
-      {blk: data.fetch("BLK", nil), blka: data.fetch("BLKA", nil), pf: data.fetch("PF", nil), pfd: data.fetch("PFD", nil)}
+      {blk: data["BLK"], blka: data["BLKA"], pf: data["PF"], pfd: data["PFD"]}
     end
     private_class_method :defense_stats
   end

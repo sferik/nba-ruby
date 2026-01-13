@@ -92,7 +92,7 @@ module NBA
     # @api private
     # @return [Array<ScheduledGame>] array of games for the date
     def self.parse_date_entry(date_entry)
-      games = date_entry.fetch("games", nil)
+      games = date_entry["games"]
       return [] unless games
 
       games.map { |game| build_scheduled_game(game) }
@@ -119,9 +119,9 @@ module NBA
     # @api private
     # @return [Hash] game info attributes
     def self.game_info_attributes(data)
-      {game_date: data.fetch("gameDateTimeUTC", nil), game_id: data.fetch("gameId", nil),
-       game_code: data.fetch("gameCode", nil), game_status: data.fetch("gameStatus", nil),
-       game_status_text: data.fetch("gameStatusText", nil)}
+      {game_date: data["gameDateTimeUTC"], game_id: data["gameId"],
+       game_code: data["gameCode"], game_status: data["gameStatus"],
+       game_status_text: data["gameStatusText"]}
     end
     private_class_method :game_info_attributes
 
@@ -129,11 +129,11 @@ module NBA
     # @api private
     # @return [Hash] home team attributes
     def self.home_team_attributes(data)
-      home = data.fetch("homeTeam", nil) || {}
-      {home_team_id: home.fetch("teamId", nil), home_team_name: home.fetch("teamName", nil),
-       home_team_city: home.fetch("teamCity", nil), home_team_tricode: home.fetch("teamTricode", nil),
-       home_team_wins: home.fetch("wins", nil), home_team_losses: home.fetch("losses", nil),
-       home_team_score: home.fetch("score", nil)}
+      home = data["homeTeam"] || {}
+      {home_team_id: home["teamId"], home_team_name: home["teamName"],
+       home_team_city: home["teamCity"], home_team_tricode: home["teamTricode"],
+       home_team_wins: home["wins"], home_team_losses: home["losses"],
+       home_team_score: home["score"]}
     end
     private_class_method :home_team_attributes
 
@@ -141,11 +141,11 @@ module NBA
     # @api private
     # @return [Hash] away team attributes
     def self.away_team_attributes(data)
-      away = data.fetch("awayTeam", nil) || {}
-      {away_team_id: away.fetch("teamId", nil), away_team_name: away.fetch("teamName", nil),
-       away_team_city: away.fetch("teamCity", nil), away_team_tricode: away.fetch("teamTricode", nil),
-       away_team_wins: away.fetch("wins", nil), away_team_losses: away.fetch("losses", nil),
-       away_team_score: away.fetch("score", nil)}
+      away = data["awayTeam"] || {}
+      {away_team_id: away["teamId"], away_team_name: away["teamName"],
+       away_team_city: away["teamCity"], away_team_tricode: away["teamTricode"],
+       away_team_wins: away["wins"], away_team_losses: away["losses"],
+       away_team_score: away["score"]}
     end
     private_class_method :away_team_attributes
 
@@ -153,8 +153,8 @@ module NBA
     # @api private
     # @return [Hash] venue attributes
     def self.venue_attributes(data)
-      {arena_name: data.fetch("arenaName", nil), arena_city: data.fetch("arenaCity", nil),
-       arena_state: data.fetch("arenaState", nil), broadcasters: format_broadcasters(data.fetch("broadcasters", nil))}
+      {arena_name: data["arenaName"], arena_city: data["arenaCity"],
+       arena_state: data["arenaState"], broadcasters: format_broadcasters(data["broadcasters"])}
     end
     private_class_method :venue_attributes
 
@@ -164,10 +164,10 @@ module NBA
     def self.format_broadcasters(broadcasters)
       return unless broadcasters
 
-      national = broadcasters.fetch("nationalTvBroadcasters", nil)
+      national = broadcasters["nationalTvBroadcasters"]
       return unless national&.any?
 
-      national.map { |b| b.fetch("broadcasterDisplay", nil) }.join(", ")
+      national.map { |b| b["broadcasterDisplay"] }.join(", ")
     end
     private_class_method :format_broadcasters
 

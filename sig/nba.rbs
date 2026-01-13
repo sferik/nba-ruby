@@ -57,6 +57,7 @@ module NBA
     alias count size
     def empty?: () -> bool
     def first: () -> untyped
+             | (Integer n) -> Array[untyped]
     def last: () -> untyped
   end
 
@@ -181,6 +182,17 @@ module NBA
     ) -> void
 
     def active?: () -> bool?
+    def point_guard?: () -> bool
+    def shooting_guard?: () -> bool
+    def guard?: () -> bool
+    def small_forward?: () -> bool
+    def power_forward?: () -> bool
+    def forward?: () -> bool
+    def center?: () -> bool
+
+    private
+
+    def position_matches?: (String abbreviation, String name) -> bool
   end
 
   class Game < Shale::Mapper
@@ -299,6 +311,7 @@ module NBA
     def self.identity_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
     def self.physical_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
     def self.draft_info: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
+    def self.build_position: (String? name) -> Position?
   end
 
   module Roster
@@ -310,6 +323,7 @@ module NBA
     def self.player_attributes: (Hash[String, untyped] data) -> Hash[Symbol, untyped]
     def self.name_attributes: (String? full_name) -> Hash[Symbol, untyped]
     def self.extract_country: (String? birth_date) -> String?
+    def self.build_position: (String? abbreviation) -> Position?
   end
 
   module Scoreboard
@@ -325,7 +339,8 @@ module NBA
     def self.game_attributes: (Hash[String, untyped] info, Array[Hash[String, untyped]] scores) -> Hash[Symbol, untyped]
     def self.find_score: (Array[Hash[String, untyped]] scores, Integer team_id) -> Integer?
     def self.extract_score: (Hash[String, untyped]? score_data) -> Integer?
-    def self.game_status: (Integer status_id) -> String
+    def self.game_status: (Hash[String, untyped] info) -> String
+    def self.status_id_to_text: (Integer? status_id) -> String
     def self.find_team: (Integer team_id) -> Team?
   end
 
@@ -338,6 +353,7 @@ module NBA
     def self.build_game: (Hash[String, untyped] game_info) -> Game
     def self.game_attributes: (Hash[String, untyped] info) -> Hash[Symbol, untyped]
     def self.game_status: (Integer? status_id) -> String
+    def self.status_id_to_text: (Integer? status_id) -> String
     def self.find_team: (Integer? team_id) -> Team?
     def self.extract_league_id: (League | String league) -> (String | untyped)
   end
@@ -3651,6 +3667,9 @@ module NBA
     def scheduled?: () -> bool
     def in_progress?: () -> bool
     def final?: () -> bool
+    def status: () -> String?
+    def home_score: () -> Integer?
+    def away_score: () -> Integer?
   end
 
   module LiveScoreboard
@@ -7125,5 +7144,154 @@ module NBA
     def self.format_broadcasters: (Hash[String, untyped]? broadcasters) -> String?
     def self.extract_team_id: (Integer | Team team) -> Integer?
     def self.extract_league_id: ((String | League) league) -> (String | untyped)
+  end
+
+  class CLI < Thor
+    SEPARATOR: String
+    CATEGORY_MAP: Hash[String, String]
+
+    def self.exit_on_failure?: () -> true
+
+    def games: () -> void
+    def teams: (?String? name) -> void
+    def player: (String name) -> void
+    def standings: () -> void
+    def leaders: (?String category_name) -> void
+    def schedule: (String team_name) -> void
+    def roster: (String team_name) -> void
+    def version: () -> void
+
+    module Helpers : Thor
+      ET_OFFSET_SECONDS: Integer
+      CONFERENCE_MAP: Hash[String?, String]
+
+      def parse_date: (String? date_str) -> Date
+      def parse_date_string: (String date_str) -> Date
+      def eastern_time_date: () -> Date
+      def find_team_by_name: (String name) -> Team?
+      def filter_teams: (String? name) -> (Collection | Array[Team])
+      def normalize_conference: (String input) -> String
+      def fetch_standings: () -> Collection
+      def fetch_conference_standings: () -> Collection
+      def fetch_team_schedule: (Team team) -> Collection
+      def fetch_team_roster: (Team team) -> Collection
+      def resolve_leader_category: (String category, Hash[String, String] category_map) -> String
+      def fetch_games: (Date date) -> Collection
+    end
+
+    module Formatters : Thor
+      interface _BaseFormatters
+        def max_length: (Array[String] values) -> Integer
+        def center: ((String | Integer) value, Integer width) -> String
+      end
+
+      module TimeFormatters : Thor, _BaseFormatters
+        ET_TIME_PATTERN: Regexp
+
+        def convert_et_to_local: (String status) -> String
+        def parse_et_time: (MatchData match) -> Time
+        def convert_to_24h: (Integer hour, String period) -> Integer
+        def build_et_time: (Integer hour, Integer minute) -> Time
+        def format_local_time: (Time et_time) -> String
+        def local_time_zone_abbr: () -> String
+      end
+
+      module TeamFormatters : Thor, _BaseFormatters
+        EAST: Array[String]
+        DIVISIONS: Hash[Array[String], String]
+
+        def team_nickname: (Team? team) -> String
+        def conference_name: (TeamDetail detail) -> String
+        def division_name: (TeamDetail detail) -> String?
+        def division_for_team: (String abbr) -> String?
+        def championship_year?: (TeamHistoricalRecord record) -> bool
+      end
+
+      module GameFormatters : Thor, _BaseFormatters
+        def format_game_status: (Game game) -> String
+        def format_game_row: (Game game, Hash[Symbol, Integer] widths) -> String
+        def format_game_teams: (Game game, Hash[Symbol, Integer] widths) -> Hash[Symbol, String]
+        def format_game_scores: (Game game, Hash[Symbol, Integer] widths) -> Hash[Symbol, String]
+        def calculate_game_widths: (untyped games) -> Hash[Symbol, Integer]
+        def score_widths: (untyped games) -> Hash[Symbol, Integer]
+        def format_schedule_game: (untyped game, Team team) -> String
+        def determine_opponent: (untyped game, Team team) -> String
+        def convert_et_to_local: (String status) -> String
+        def team_nickname: (Team? team) -> String
+      end
+
+      module StandingsFormatters : Thor, _BaseFormatters
+        def format_standing_row: (untyped standing, Integer rank, Hash[Symbol, Integer] widths) -> String
+        def calculate_standings_widths: (untyped standings) -> Hash[Symbol, Integer]
+      end
+
+      module LeadersFormatters : Thor, _BaseFormatters
+        def format_leader_row: (untyped leader, Hash[Symbol, Integer] widths) -> String
+        def calculate_leader_widths: (untyped leaders) -> Hash[Symbol, Integer]
+      end
+
+      module PlayerFormatters : Thor
+        def format_detailed_roster_player: (Player player) -> String
+        def format_jersey_number: (Integer? number) -> String
+        def format_position: (Position? position) -> String
+        def format_player_result: (Player player) -> String
+        def format_draft_info: (Player player) -> String
+      end
+
+      include TimeFormatters
+      include TeamFormatters
+      include GameFormatters
+      include StandingsFormatters
+      include LeadersFormatters
+      include PlayerFormatters
+
+      LABEL_WIDTH: Integer
+
+      def max_length: (Array[String] values) -> Integer
+      def center: ((String | Integer) value, Integer width) -> String
+      def format_label: (String label, untyped value) -> String
+      def format_multiline_label: (String label, Array[String] items) -> String
+    end
+
+    module Display : Thor
+      include Formatters
+
+      module PlayerDisplay : Thor
+        include Formatters
+
+        def display_players: (untyped players_list) -> void
+        def display_player: (Player player) -> void
+        def display_player_physical: (Player player) -> void
+        def display_player_draft: (Player player) -> void
+
+        private
+
+        def display_player_position: (Player player) -> void
+        def display_player_body: (Player player) -> void
+        def display_player_origin: (Player player) -> void
+        def format_weight: (Integer? weight) -> String?
+      end
+
+      include PlayerDisplay
+
+      def display_games: (untyped games_list) -> void
+      def display_teams: (untyped teams_list, bool include_roster, detailed: (String | bool | nil)) -> void
+      def display_team_names: (untyped teams_list) -> void
+      def display_team: (Team team) -> void
+      def display_team_conference: (TeamDetail? detail) -> void
+      def display_team_division: (TeamDetail? detail) -> void
+      def display_team_championships: (Team team) -> void
+      def fetch_team_year_stats: (Team team) -> Collection
+      def display_team_roster: (Team team) -> void
+      def display_players_list: (untyped players) -> void
+      def display_standings: (untyped standings_list) -> void
+      def display_leaders: (untyped leaders_list, String category) -> void
+      def display_schedule: (Collection schedule_list, Team team) -> void
+      def display_roster: (Collection roster_list, Team team) -> void
+    end
+
+    include Helpers
+    include Formatters
+    include Display
   end
 end
