@@ -1,0 +1,30 @@
+title: NBA Gem
+description: A Ruby interface to the NBA Stats API
+url: https://sferik.github.io
+baseurl: /nba-ruby
+logo: /logo.png
+
+plugins:
+  - jekyll-seo-tag
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      image:
+        path: /logo.png
+        width: 1200
+        height: 1200
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - Rakefile
+  - lib
+  - test
+  - sig
+  - bin
+  - "*.gemspec"
+  - .rubocop.yml
+  - .mutant.yml
+  - CLAUDE.md
