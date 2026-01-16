@@ -34,6 +34,30 @@ module NBA
       # @return [String]
       def center(value, width) = value.to_s.center(width)
 
+      # Right-justifies a value within the given width
+      #
+      # @api private
+      # @return [String]
+      def rjust(value, width) = value.to_s.rjust(width)
+
+      # ANSI escape code for green text
+      #
+      # @api private
+      # @return [String]
+      GREEN = "\e[32m".freeze
+
+      # ANSI escape code to reset text formatting
+      #
+      # @api private
+      # @return [String]
+      RESET = "\e[0m".freeze
+
+      # Wraps text in green color
+      #
+      # @api private
+      # @return [String]
+      def green(text) = "#{GREEN}#{text}#{RESET}"
+
       # Formats a label and value as a single line
       #
       # @api private

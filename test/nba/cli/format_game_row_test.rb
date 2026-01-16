@@ -71,8 +71,8 @@ module NBA
       widths = {status: 5, home: 8, away: 6, home_score: 3, away_score: 3}
       result = format_game_row(game, widths)
 
-      # Verify scores are in correct positions (home before colon, away after)
-      assert_match(/118\s*:/, result)
+      # Verify scores are in correct positions (home before colon, may have ANSI codes)
+      assert_match(/118.*:/, result)
     end
 
     def test_accesses_away_score_from_scores_hash

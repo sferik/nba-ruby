@@ -22,7 +22,42 @@ module NBA
           status = center(format_game_status(game), widths.fetch(:status))
           teams = format_game_teams(game, widths)
           scores = format_game_scores(game, widths)
-          "#{status} - #{teams.fetch(:home)} #{scores.fetch(:home)} : #{scores.fetch(:away)} #{teams.fetch(:away)}".rstrip
+          home_display = format_team_score_display(game, :home, teams, scores)
+          away_display = format_team_score_display(game, :away, teams, scores)
+          "#{status} - #{home_display} : #{away_display}".rstrip
+        end
+
+        # Formats a team and score with optional winner highlighting
+        #
+        # @api private
+        # @return [String]
+        def format_team_score_display(game, side, teams, scores)
+          team = teams.fetch(side)
+          score = scores.fetch(side)
+          display = side.eql?(:home) ? "#{team} #{score}" : "#{score} #{team}"
+          winner?(game, side) ? green(display) : display
+        end
+
+        # Determines if the given side won the game
+        #
+        # @api private
+        # @return [Boolean]
+        def winner?(game, side)
+          return false unless final?(game)
+
+          home = game.home_score
+          away = game.away_score
+          return false unless home && away
+
+          side.eql?(:home) ? home > away : away > home
+        end
+
+        # Determines if the game is final
+        #
+        # @api private
+        # @return [Boolean]
+        def final?(game)
+          game.status&.start_with?("Final") || false
         end
 
         # Formats game team names with padding
@@ -39,8 +74,8 @@ module NBA
         # @api private
         # @return [Hash]
         def format_game_scores(game, widths)
-          {home: center(game.home_score || "-", widths.fetch(:home_score)),
-           away: center(game.away_score || "-", widths.fetch(:away_score))}
+          {home: rjust(game.home_score || "-", widths.fetch(:home_score)),
+           away: rjust(game.away_score || "-", widths.fetch(:away_score))}
         end
 
         # Calculates column widths for game display

@@ -7183,6 +7183,8 @@ module NBA
       interface _BaseFormatters
         def max_length: (Array[String] values) -> Integer
         def center: ((String | Integer) value, Integer width) -> String
+        def rjust: ((String | Integer) value, Integer width) -> String
+        def green: (String text) -> String
       end
 
       module TimeFormatters : Thor, _BaseFormatters
@@ -7210,6 +7212,9 @@ module NBA
       module GameFormatters : Thor, _BaseFormatters
         def format_game_status: (Game game) -> String
         def format_game_row: (Game game, Hash[Symbol, Integer] widths) -> String
+        def format_team_score_display: (Game game, Symbol side, Hash[Symbol, String] teams, Hash[Symbol, String] scores) -> String
+        def winner?: (Game game, Symbol side) -> bool
+        def final?: (Game game) -> bool
         def format_game_teams: (Game game, Hash[Symbol, Integer] widths) -> Hash[Symbol, String]
         def format_game_scores: (Game game, Hash[Symbol, Integer] widths) -> Hash[Symbol, String]
         def calculate_game_widths: (untyped games) -> Hash[Symbol, Integer]
@@ -7246,9 +7251,13 @@ module NBA
       include PlayerFormatters
 
       LABEL_WIDTH: Integer
+      GREEN: String
+      RESET: String
 
       def max_length: (Array[String] values) -> Integer
       def center: ((String | Integer) value, Integer width) -> String
+      def rjust: ((String | Integer) value, Integer width) -> String
+      def green: (String text) -> String
       def format_label: (String label, untyped value) -> String
       def format_multiline_label: (String label, Array[String] items) -> String
     end
