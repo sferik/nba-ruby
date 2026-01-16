@@ -7,22 +7,22 @@ module NBA
 
     cover CLI::Formatters::GameFormatters
 
-    def test_home_side_displays_team_before_score
-      game = mock_game("Final", "Warriors", "Lakers", 118, 109)
-      teams = {home: "Warriors", away: "Lakers"}
-      scores = {home: "118", away: "109"}
-      result = format_team_score_display(game, :home, teams, scores)
-
-      assert_match(/Warriors.*118/, result)
-    end
-
-    def test_away_side_displays_score_before_team
+    def test_away_side_displays_team_before_score
       game = mock_game("Final", "Warriors", "Lakers", 109, 118)
       teams = {home: "Warriors", away: "Lakers"}
       scores = {home: "109", away: "118"}
       result = format_team_score_display(game, :away, teams, scores)
 
-      assert_match(/118.*Lakers/, result)
+      assert_match(/Lakers.*118/, result)
+    end
+
+    def test_home_side_displays_score_before_team
+      game = mock_game("Final", "Warriors", "Lakers", 118, 109)
+      teams = {home: "Warriors", away: "Lakers"}
+      scores = {home: "118", away: "109"}
+      result = format_team_score_display(game, :home, teams, scores)
+
+      assert_match(/118.*Warriors/, result)
     end
 
     def test_winning_team_is_highlighted_green
@@ -63,7 +63,7 @@ module NBA
       assert_includes result, "118"
     end
 
-    def test_uses_eql_for_home_side_check
+    def test_uses_eql_for_away_side_check
       game = mock_game("Q4 2:30", "Warriors", "Lakers", 118, 109)
       teams = {home: "Warriors", away: "Lakers"}
       scores = {home: "118", away: "109"}
@@ -71,8 +71,8 @@ module NBA
       home_result = format_team_score_display(game, :home, teams, scores)
       away_result = format_team_score_display(game, :away, teams, scores)
 
-      assert_match(/Warriors\s+118/, home_result)
-      assert_match(/109\s+Lakers/, away_result)
+      assert_match(/118\s+Warriors/, home_result)
+      assert_match(/Lakers\s+109/, away_result)
     end
 
     def test_no_highlighting_when_game_not_final

@@ -40,7 +40,9 @@ module NBA
     end
 
     def test_strips_trailing_whitespace
-      game = mock_game("Final", "Warriors", "Lkrs", 118, 109)
+      # Home team is now in second column (right side), so make it shorter than width
+      # Home team must lose so no green highlighting wraps the trailing whitespace
+      game = mock_game("Final", "Lkrs", "Lakers", 109, 118)
       widths = {status: 5, home: 8, away: 6, home_score: 3, away_score: 3}
 
       refute_match(/\s$/, format_game_row(game, widths))
@@ -71,8 +73,8 @@ module NBA
       widths = {status: 5, home: 8, away: 6, home_score: 3, away_score: 3}
       result = format_game_row(game, widths)
 
-      # Verify scores are in correct positions (home before colon, may have ANSI codes)
-      assert_match(/118.*:/, result)
+      # Verify scores are in correct positions (home after colon, may have ANSI codes)
+      assert_match(/:.*118/, result)
     end
 
     def test_accesses_away_score_from_scores_hash
@@ -80,8 +82,17 @@ module NBA
       widths = {status: 5, home: 8, away: 6, home_score: 3, away_score: 3}
       result = format_game_row(game, widths)
 
-      # Verify scores are in correct positions (away after colon)
-      assert_match(/:\s*109/, result)
+      # Verify scores are in correct positions (away before colon)
+      assert_match(/109.*:/, result)
+    end
+
+    def test_away_team_in_first_column_home_team_in_second
+      game = mock_game("Final", "Warriors", "Lakers", 118, 109)
+      widths = {status: 5, home: 8, away: 6, home_score: 3, away_score: 3}
+      result = format_game_row(game, widths)
+
+      # Away team (Lakers) should appear before colon, home team (Warriors) after
+      assert_match(/Lakers.*:.*Warriors/, result)
     end
   end
 end

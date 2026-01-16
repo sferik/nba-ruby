@@ -22,9 +22,9 @@ module NBA
           status = center(format_game_status(game), widths.fetch(:status))
           teams = format_game_teams(game, widths)
           scores = format_game_scores(game, widths)
-          home_display = format_team_score_display(game, :home, teams, scores)
           away_display = format_team_score_display(game, :away, teams, scores)
-          "#{status} - #{home_display} : #{away_display}".rstrip
+          home_display = format_team_score_display(game, :home, teams, scores)
+          "#{status} - #{away_display} : #{home_display}".rstrip
         end
 
         # Formats a team and score with optional winner highlighting
@@ -34,7 +34,7 @@ module NBA
         def format_team_score_display(game, side, teams, scores)
           team = teams.fetch(side)
           score = scores.fetch(side)
-          display = side.eql?(:home) ? "#{team} #{score}" : "#{score} #{team}"
+          display = side.eql?(:away) ? "#{team} #{score}" : "#{score} #{team}"
           winner?(game, side) ? green(display) : display
         end
 
