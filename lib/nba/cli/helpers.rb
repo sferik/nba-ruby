@@ -130,6 +130,20 @@ module NBA
       def fetch_games(date)
         date.eql?(eastern_time_date) ? LiveScoreboard.today : Scoreboard.games(date: date)
       end
+
+      # Outputs a collection in the specified format
+      #
+      # @api private
+      # @param collection [Collection] the collection to output
+      # @yield block to execute for table format display
+      # @return [void]
+      def output_collection(collection)
+        case options[:format]
+        when "json" then say(collection.to_json)
+        when "csv" then say(collection.to_csv)
+        else yield
+        end
+      end
     end
   end
 end

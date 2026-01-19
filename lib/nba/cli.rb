@@ -25,6 +25,8 @@ module NBA
     }.freeze
 
     class_option :version, type: :boolean, aliases: "-v", desc: "Print version and exit"
+    class_option :format, type: :string, aliases: "-f", enum: %w[table json csv], default: "table",
+      desc: "Output format (table, json, csv)"
 
     remove_command :tree
 
@@ -50,7 +52,9 @@ module NBA
     def games
       date = parse_date(options[:date])
       games_list = fetch_games(date)
-      games_list.empty? ? say("No games found for #{date}") : display_games(games_list)
+      return say("No games found for #{date}") if games_list.empty?
+
+      output_collection(games_list) { display_games(games_list) }
     end
 
     desc "teams [NAME]", "List all teams or search by name"
@@ -104,7 +108,8 @@ module NBA
     #   cli.standings
     # @return [void]
     def standings
-      display_standings(fetch_standings)
+      standings_list = fetch_standings
+      output_collection(standings_list) { display_standings(standings_list) }
     end
 
     desc "leaders [CATEGORY]", "Display league leaders for a statistical category"
@@ -126,7 +131,7 @@ module NBA
       else
         Leaders.find(category: category, limit: options.fetch(:limit))
       end
-      display_leaders(leaders_list, category_name)
+      output_collection(leaders_list) { display_leaders(leaders_list, category_name) }
     end
 
     desc "schedule TEAM", "Display schedule for a team"
@@ -141,12 +146,10 @@ module NBA
     # @return [void]
     def schedule(team_name)
       team = find_team_by_name(team_name)
-      if team
-        schedule_list = fetch_team_schedule(team)
-        display_schedule(schedule_list, team)
-      else
-        say("No team found with name '#{team_name}'")
-      end
+      return say("No team found with name '#{team_name}'") unless team
+
+      schedule_list = fetch_team_schedule(team)
+      output_collection(schedule_list) { display_schedule(schedule_list, team) }
     end
 
     desc "roster TEAM", "Display roster for a team"
@@ -161,12 +164,10 @@ module NBA
     # @return [void]
     def roster(team_name)
       team = find_team_by_name(team_name)
-      if team
-        roster_list = fetch_team_roster(team)
-        display_roster(roster_list, team)
-      else
-        say("No team found with name '#{team_name}'")
-      end
+      return say("No team found with name '#{team_name}'") unless team
+
+      roster_list = fetch_team_roster(team)
+      output_collection(roster_list) { display_roster(roster_list, team) }
     end
 
     desc "version", "Display version information"

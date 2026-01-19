@@ -7214,6 +7214,7 @@ module NBA
       def fetch_team_roster: (Team team) -> Collection
       def resolve_leader_category: (String category, Hash[String, String] category_map) -> String
       def fetch_games: (Date date) -> Collection
+      def output_collection: (Collection collection) { () -> void } -> void
     end
 
     module Formatters : Thor
