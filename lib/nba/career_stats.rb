@@ -5,6 +5,7 @@ module NBA
   # Represents career statistics for a player (season averages)
   class CareerStats < Shale::Mapper
     include Equalizer.new(:player_id, :season_id)
+    include StatHelpers
 
     # @!attribute [rw] player_id
     #   Returns the player ID

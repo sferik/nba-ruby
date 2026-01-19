@@ -7,6 +7,7 @@ module NBA
   # @api public
   class GameLog < Shale::Mapper
     include Equalizer.new(:game_id, :player_id)
+    include StatHelpers
 
     # @!attribute [rw] season_id
     #   Returns the season ID

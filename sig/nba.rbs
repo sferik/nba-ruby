@@ -11,6 +11,23 @@ module NBA
     def self.extract_league_id: (untyped league) -> String
   end
 
+  module StatHelpers
+    PER_36_MINUTES: Integer
+    PER_40_MINUTES: Integer
+
+    def min: () -> (Integer | Float)?
+
+    def per_minute: (Symbol stat) -> Float?
+    def per36: (Symbol stat) -> Float?
+    def per40: (Symbol stat) -> Float?
+
+    private
+
+    def per_minutes: (Symbol stat, Integer base) -> Float?
+    def minutes_value: () -> Float
+    def positive_minutes?: () -> bool
+  end
+
   module ResponseParser
     def self.parse: (String? response, ?result_set: String?) { (Hash[String, untyped]) -> untyped } -> Collection
     def self.parse_single: (String? response, ?result_set: String?) { (Hash[String, untyped]) -> untyped } -> untyped
@@ -59,6 +76,18 @@ module NBA
     def first: () -> untyped
              | (Integer n) -> Array[untyped]
     def last: () -> untyped
+    def maximum: (Symbol stat) -> (Integer | Float)?
+    def minimum: (Symbol stat) -> (Integer | Float)?
+    def total: (Symbol stat) -> (Integer | Float)
+    def average: (Symbol stat) -> Float?
+    alias mean average
+    def variance: (Symbol stat) -> Float?
+    def standard_deviation: (Symbol stat) -> Float?
+    def z_score: (Symbol stat, (Integer | Float) value) -> Float?
+
+    private
+
+    def stat_values: (Symbol stat) -> Array[Integer | Float]
   end
 
   class Conference < Shale::Mapper
@@ -458,6 +487,8 @@ module NBA
   end
 
   class GameLog < Shale::Mapper
+    include StatHelpers
+
     attr_accessor season_id: String?
     attr_accessor player_id: Integer?
     attr_accessor player_name: String?
@@ -529,6 +560,8 @@ module NBA
   end
 
   class CareerStats < Shale::Mapper
+    include StatHelpers
+
     attr_accessor player_id: (Integer | String)?
     attr_accessor season_id: String?
     attr_accessor team_id: Integer?
