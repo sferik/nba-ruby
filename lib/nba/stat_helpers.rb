@@ -25,7 +25,7 @@ module NBA
       stat_value = public_send(stat)
       return unless stat_value
 
-      stat_value.to_f / minutes_value
+      stat_value / minutes_value
     end
 
     # Returns the per-36-minutes normalized value of a statistic

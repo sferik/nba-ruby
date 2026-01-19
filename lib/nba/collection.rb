@@ -1,5 +1,7 @@
+require "csv"
 require "equalizer"
 require "forwardable"
+require "json"
 
 module NBA
   # Represents a collection of objects
@@ -50,7 +52,7 @@ module NBA
     #     collection.count #=> 3
     #   @return [Integer] the number of elements
 
-    def_delegators :elements, :size, :empty?, :first, :last
+    def_delegators :elements, :size, :empty?, :first, :last, :sample
 
     alias_method :length, :size
     alias_method :count, :size
@@ -179,6 +181,36 @@ module NBA
 
       avg = average(stat).to_f
       (value.to_f - avg) / std_dev
+    end
+
+    # Returns the collection as a JSON array string
+    #
+    # @api public
+    # @example
+    #   game_logs.to_json #=> '[{"pts":30,"ast":5},{"pts":25,"ast":8}]'
+    # @param _options [Hash] JSON generation options (unused, for compatibility)
+    # @return [String] the JSON array representation
+    def to_json(_options = nil)
+      JSON.generate(map(&:to_hash))
+    end
+
+    # Returns the collection as a CSV string
+    #
+    # @api public
+    # @example
+    #   game_logs.to_csv #=> "pts,ast\n30,5\n25,8\n"
+    # @param headers [Boolean] whether to include header row (default: true)
+    # @return [String] the CSV representation
+    def to_csv(headers: true)
+      return "" if empty?
+
+      attribute_names = sample.class.attributes.keys
+      CSV.generate do |csv|
+        csv << attribute_names if headers
+        each do |element|
+          csv << attribute_names.map { |attr| element.public_send(attr) }
+        end
+      end
     end
 
     private

@@ -76,6 +76,7 @@ module NBA
     def first: () -> untyped
              | (Integer n) -> Array[untyped]
     def last: () -> untyped
+    def sample: () -> untyped
     def maximum: (Symbol stat) -> (Integer | Float)?
     def minimum: (Symbol stat) -> (Integer | Float)?
     def total: (Symbol stat) -> (Integer | Float)
@@ -84,10 +85,13 @@ module NBA
     def variance: (Symbol stat) -> Float?
     def standard_deviation: (Symbol stat) -> Float?
     def z_score: (Symbol stat, (Integer | Float) value) -> Float?
+    def to_json: (?untyped _options) -> String
+    def to_csv: (?headers: bool) -> String
 
     private
 
     def stat_values: (Symbol stat) -> Array[Integer | Float]
+    def extract_attribute_names: () -> Array[Symbol]
   end
 
   class Conference < Shale::Mapper
