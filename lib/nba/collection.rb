@@ -204,7 +204,8 @@ module NBA
     def to_csv(headers: true)
       return "" if empty?
 
-      attribute_names = sample.class.attributes.keys
+      element, = entries
+      attribute_names = element.class.attributes.keys
       CSV.generate do |csv|
         csv << attribute_names if headers
         each do |element|

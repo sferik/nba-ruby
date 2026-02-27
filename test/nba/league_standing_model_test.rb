@@ -24,10 +24,16 @@ module NBA
       assert_equal "Golden State Warriors", standing.full_name
     end
 
-    def test_full_name_handles_nil_values
-      standing = LeagueStanding.new(team_city: nil, team_name: nil)
+    def test_full_name_handles_nil_city
+      standing = LeagueStanding.new(team_city: nil, team_name: "Warriors")
 
-      assert_equal "", standing.full_name
+      assert_equal "Warriors", standing.full_name
+    end
+
+    def test_full_name_handles_nil_name
+      standing = LeagueStanding.new(team_city: "Golden State", team_name: nil)
+
+      assert_equal "Golden State", standing.full_name
     end
 
     def test_playoffs_returns_true_when_clinched

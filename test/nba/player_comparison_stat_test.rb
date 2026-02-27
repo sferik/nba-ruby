@@ -24,10 +24,16 @@ module NBA
       assert_equal "Stephen Curry", stat.full_name
     end
 
-    def test_full_name_handles_nil_values
-      stat = PlayerComparisonStat.new(first_name: nil, last_name: nil)
+    def test_full_name_handles_nil_first_name
+      stat = PlayerComparisonStat.new(first_name: nil, last_name: "Curry")
 
-      assert_equal "", stat.full_name
+      assert_equal "Curry", stat.full_name
+    end
+
+    def test_full_name_handles_nil_last_name
+      stat = PlayerComparisonStat.new(first_name: "Stephen", last_name: nil)
+
+      assert_equal "Stephen", stat.full_name
     end
 
     def test_player_returns_nil_when_player_id_is_nil

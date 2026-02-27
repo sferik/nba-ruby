@@ -25,8 +25,14 @@ module NBA
       assert_equal "Final", format_game_status(game)
     end
 
-    def test_strips_whitespace_from_status
+    def test_strips_trailing_whitespace_from_status
       game = Struct.new(:status).new("Halftime            ")
+
+      assert_equal "Halftime", format_game_status(game)
+    end
+
+    def test_strips_leading_whitespace_from_status
+      game = Struct.new(:status).new("  Halftime")
 
       assert_equal "Halftime", format_game_status(game)
     end

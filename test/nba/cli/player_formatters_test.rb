@@ -45,6 +45,12 @@ module NBA
       assert_includes result, "?"
     end
 
+    def test_format_position_nil_returns_question_mark
+      result = format_position(nil)
+
+      assert_includes result, "?"
+    end
+
     def test_format_detailed_roster_player_nil_height_shows_question_mark
       player = Player.new(
         full_name: "Test Player",

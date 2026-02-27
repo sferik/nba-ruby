@@ -30,6 +30,12 @@ module NBA
       assert_equal "Curry", entry.player_name
     end
 
+    def test_player_name_strips_whitespace_when_nil_last
+      entry = RotationEntry.new(player_first: "Stephen", player_last: nil)
+
+      assert_equal "Stephen", entry.player_name
+    end
+
     def test_duration_returns_difference
       entry = RotationEntry.new(in_time_real: 1000, out_time_real: 6000)
 

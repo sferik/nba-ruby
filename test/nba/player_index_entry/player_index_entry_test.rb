@@ -10,10 +10,16 @@ module NBA
       assert_equal "Stephen Curry", entry.full_name
     end
 
-    def test_full_name_strips_whitespace
+    def test_full_name_strips_whitespace_when_last_name_nil
       entry = PlayerIndexEntry.new(first_name: "Stephen", last_name: nil)
 
       assert_equal "Stephen", entry.full_name
+    end
+
+    def test_full_name_strips_whitespace_when_first_name_nil
+      entry = PlayerIndexEntry.new(first_name: nil, last_name: "Curry")
+
+      assert_equal "Curry", entry.full_name
     end
 
     def test_active_returns_true_when_roster_status_is_one

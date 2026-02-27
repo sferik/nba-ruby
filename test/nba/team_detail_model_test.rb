@@ -24,10 +24,16 @@ module NBA
       assert_equal "Golden State Warriors", detail.full_name
     end
 
-    def test_full_name_handles_nil_values
-      detail = TeamDetail.new(city: nil, nickname: nil)
+    def test_full_name_handles_nil_city
+      detail = TeamDetail.new(city: nil, nickname: "Warriors")
 
-      assert_equal "", detail.full_name
+      assert_equal "Warriors", detail.full_name
+    end
+
+    def test_full_name_handles_nil_nickname
+      detail = TeamDetail.new(city: "Golden State", nickname: nil)
+
+      assert_equal "Golden State", detail.full_name
     end
 
     def test_team_returns_nil_when_team_id_is_nil
