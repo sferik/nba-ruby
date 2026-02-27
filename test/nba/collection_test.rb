@@ -101,19 +101,19 @@ module NBA
     def test_any_returns_true_when_block_matches
       collection = Collection.new([1, 2, 3])
 
-      assert(collection.any? { |e| e == 2 })
+      assert(collection.any?(2))
     end
 
     def test_any_returns_false_when_block_does_not_match
       collection = Collection.new([1, 2, 3])
 
-      refute(collection.any? { |e| e == 5 })
+      refute(collection.any?(5))
     end
 
     def test_any_returns_false_for_empty_collection
       collection = Collection.new
 
-      refute(collection.any? { |e| e == 1 })
+      refute(collection.any?(1))
     end
   end
 end
