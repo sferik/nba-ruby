@@ -84,7 +84,7 @@ module NBA
 
     def build_row_without_headers(headers_to_remove)
       row = standings_row.dup
-      indices = headers_to_remove.map { |h| standings_headers.index(h) }.compact.sort.reverse
+      indices = headers_to_remove.filter_map { |h| standings_headers.index(h) }.sort.reverse
       indices.each { |idx| row.delete_at(idx) }
       row
     end
