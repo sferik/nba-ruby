@@ -56,7 +56,7 @@ module NBA
     def build_away_schedule_game(date, home) = build_schedule_game(date, home, "GSW")
 
     def build_schedule_games(count)
-      count.times.map { |i| build_schedule_game("2024-01-#{(i + 1).to_s.rjust(2, "0")}T19:30:00", "GSW", "LAL") }
+      Array.new(count) { |i| build_schedule_game("2024-01-#{(i + 1).to_s.rjust(2, "0")}T19:30:00", "GSW", "LAL") }
     end
 
     def gsw_team_and_teams
