@@ -6,7 +6,6 @@ includes:
 - lib
 integration:
   name: minitest
-jobs: 10
 matcher:
   subjects:
   - NBA*

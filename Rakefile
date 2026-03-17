@@ -24,7 +24,7 @@ require "mutant"
 
 desc "Run mutant"
 task :mutant do
-  system("bundle", "exec", "mutant", "run") or raise "Mutant task failed"
+  system("bundle", "exec", "mutant", "run", "--profile", "--since", "main") or raise "Mutant task failed"
 end
 
 require "steep/rake_task"
