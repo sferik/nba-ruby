@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.summary = "A Ruby interface to the NBA Stats API."
   spec.homepage = "https://sferik.github.io/nba-ruby"
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 3.2"
+  spec.required_ruby_version = ">= 3.3"
   spec.platform = Gem::Platform::RUBY
 
   spec.add_dependency "equalizer", "~> 0.0.11"
