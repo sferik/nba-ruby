@@ -6,6 +6,7 @@ target :lib do
   check "lib"
 
   library "csv"
+  library "equalizer"
   library "forwardable"
   library "net-http"
   library "openssl"

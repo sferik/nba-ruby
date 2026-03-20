@@ -1,3 +1,0 @@
-class Equalizer < Module
-  def self.new: (*Symbol) -> Module
-end
