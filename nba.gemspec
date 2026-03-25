@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
     "bin/*",
     "exe/*",
     "lib/**/*.rb",
-    "sig/*.rbs",
+    "sig/nba.rbs",
     "*.md",
     "LICENSE"
   ]
