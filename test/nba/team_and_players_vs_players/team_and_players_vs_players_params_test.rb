@@ -45,13 +45,14 @@ module NBA
     end
 
     def test_includes_season_in_path
+      current_season_str = Utils.format_season(Utils.current_season)
       stub_request(:get, /teamandplayersvsplayers/).to_return(body: response.to_json)
 
       TeamAndPlayersVsPlayers.players_vs_players(
         team: 1_610_612_744, vs_team: 1_610_612_747, players: [201_939], vs_players: [2544]
       )
 
-      assert_requested(:get, /Season=2025-26/)
+      assert_requested(:get, /Season=#{current_season_str}/)
     end
 
     def test_includes_season_type_in_path
