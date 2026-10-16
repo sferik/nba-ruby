@@ -281,8 +281,7 @@ module NBA
     # @return [Player, nil] the player object
     def player = Players.find(player_id)
 
-    # rubocop:disable Metrics/BlockLength
-    json do
+    json do # rubocop:disable Metrics/BlockLength
       map "season_id", to: :season_id
       map "SEASON_ID", to: :season_id
       map "player_id", to: :player_id
@@ -345,6 +344,5 @@ module NBA
       map "plus_minus", to: :plus_minus
       map "PLUS_MINUS", to: :plus_minus
     end
-    # rubocop:enable Metrics/BlockLength
   end
 end
