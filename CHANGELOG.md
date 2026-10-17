@@ -2,11 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.2.0] - 2025-01-16
+## [Unreleased]
+
+## [0.2.0] - 2026-01-16
 
 ### Added
+
 - Core domain objects: Player, Team, Conference, Division, Position
 - Collection class for handling groups of objects
 - Client and Connection classes for API access
@@ -20,11 +24,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Uses Equalizer for object equality
 
 #### Command-Line Interface
+
 - `nba` CLI tool for quick access to NBA data from the terminal
 - Commands: `games`, `teams`, `player`, `standings`, `leaders`, `schedule`, `roster`
 - Date filtering, conference filtering, and season selection options
 
 #### Player Endpoints
+
 - `CommonPlayerInfo` - Detailed player biography and career info
 - `PlayerIndex` - Search and list all players
 - `PlayerCareerStats` - Season-by-season career statistics
@@ -45,6 +51,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `PlayerCareerByCollege` / `PlayerCareerByCollegeRollup` - Stats by college
 
 #### Team Endpoints
+
 - `TeamDetails` - Team info including arena, owner, GM, coach
 - `TeamDashboard` - Team dashboard statistics
 - `TeamInfoCommon` - Common team information and season ranks
@@ -63,6 +70,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `CommonTeamYears` - Team history timeline
 
 #### Box Score Endpoints
+
 - `BoxScoreTraditional` / `BoxScoreTraditionalV3` - Traditional stats
 - `BoxScoreAdvanced` / `BoxScoreAdvancedV3` - Advanced stats (eFG%, TS%, etc.)
 - `BoxScoreScoring` / `BoxScoreScoringV3` - Scoring breakdown
@@ -78,6 +86,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `HustleStatsBoxScore` - Detailed hustle box scores
 
 #### League-Wide Endpoints
+
 - `LeagueDashTeamStats` - League-wide team statistics
 - `LeagueDashPlayerStats` - League-wide player statistics
 - `LeagueDashLineups` - Lineup statistics across the league
@@ -101,6 +110,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `LeagueStandings` - Detailed league standings
 
 #### Standings & Leaders
+
 - `Standings` - Conference and division standings
 - `Leaders` - Current season statistical leaders
 - `AllTimeLeaders` - All-time career statistical leaders
@@ -112,6 +122,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `FranchisePlayers` - Players in franchise history
 
 #### Game & Schedule
+
 - `Games` / `Scoreboard` / `ScoreboardV3` - Today's games and scores
 - `LiveScoreboard` - Real-time live game data
 - `Schedule` / `ScheduleInternational` - Team and league schedules
@@ -122,11 +133,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `WinProbability` - In-game win probability
 
 #### Shot Chart
+
 - `ShotChart` - Individual player shot charts
 - `ShotChartLeagueWide` - League-wide shot data
 - `ShotChartLineupDetail` - Lineup-specific shot charts
 
 #### Draft
+
 - `DraftHistory` - Historical draft picks
 - `DraftBoard` - Draft board data
 - `DraftCombineStats` - Combine statistical results
@@ -136,22 +149,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `DraftCombinePlayerAnthro` - Anthropometric measurements
 
 #### Video
+
 - `VideoDetails` / `VideoDetailsAsset` - Video metadata and assets
 - `VideoEvents` / `VideoEventsAsset` - Event-based video clips
 - `VideoStatus` - Video availability status
 
 #### Playoffs
+
 - `CommonPlayoffSeries` - Playoff series information
 - `PlayoffPicture` - Current playoff picture
 
 #### Synergy & Advanced
+
 - `SynergyPlayTypes` - Synergy play type statistics
 
 #### Cumulative Stats
+
 - `CumeStatsPlayer` / `CumeStatsPlayerGames` - Cumulative player stats
 - `CumeStatsTeam` / `CumeStatsTeamGames` - Cumulative team stats
 
 #### Other Features
+
 - `DefenseHub` - Defensive statistics hub
 - `FantasyWidget` - Fantasy basketball widget data
 - `HomePageV2` - NBA.com home page data
@@ -161,9 +179,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `Static` - Static reference data
 
 #### Infrastructure
+
 - `LiveConnection` - Real-time API connection for live data
 - `ResponseParser` - Centralized response parsing
 - Predicate methods for boolean-like API responses
 - Support for multiple API response formats (v2/v3 endpoints)
 
+[Unreleased]: https://github.com/sferik/nba-ruby/compare/v0.2.0...HEAD
 [0.2.0]: https://github.com/sferik/nba-ruby/releases/tag/v0.2.0
