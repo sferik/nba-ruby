@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.metadata = {
     "allowed_push_host" => "https://rubygems.org",
     "bug_tracker_uri" => "https://github.com/sferik/nba-ruby/issues",
-    "changelog_uri" => "https://github.com/sferik/nba-ruby/blob/master/CHANGELOG.md",
+    "changelog_uri" => "https://github.com/sferik/nba-ruby/blob/main/CHANGELOG.md",
     "documentation_uri" => "https://rubydoc.info/gems/nba/",
     "funding_uri" => "https://github.com/sponsors/sferik/",
     "homepage_uri" => spec.homepage,
